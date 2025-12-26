@@ -1,0 +1,31 @@
+name: Deploy Devocional Bot
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 10 * * *'  # Executa diariamente às 07:00 (UTC-3)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    
+    - name: Install dependencies
+      run: bun install
+    
+    - name: Send devotional message
+      env:
+        WHATSAPP_SESSION_NAME: ${{ secrets.WHATSAPP_SESSION_NAME }}
+        GROUP_CHAT_ID: ${{ secrets.GROUP_CHAT_ID }}
+        SEND_TIME: ${{ secrets.SEND_TIME }}
+        TIMEZONE: ${{ secrets.TIMEZONE }}
+        NODE_ENV: production
+      run: bun run src/index.ts send

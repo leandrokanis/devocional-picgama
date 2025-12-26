@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: devocional-picgama
+    env: node
+    buildCommand: bun install && bun run build
+    startCommand: bun run start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WHATSAPP_SESSION_NAME
+        sync: false
+      - key: GROUP_CHAT_ID
+        sync: false
+      - key: SEND_TIME
+        value: "07:00"
+      - key: TIMEZONE
+        value: "America/Sao_Paulo"
+      - key: DEBUG
+        value: "false"
