@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir dist --target node",
+    "build": "bun build src/index.ts --outdir dist --target node && cp src/swagger.json dist/swagger.json 2>/dev/null || true",
     "start": "node dist/index.js",
     "test": "bun test",
     "send": "bun run src/index.ts send"

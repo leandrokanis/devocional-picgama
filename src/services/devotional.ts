@@ -60,6 +60,11 @@ export class DevotionalService {
     return this.getReadingForDate(new Date());
   }
 
+  public getTodaysReadingBasic(): DevotionalReading | null {
+    const dateString = getDateString(new Date());
+    return this.readings.find(r => r.date === dateString) || null;
+  }
+
   public formatMessage(devotional: DevotionalMessage): string {
     return `📖 Devocional - ${devotional.formattedDate}
 
@@ -86,5 +91,13 @@ NT: ${devotional.nt}`;
 
   public getReadingsCount(): number {
     return this.readings.length;
+  }
+
+  public getAllReadings(dateFilter?: string): DevotionalReading[] {
+    if (!dateFilter) {
+      return [...this.readings];
+    }
+    
+    return this.readings.filter(reading => reading.date === dateFilter);
   }
 }

@@ -1,0 +1,398 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Devocional WhatsApp Bot API",
+    "description": "API para gerenciar o bot automatizado de envio de textos bíblicos devocionais via WhatsApp",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Devocional Picgama",
+      "url": "https://github.com/seu-usuario/devocional-picgama"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor local de desenvolvimento"
+    }
+  ],
+  "paths": {
+    "/send": {
+      "post": {
+        "tags": ["Devocional"],
+        "summary": "Envia o devocional do dia",
+        "description": "Envia automaticamente o devocional correspondente ao dia atual para o grupo WhatsApp configurado",
+        "operationId": "sendDevotional",
+        "responses": {
+          "200": {
+            "description": "Devocional enviado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendResponse"
+                },
+                "example": {
+                  "success": true,
+                  "message": "Devotional sent successfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao enviar o devocional",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": "Failed to send devotional"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Verifica o status da aplicação",
+        "description": "Retorna o status de saúde da aplicação e o estado da conexão com o WhatsApp",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "Status da aplicação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "connected": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readings/today": {
+      "get": {
+        "tags": ["Devocional"],
+        "summary": "Retorna a leitura de hoje",
+        "description": "Retorna a leitura devocional correspondente ao dia atual",
+        "operationId": "getTodaysReading",
+        "responses": {
+          "200": {
+            "description": "Leitura do dia atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevotionalReading"
+                },
+                "example": {
+                  "date": "2025-12-26",
+                  "at1": "Gênesis 1:1-10",
+                  "at2": "Salmos 1",
+                  "nt": "João 3:16-21"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhuma leitura encontrada para o dia atual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "No devotional reading found for today"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao buscar leitura",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readings": {
+      "get": {
+        "tags": ["Devocional"],
+        "summary": "Retorna todas as leituras",
+        "description": "Retorna todas as leituras devocionais disponíveis no sistema. Pode ser filtrado por data usando o parâmetro de query 'date' no formato YYYY-MM-DD.",
+        "operationId": "getAllReadings",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Filtra leituras por data específica no formato YYYY-MM-DD",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-12-26"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de leituras devocionais",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadingsResponse"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "date": "2025-12-26",
+                      "at1": "Gênesis 1:1-10",
+                      "at2": "Salmos 1",
+                      "nt": "João 3:16-21"
+                    }
+                  ],
+                  "metadata": {
+                    "count": 1,
+                    "filteredBy": "2025-12-26"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao buscar leituras",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "tags": ["Documentation"],
+        "summary": "Especificação OpenAPI",
+        "description": "Retorna a especificação OpenAPI em formato JSON",
+        "operationId": "getApiDocs",
+        "responses": {
+          "200": {
+            "description": "Especificação OpenAPI",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SendResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indica se o envio foi bem-sucedido"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensagem de sucesso"
+          }
+        },
+        "required": ["success"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indica que houve um erro",
+            "example": false
+          },
+          "error": {
+            "type": "string",
+            "description": "Mensagem de erro"
+          }
+        },
+        "required": ["success", "error"]
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status da aplicação",
+            "example": "ok"
+          },
+          "connected": {
+            "type": "boolean",
+            "description": "Indica se o WhatsApp está conectado"
+          }
+        },
+        "required": ["status", "connected"]
+      },
+      "DevotionalReading": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Data da leitura no formato YYYY-MM-DD",
+            "example": "2025-12-26"
+          },
+          "at1": {
+            "type": "string",
+            "description": "Primeira leitura do Antigo Testamento",
+            "example": "Gênesis 1:1-10"
+          },
+          "at2": {
+            "type": "string",
+            "description": "Segunda leitura do Antigo Testamento",
+            "example": "Salmos 1"
+          },
+          "nt": {
+            "type": "string",
+            "description": "Leitura do Novo Testamento",
+            "example": "João 3:16-21"
+          }
+        },
+        "required": ["date", "at1", "at2", "nt"]
+      },
+      "DevotionalMessage": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Data da leitura no formato YYYY-MM-DD",
+            "example": "2025-12-26"
+          },
+          "formattedDate": {
+            "type": "string",
+            "description": "Data formatada para exibição",
+            "example": "26/12/2025"
+          },
+          "at1": {
+            "type": "string",
+            "description": "Primeira leitura do Antigo Testamento",
+            "example": "Gênesis 1:1-10"
+          },
+          "at2": {
+            "type": "string",
+            "description": "Segunda leitura do Antigo Testamento",
+            "example": "Salmos 1"
+          },
+          "nt": {
+            "type": "string",
+            "description": "Leitura do Novo Testamento",
+            "example": "João 3:16-21"
+          }
+        },
+        "required": ["date", "formattedDate", "at1", "at2", "nt"]
+      },
+      "TodayReadingResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DevotionalMessage"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Leitura do dia atual ou null se não encontrada"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Data da leitura",
+                "example": "2025-12-26"
+              },
+              "formattedDate": {
+                "type": "string",
+                "description": "Data formatada",
+                "example": "26/12/2025"
+              },
+              "message": {
+                "type": "string",
+                "description": "Mensagem informativa (apenas quando não há leitura)",
+                "example": "No devotional reading found for today"
+              }
+            }
+          }
+        },
+        "required": ["data", "metadata"]
+      },
+      "ReadingsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DevotionalReading"
+            },
+            "description": "Lista de todas as leituras devocionais"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer",
+                "description": "Número total de leituras retornadas",
+                "example": 8
+              },
+              "filteredBy": {
+                "type": "string",
+                "format": "date",
+                "description": "Data usada para filtrar as leituras (apenas presente quando o filtro é aplicado)",
+                "example": "2025-12-26"
+              }
+            },
+            "required": ["count"]
+          }
+        },
+        "required": ["data", "metadata"]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Devocional",
+      "description": "Endpoints relacionados ao envio de devocionais"
+    },
+    {
+      "name": "Health",
+      "description": "Endpoints de verificação de saúde da aplicação"
+    },
+    {
+      "name": "Documentation",
+      "description": "Endpoints de documentação da API"
+    }
+  ]
+}
+
