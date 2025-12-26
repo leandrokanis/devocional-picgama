@@ -2,8 +2,8 @@ services:
   - type: web
     name: devocional-picgama
     env: bun
-    buildCommand: bun install --frozen-lockfile && bun run build
-    startCommand: bun run start
+    buildCommand: bun install && bun run build
+    startCommand: bun dist/index.js
     plan: free
     envVars:
       - key: NODE_ENV

@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "bun run src/index.ts",
     "build": "bun build src/index.ts --outdir dist --target node && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
-    "start": "bun run dist/index.js",
+    "start": "bun dist/index.js",
     "test": "bun test",
     "send": "bun run src/index.ts send"
   },
