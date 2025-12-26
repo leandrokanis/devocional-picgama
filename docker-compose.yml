@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  devocional-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devocional-picgama
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${PORT:-3000}
+      - SERVER_PORT=${SERVER_PORT:-3000}
+      - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
+      - GROUP_CHAT_ID=${GROUP_CHAT_ID}
+      - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
+      - SEND_TIME=${SEND_TIME:-07:00}
+      - TIMEZONE=${TIMEZONE:-America/Sao_Paulo}
+      - DEBUG=${DEBUG:-false}
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    volumes:
+      - ./tokens:/app/tokens
+      - ./data:/app/data:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - devocional-network
+
+networks:
+  devocional-network:
+    driver: bridge
