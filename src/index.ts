@@ -8,6 +8,7 @@ class DevotionalBot {
   private devotionalService: DevotionalService;
   private whatsappService: WhatsAppService;
   private isInitialized = false;
+  public currentQRCode: string | null = null;
 
   constructor() {
     this.devotionalService = new DevotionalService(process.env.DATA_PATH);
@@ -17,6 +18,12 @@ class DevotionalBot {
       groupChatId: process.env.GROUP_CHAT_ID || '',
       debug: process.env.DEBUG === 'true'
     });
+
+    // Setup QR code callback
+    this.whatsappService.onQRCodeGenerated = (base64: string, ascii: string) => {
+      this.currentQRCode = base64;
+      logger.info('🔗 QR Code salvo! Acesse http://localhost:3001/qr para visualizar');
+    };
   }
 
   public async initialize(): Promise<void> {
@@ -216,15 +223,6 @@ async function main() {
           }
         };
         
-        if (process.env.GROUP_CHAT_ID) {
-          const initSuccess = await tryInitializeBot();
-          if (initSuccess) {
-            bot.setupScheduler();
-          }
-        } else {
-          logger.warn('⚠️ GROUP_CHAT_ID not set. Bot will not be initialized. Server will start but WhatsApp features will not work.');
-        }
-        
         Bun.serve({
           port,
           hostname,
@@ -283,10 +281,108 @@ async function main() {
               const isConnected = bot.getConnectionStatus();
               return new Response(JSON.stringify({ 
                 status: 'ok', 
-                connected: isConnected
+                connected: isConnected,
+                hasQRCode: bot.currentQRCode !== null
               }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
+              });
+            }
+            
+            if (url.pathname === '/qr' && req.method === 'GET') {
+              if (!bot.currentQRCode) {
+                return new Response(JSON.stringify({ 
+                  error: 'No QR code available. WhatsApp may already be connected or initializing.' 
+                }), {
+                  status: 404,
+                  headers: { 'Content-Type': 'application/json' }
+                });
+              }
+              
+              const qrHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp QR Code - Devocional Bot</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .qr-code {
+      margin: 20px 0;
+      padding: 20px;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .instructions {
+      margin-top: 20px;
+      color: #666;
+      line-height: 1.6;
+    }
+    .refresh-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .refresh-btn:hover {
+      background: #128C7E;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📱 WhatsApp QR Code</h1>
+    <p>Escaneie o código QR abaixo com seu WhatsApp:</p>
+    
+    <div class="qr-code">
+      <img src="data:image/png;base64,${bot.currentQRCode}" alt="WhatsApp QR Code" style="max-width: 300px;">
+    </div>
+    
+    <div class="instructions">
+      <h3>Como conectar:</h3>
+      <ol style="text-align: left; display: inline-block;">
+        <li>Abra o WhatsApp no seu celular</li>
+        <li>Toque em <strong>Menu</strong> (três pontos) ou <strong>Configurações</strong></li>
+        <li>Toque em <strong>Aparelhos conectados</strong></li>
+        <li>Toque em <strong>Conectar um aparelho</strong></li>
+        <li>Aponte a câmera para este QR code</li>
+      </ol>
+    </div>
+    
+    <button class="refresh-btn" onclick="window.location.reload()">🔄 Atualizar QR Code</button>
+  </div>
+  
+  <script>
+    // Auto refresh every 15 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 15000);
+  </script>
+</body>
+</html>`;
+              
+              return new Response(qrHtml, {
+                status: 200,
+                headers: { 'Content-Type': 'text/html; charset=utf-8' }
               });
             }
             
@@ -575,6 +671,12 @@ async function main() {
       <strong>/readings/today</strong>
       <p>Retorna a leitura devocional do dia atual.</p>
     </div>
+    
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <strong>/qr</strong>
+      <p>Exibe o QR code para pareamento do WhatsApp (se disponível).</p>
+    </div>
     ${swaggerEndpoints}
   </div>
 </body>
@@ -589,7 +691,23 @@ async function main() {
         });
         
         logger.info(`🌐 HTTP server listening on http://${hostname}:${port}`);
-        logger.info('🎯 Bot is running and scheduled. Press Ctrl+C to stop.');
+        
+        if (process.env.GROUP_CHAT_ID) {
+          tryInitializeBot().then((initSuccess) => {
+            if (initSuccess) {
+              bot.setupScheduler();
+              logger.info('🎯 Bot initialized and scheduler configured. Press Ctrl+C to stop.');
+            } else {
+              logger.info('🎯 Server is running but bot initialization failed. Press Ctrl+C to stop.');
+            }
+          }).catch((error) => {
+            logger.error('❌ Error during bot initialization', error);
+            logger.info('🎯 Server is running but bot is not initialized. Press Ctrl+C to stop.');
+          });
+        } else {
+          logger.warn('⚠️ GROUP_CHAT_ID not set. Bot will not be initialized. Server will start but WhatsApp features will not work.');
+          logger.info('🎯 Server is running. Press Ctrl+C to stop.');
+        }
         
         process.on('SIGINT', async () => {
           logger.info('\n🛑 Received SIGINT, shutting down gracefully...');

@@ -15,6 +15,7 @@ export class WhatsAppService {
   private client: Whatsapp | null = null;
   private config: WhatsAppConfig;
   private isConnected = false;
+  public onQRCodeGenerated?: (base64: string, ascii: string) => void;
 
   constructor(config: WhatsAppConfig) {
     this.config = {
@@ -66,10 +67,15 @@ export class WhatsAppService {
       try {
         const browserOptions: any = {
           session: this.config.sessionName,
-          headless: this.config.headless,
+          headless: true,
           debug: this.config.debug,
-          logQR: !isProduction,
+          logQR: true,
           folderNameToken: tokensFolderName,
+          disableSpins: true,
+          disableWelcome: true,
+          updatesLog: false,
+          autoClose: 120000,
+          createPathFileToken: true,
           browserArgs: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -99,6 +105,36 @@ export class WhatsAppService {
           };
         }
         
+        // Add QR code callback - try multiple approaches
+        browserOptions.catchQR = (base64Qr: string, asciiQR: string, attempts: number) => {
+          console.log('\n' + '='.repeat(80));
+          console.log('📱 WHATSAPP QR CODE GERADO!');
+          console.log('='.repeat(80));
+          console.log(asciiQR);
+          console.log('='.repeat(80));
+          console.log('💡 Abra o WhatsApp no seu celular > Menu > Aparelhos conectados > Conectar um aparelho');
+          console.log(`🔄 Tentativa ${attempts}/3`);
+          console.log('🌐 Ou acesse: http://localhost:3001/qr para ver no navegador');
+          console.log('='.repeat(80) + '\n');
+          
+          logger.info('📱 QR Code gerado com sucesso!');
+          
+          // Call the callback if provided
+          if (this.onQRCodeGenerated) {
+            this.onQRCodeGenerated(base64Qr, asciiQR);
+          }
+        };
+
+        // Alternative callback method
+        browserOptions.logQR = true;
+
+        browserOptions.statusFind = (statusSession: string, session: string) => {
+          logger.info(`📱 WhatsApp status: ${statusSession} (${session})`);
+          if (statusSession === 'authenticated') {
+            logger.info('✅ WhatsApp autenticado com sucesso!');
+          }
+        };
+
         this.client = await create(browserOptions);
       } finally {
         if (cwdChanged) {
