@@ -47,7 +47,12 @@ class DevotionalBot {
     try {
       if (!this.isInitialized) {
         logger.info('Bot not initialized, initializing now...');
-        await this.initialize();
+        try {
+          await this.initialize();
+        } catch (error) {
+          logger.error('❌ Failed to initialize bot', error);
+          return false;
+        }
       }
 
       const todaysReading = this.devotionalService.getTodaysReading();
@@ -187,11 +192,31 @@ async function main() {
         break;
       case 'start':
       default:
-        await bot.initialize();
-        bot.setupScheduler();
-        
         const port = parseInt(process.env.PORT || process.env.SERVER_PORT || '3000', 10);
         const hostname = process.env.SERVER_HOST || '0.0.0.0';
+        
+        let botInitialized = false;
+        
+        const tryInitializeBot = async () => {
+          if (botInitialized) return true;
+          try {
+            await bot.initialize();
+            botInitialized = true;
+            return true;
+          } catch (error) {
+            logger.warn('⚠️ Bot initialization failed, but server will continue running', error);
+            return false;
+          }
+        };
+        
+        if (process.env.GROUP_CHAT_ID) {
+          const initSuccess = await tryInitializeBot();
+          if (initSuccess) {
+            bot.setupScheduler();
+          }
+        } else {
+          logger.warn('⚠️ GROUP_CHAT_ID not set. Bot will not be initialized. Server will start but WhatsApp features will not work.');
+        }
         
         Bun.serve({
           port,
@@ -205,6 +230,17 @@ async function main() {
             if (url.pathname === '/send' && req.method === 'POST') {
               try {
                 logger.info('📨 Received send request via HTTP');
+                
+                if (!process.env.GROUP_CHAT_ID) {
+                  return new Response(JSON.stringify({ 
+                    success: false, 
+                    error: 'GROUP_CHAT_ID environment variable is required' 
+                  }), {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' }
+                  });
+                }
+                
                 const success = await bot.sendTodaysDevotional();
                 
                 if (success) {
