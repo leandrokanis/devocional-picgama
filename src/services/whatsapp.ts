@@ -25,11 +25,13 @@ export class WhatsAppService {
     try {
       logger.info('Initializing WhatsApp client...');
       
-      this.client = await create({
+      // Configuração específica para ambientes de produção como Render
+      const isProduction = process.env.NODE_ENV === 'production';
+      const browserOptions = {
         session: this.config.sessionName,
         headless: this.config.headless,
         debug: this.config.debug,
-        logQR: true,
+        logQR: !isProduction, // Não mostrar QR em produção
         browserArgs: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -38,9 +40,30 @@ export class WhatsAppService {
           '--no-first-run',
           '--no-zygote',
           '--single-process',
-          '--disable-gpu'
+          '--disable-gpu',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--disable-extensions',
+          '--disable-plugins',
+          '--disable-images',
+          '--disable-javascript',
+          '--disable-default-apps',
+          '--disable-sync'
         ]
-      });
+      };
+
+      // Adicionar configurações específicas do Puppeteer se necessário
+      if (isProduction) {
+        (browserOptions as any).puppeteerOptions = {
+          executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
+          args: browserOptions.browserArgs
+        };
+      }
+      
+      this.client = await create(browserOptions);
 
       this.setupEventHandlers();
       this.isConnected = true;

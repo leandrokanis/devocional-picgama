@@ -8,10 +8,11 @@
   "private": true,
   "scripts": {
     "dev": "bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir dist --target node && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
+    "build": "bun install --frozen-lockfile && bun build src/index.ts --outdir dist --target node && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
     "start": "bun dist/index.js",
     "test": "bun test",
-    "send": "bun run src/index.ts send"
+    "send": "bun run src/index.ts send",
+    "postinstall": "echo 'Dependencies installed successfully'"
   },
   "devDependencies": {
     "@types/bun": "^1.3.5",
@@ -24,6 +25,7 @@
   "dependencies": {
     "@wppconnect-team/wppconnect": "^1.37.8",
     "dotenv": "^17.2.3",
+    "lodash": "^4.17.21",
     "node-cron": "^4.2.1"
   }
 }

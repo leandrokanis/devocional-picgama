@@ -2,20 +2,38 @@ import 'dotenv/config';
 import cron from 'node-cron';
 import { DevotionalService } from './services/devotional.js';
 import { WhatsAppService } from './services/whatsapp.js';
+import { WhatsAppFallbackService } from './services/whatsapp-fallback.js';
 import { logger } from './utils/logger.js';
+
+// Verificação de dependências críticas
+function checkDependencies() {
+  try {
+    // Verificar se lodash está disponível
+    require('lodash');
+    logger.info('✅ Dependencies check passed');
+  } catch (error) {
+    logger.error('❌ Missing critical dependencies', error);
+    throw new Error('Critical dependencies missing. Please run: bun install');
+  }
+}
 
 class DevotionalBot {
   private devotionalService: DevotionalService;
-  private whatsappService: WhatsAppService;
+  private whatsappService: WhatsAppService | WhatsAppFallbackService;
   private isInitialized = false;
+  private usingFallback = false;
 
   constructor() {
     this.devotionalService = new DevotionalService(process.env.DATA_PATH);
-    this.whatsappService = new WhatsAppService({
+    
+    const whatsappConfig = {
       sessionName: process.env.WHATSAPP_SESSION_NAME || 'devocional-bot',
       groupChatId: process.env.GROUP_CHAT_ID || '',
       debug: process.env.DEBUG === 'true'
-    });
+    };
+
+    // Iniciar com o serviço principal
+    this.whatsappService = new WhatsAppService(whatsappConfig);
   }
 
   public async initialize(): Promise<void> {
@@ -32,7 +50,24 @@ class DevotionalBot {
 
       logger.info(`📚 Loaded ${this.devotionalService.getReadingsCount()} devotional readings`);
 
-      await this.whatsappService.initialize();
+      // Tentar inicializar o serviço principal, usar fallback se falhar
+      try {
+        await this.whatsappService.initialize();
+        logger.info('✅ WhatsApp service initialized successfully');
+      } catch (error) {
+        logger.warn('⚠️ Primary WhatsApp service failed, switching to fallback', error);
+        
+        const whatsappConfig = {
+          sessionName: process.env.WHATSAPP_SESSION_NAME || 'devocional-bot',
+          groupChatId: process.env.GROUP_CHAT_ID || '',
+          debug: process.env.DEBUG === 'true'
+        };
+        
+        this.whatsappService = new WhatsAppFallbackService(whatsappConfig);
+        await this.whatsappService.initialize();
+        this.usingFallback = true;
+        logger.info('✅ Fallback WhatsApp service initialized successfully');
+      }
       
       this.isInitialized = true;
       logger.info('✅ Bot initialized successfully');
@@ -127,6 +162,10 @@ class DevotionalBot {
     return this.isInitialized && this.whatsappService.getConnectionStatus();
   }
 
+  public isUsingFallback(): boolean {
+    return this.usingFallback;
+  }
+
   public getAllReadings(dateFilter?: string) {
     return this.devotionalService.getAllReadings(dateFilter);
   }
@@ -141,6 +180,9 @@ class DevotionalBot {
 }
 
 async function main() {
+  // Verificar dependências antes de inicializar
+  checkDependencies();
+  
   const bot = new DevotionalBot();
 
   const command = process.argv[2];
@@ -239,7 +281,9 @@ async function main() {
               const isConnected = bot.getConnectionStatus();
               return new Response(JSON.stringify({ 
                 status: 'ok', 
-                connected: isConnected 
+                connected: isConnected,
+                usingFallback: bot.isUsingFallback(),
+                service: bot.isUsingFallback() ? 'fallback' : 'wppconnect'
               }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' }
