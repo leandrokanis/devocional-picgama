@@ -1,5 +1,8 @@
 import { create, Whatsapp } from '@wppconnect-team/wppconnect';
 import { logger } from '../utils/logger.js';
+import { mkdirSync, existsSync } from 'fs';
+import { join } from 'path';
+import { tmpdir } from 'os';
 
 export interface WhatsAppConfig {
   sessionName: string;
@@ -28,28 +31,64 @@ export class WhatsAppService {
       const isProduction = process.env.NODE_ENV === 'production';
       const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
 
-      const browserOptions = {
-        session: this.config.sessionName,
-        headless: this.config.headless,
-        debug: this.config.debug,
-        logQR: !isProduction,
-        browserArgs: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-accelerated-2d-canvas',
-          '--no-first-run',
-          '--no-zygote',
-          '--single-process',
-          '--disable-gpu'
-        ]
-      };
-
-      if (isProduction && executablePath) {
-        (browserOptions as any).puppeteerOptions = { executablePath, args: browserOptions.browserArgs };
-      }
+      const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
+      const tokensFolderName = 'tokens';
+      const tokensDir = join(tokensBaseDir, tokensFolderName);
       
-      this.client = await create(browserOptions);
+      try {
+        if (!existsSync(tokensDir)) {
+          mkdirSync(tokensDir, { recursive: true });
+        }
+        logger.info(`Using tokens directory: ${tokensDir}`);
+      } catch (error: any) {
+        logger.error(`Failed to create tokens directory at ${tokensDir}`, error);
+        throw error;
+      }
+
+      const originalCwd = process.cwd();
+      let cwdChanged = false;
+      
+      try {
+        process.chdir(tokensBaseDir);
+        cwdChanged = true;
+        logger.info(`Changed working directory to ${tokensBaseDir} for tokens`);
+      } catch (error: any) {
+        logger.warn(`Could not change working directory to ${tokensBaseDir}, using default: ${error.message}`);
+      }
+
+      try {
+        const browserOptions: any = {
+          session: this.config.sessionName,
+          headless: this.config.headless,
+          debug: this.config.debug,
+          logQR: !isProduction,
+          folderNameToken: tokensFolderName,
+          browserArgs: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu'
+          ]
+        };
+
+        if (isProduction && executablePath) {
+          browserOptions.puppeteerOptions = { executablePath, args: browserOptions.browserArgs };
+        }
+        
+        this.client = await create(browserOptions);
+      } finally {
+        if (cwdChanged) {
+          try {
+            process.chdir(originalCwd);
+          } catch (error: any) {
+            logger.warn(`Could not restore working directory to ${originalCwd}: ${error.message}`);
+          }
+        }
+      }
 
       this.setupEventHandlers();
       this.isConnected = true;
