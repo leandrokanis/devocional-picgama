@@ -153,7 +153,7 @@ async function main() {
         await bot.close();
         break;
       case 'send':
-        const serverPort = process.env.SERVER_PORT || '3000';
+        const serverPort = process.env.PORT || process.env.SERVER_PORT || '3000';
         const serverHost = process.env.SERVER_HOST || 'localhost';
         const url = `http://${serverHost}:${serverPort}/send`;
         
@@ -190,7 +190,7 @@ async function main() {
         await bot.initialize();
         bot.setupScheduler();
         
-        const port = parseInt(process.env.SERVER_PORT || '3000', 10);
+        const port = parseInt(process.env.PORT || process.env.SERVER_PORT || '3000', 10);
         const hostname = process.env.SERVER_HOST || '0.0.0.0';
         
         Bun.serve({

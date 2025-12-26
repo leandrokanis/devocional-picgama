@@ -25,13 +25,14 @@ export class WhatsAppService {
     try {
       logger.info('Initializing WhatsApp client...');
       
-      // Configuração específica para ambientes de produção como Render
       const isProduction = process.env.NODE_ENV === 'production';
+      const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
+
       const browserOptions = {
         session: this.config.sessionName,
         headless: this.config.headless,
         debug: this.config.debug,
-        logQR: !isProduction, // Não mostrar QR em produção
+        logQR: !isProduction,
         browserArgs: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -40,27 +41,12 @@ export class WhatsAppService {
           '--no-first-run',
           '--no-zygote',
           '--single-process',
-          '--disable-gpu',
-          '--disable-web-security',
-          '--disable-features=VizDisplayCompositor',
-          '--disable-background-timer-throttling',
-          '--disable-backgrounding-occluded-windows',
-          '--disable-renderer-backgrounding',
-          '--disable-extensions',
-          '--disable-plugins',
-          '--disable-images',
-          '--disable-javascript',
-          '--disable-default-apps',
-          '--disable-sync'
+          '--disable-gpu'
         ]
       };
 
-      // Adicionar configurações específicas do Puppeteer se necessário
-      if (isProduction) {
-        (browserOptions as any).puppeteerOptions = {
-          executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
-          args: browserOptions.browserArgs
-        };
+      if (isProduction && executablePath) {
+        (browserOptions as any).puppeteerOptions = { executablePath, args: browserOptions.browserArgs };
       }
       
       this.client = await create(browserOptions);
