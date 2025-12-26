@@ -1,31 +1,33 @@
-FROM oven/bun:1.3.4-alpine
+FROM ghcr.io/puppeteer/puppeteer:21.6.1
 
-# Install necessary packages for Puppeteer and Chrome
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    freetype-dev \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    nodejs \
-    npm \
-    wget
+# Install Bun globally
+USER root
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:$PATH"
 
 # Set environment variables for Puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
 WORKDIR /app
 
+# Copy package files and install dependencies
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+RUN /root/.bun/bin/bun install --frozen-lockfile
 
+# Copy source code and build
 COPY . .
-RUN bun run build
+RUN rm -rf dist && /root/.bun/bin/bun run build
 
+# Create tokens directory with proper permissions
+RUN mkdir -p /tmp/tokens && \
+    chmod -R 755 /tmp/tokens
+
+# Expose port
 EXPOSE 3000
 
-USER bun
-CMD ["bun", "run", "start"]
+# Stay as root to avoid permission issues
+USER root
+
+# Start the application with Bun
+CMD ["/root/.bun/bin/bun", "run", "start"]
