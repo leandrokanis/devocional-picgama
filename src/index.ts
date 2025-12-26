@@ -205,6 +205,13 @@ async function main() {
             return true;
           } catch (error) {
             logger.warn('⚠️ Bot initialization failed, but server will continue running', error);
+            
+            // In production, set a flag to disable WhatsApp and continue
+            if (process.env.NODE_ENV === 'production') {
+              process.env.DISABLE_WHATSAPP = 'true';
+              logger.info('🔧 WhatsApp disabled due to initialization failure in production');
+            }
+            
             return false;
           }
         };
@@ -604,6 +611,7 @@ async function main() {
   }
 }
 
-if (import.meta.main) {
+// Execute main function if this is the main module
+if (import.meta.url === `file://${process.argv[1]}` || import.meta.main) {
   main();
 }

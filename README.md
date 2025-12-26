@@ -146,7 +146,19 @@ O ID do grupo será exibido no log. Atualize o `.env` com este ID.
 1. Crie conta no [Render.com](https://render.com/)
 2. Conecte seu repositório GitHub  
 3. Use o arquivo `render.yaml` incluído
-4. Configure as variáveis de ambiente
+4. Configure as variáveis de ambiente:
+
+```env
+NODE_ENV=production
+PORT=10000
+GROUP_CHAT_ID=seu_grupo_id_aqui@g.us
+WHATSAPP_SESSION_NAME=devocional-bot
+PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+SEND_TIME=07:00
+TIMEZONE=America/Sao_Paulo
+```
+
+**⚠️ Importante para Render.com**: O WhatsApp pode não funcionar em ambiente de produção devido às limitações do Puppeteer. Neste caso, o bot continuará funcionando e registrará as mensagens nos logs.
 
 ### GitHub Actions (Serverless)
 
@@ -220,12 +232,42 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 - 📖 **Documentação**: [WPPConnect Docs](https://wppconnect.io/docs/)
 - 💬 **Comunidade**: [WPPConnect Discord](https://discord.gg/wppconnect)
 
+## 🔧 Resolução de Problemas
+
+### Erro: "Protocol error (Target.setDiscoverTargets): Target closed"
+
+Este erro ocorre quando o Puppeteer não consegue inicializar o browser em ambiente de produção (comum no Render.com).
+
+**Solução**:
+1. O bot continuará funcionando e registrará as mensagens nos logs
+2. Para forçar o modo sem WhatsApp, adicione a variável: `DISABLE_WHATSAPP=true`
+3. Use uma plataforma com melhor suporte ao Puppeteer (Railway.app)
+
+### WhatsApp não conecta
+
+1. Verifique se o `GROUP_CHAT_ID` está correto
+2. Execute `bun run dev test` para gerar novo QR Code
+3. Certifique-se de que o bot está no grupo do WhatsApp
+
+### Deploy falha no Render.com
+
+1. Verifique se todas as variáveis de ambiente estão configuradas
+2. O Dockerfile foi otimizado para ambientes headless
+3. O bot funcionará mesmo se o WhatsApp falhar (modo fallback)
+
+### Mensagens não são enviadas no horário
+
+1. Verifique o `TIMEZONE` no `.env`
+2. Confirme o formato do `SEND_TIME` (HH:MM)
+3. Monitore os logs para erros de agendamento
+
 ## ⚠️ Avisos Importantes
 
 - **Uso Responsável**: Respeite os termos de uso do WhatsApp
 - **Rate Limiting**: Evite spam - o bot já tem controles internos
 - **Backup**: Mantenha backup dos dados devocionais
 - **Monitoramento**: Monitore logs para garantir funcionamento
+- **Produção**: Em ambiente de produção, o bot pode funcionar sem WhatsApp (apenas logs)
 
 ---
 

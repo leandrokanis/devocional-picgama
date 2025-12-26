@@ -30,6 +30,13 @@ export class WhatsAppService {
       
       const isProduction = process.env.NODE_ENV === 'production';
       const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
+      
+      // In production, if WhatsApp initialization is disabled, skip it
+      if (isProduction && process.env.DISABLE_WHATSAPP === 'true') {
+        logger.warn('WhatsApp initialization disabled in production');
+        this.isConnected = false;
+        return;
+      }
 
       const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
       const tokensFolderName = 'tokens';
@@ -67,16 +74,29 @@ export class WhatsAppService {
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu'
+            '--disable-gpu',
+            '--disable-extensions',
+            '--disable-infobars',
+            '--disable-features=IsolateOrigins,site-per-process',
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-renderer-backgrounding',
+            '--disable-software-rasterizer',
+            '--window-size=1280,720'
           ]
         };
 
-        if (isProduction && executablePath) {
-          browserOptions.puppeteerOptions = { executablePath, args: browserOptions.browserArgs };
+        if (isProduction) {
+          browserOptions.puppeteerOptions = {
+            executablePath: executablePath || '/usr/bin/google-chrome-stable',
+            args: browserOptions.browserArgs,
+            headless: true,
+            ignoreHTTPSErrors: true,
+            ignoreDefaultArgs: ['--disable-extensions'],
+            timeout: 180000,
+            protocolTimeout: 180000,
+            defaultViewport: { width: 1280, height: 720 }
+          };
         }
         
         this.client = await create(browserOptions);
@@ -117,6 +137,13 @@ export class WhatsAppService {
   public async sendMessage(message: string): Promise<boolean> {
     if (!this.client || !this.isConnected) {
       logger.error('WhatsApp client not connected');
+      
+      // In production, if WhatsApp is not available, log the message instead
+      if (process.env.NODE_ENV === 'production' && process.env.DISABLE_WHATSAPP === 'true') {
+        logger.info('WhatsApp disabled - Message that would be sent:', message);
+        return true; // Return true to indicate the operation completed (even if just logged)
+      }
+      
       return false;
     }
 
@@ -127,6 +154,12 @@ export class WhatsAppService {
       return true;
     } catch (error) {
       logger.error('Error sending message', error);
+      
+      // In production, if sending fails, at least log the message
+      if (process.env.NODE_ENV === 'production') {
+        logger.info('Failed to send via WhatsApp - Message content:', message);
+      }
+      
       return false;
     }
   }

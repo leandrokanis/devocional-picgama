@@ -6,6 +6,8 @@ services:
     container_name: devocional-picgama
     ports:
       - "${PORT:-3000}:3000"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=${PORT:-3000}
@@ -16,12 +18,18 @@ services:
       - SEND_TIME=${SEND_TIME:-07:00}
       - TIMEZONE=${TIMEZONE:-America/Sao_Paulo}
       - DEBUG=${DEBUG:-false}
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - DISPLAY=:99
     volumes:
       - ./tokens:/app/tokens
       - ./data:/app/data:ro
+      - /dev/shm:/dev/shm
     restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
     healthcheck:
       test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1"]
       interval: 30s
