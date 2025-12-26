@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "bun run src/index.ts",
-    "build": "bun install --frozen-lockfile && bun build src/index.ts --outdir dist --target node && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
+    "build": "bun install --frozen-lockfile && bun x tsc -p tsconfig.build.json && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
     "start": "bun dist/index.js",
     "test": "bun test",
     "send": "bun run src/index.ts send",
@@ -17,7 +17,8 @@
   "devDependencies": {
     "@types/bun": "^1.3.5",
     "@types/node": "^25.0.3",
-    "@types/node-cron": "^3.0.11"
+    "@types/node-cron": "^3.0.11",
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "typescript": "^5"
