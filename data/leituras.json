@@ -1,50 +1,2216 @@
 [
   {
     "date": "2025-12-26",
-    "at1": "Gênesis 1:1-10",
-    "at2": "Salmos 1",
-    "nt": "João 3:16-21"
+    "at1": "Isaías 62",
+    "at2": "Ezequiel 40-41",
+    "nt": "Lucas 3:1-20"
   },
   {
     "date": "2025-12-27",
-    "at1": "Gênesis 1:11-25",
-    "at2": "Salmos 2",
-    "nt": "João 3:22-36"
+    "at1": "Isaías 63",
+    "at2": "Ezequiel 42-43",
+    "nt": "Lucas 3:21-38"
   },
   {
     "date": "2025-12-28",
-    "at1": "Gênesis 1:26-2:3",
-    "at2": "Salmos 3",
-    "nt": "João 4:1-26"
+    "at1": "Isaías 64",
+    "at2": "Ezequiel 44-45",
+    "nt": "Lucas 4:1-30"
   },
   {
     "date": "2025-12-29",
-    "at1": "Gênesis 2:4-25",
-    "at2": "Salmos 4",
-    "nt": "João 4:27-54"
+    "at1": "Isaías 65",
+    "at2": "Ezequiel 46-47",
+    "nt": "Lucas 4:31-44"
   },
   {
     "date": "2025-12-30",
-    "at1": "Gênesis 3:1-24",
-    "at2": "Salmos 5",
-    "nt": "João 5:1-30"
-  },
-  {
-    "date": "2025-12-31",
-    "at1": "Gênesis 4:1-26",
-    "at2": "Salmos 6",
-    "nt": "João 5:31-47"
+    "at1": "Isaías 66",
+    "at2": "Ezequiel 48",
+    "nt": "Lucas 5:1-26"
   },
   {
     "date": "2026-01-01",
-    "at1": "Gênesis 5:1-32",
+    "at1": "Gênesis 1-2",
+    "at2": "Salmos 1",
+    "nt": "Lucas 5:27-39"
+  },
+  {
+    "date": "2026-01-02",
+    "at1": "Gênesis 3-5",
+    "at2": "Salmos 2",
+    "nt": "Lucas 6:1-26"
+  },
+  {
+    "date": "2026-01-03",
+    "at1": "Gênesis 6-7",
+    "at2": "Salmos 3",
+    "nt": "Lucas 6:27-49"
+  },
+  {
+    "date": "2026-01-04",
+    "at1": "Gênesis 8-10",
+    "at2": "Salmos 4",
+    "nt": "Lucas 7:1-17"
+  },
+  {
+    "date": "2026-01-05",
+    "at1": "Gênesis 11",
+    "at2": "Salmos 5",
+    "nt": "Lucas 7:18-50"
+  },
+  {
+    "date": "2026-01-06",
+    "at1": "Gênesis 12",
+    "at2": "Salmos 6",
+    "nt": "Lucas 8:1-25"
+  },
+  {
+    "date": "2026-01-07",
+    "at1": "Gênesis 13-14",
     "at2": "Salmos 7",
+    "nt": "Lucas 8:26-56"
+  },
+  {
+    "date": "2026-01-08",
+    "at1": "Gênesis 15",
+    "at2": "Salmos 8",
+    "nt": "Lucas 9:1-27"
+  },
+  {
+    "date": "2026-01-09",
+    "at1": "Gênesis 16",
+    "at2": "Salmos 9",
+    "nt": "Lucas 9:28-62"
+  },
+  {
+    "date": "2026-01-10",
+    "at1": "Gênesis 17",
+    "at2": "Salmos 10",
+    "nt": "Lucas 10:1-20"
+  },
+  {
+    "date": "2026-01-11",
+    "at1": "Gênesis 18",
+    "at2": "Salmos 11",
+    "nt": "Lucas 10:21-42"
+  },
+  {
+    "date": "2026-01-12",
+    "at1": "Gênesis 19",
+    "at2": "Salmos 12",
+    "nt": "Lucas 11:1-28"
+  },
+  {
+    "date": "2026-01-13",
+    "at1": "Gênesis 20",
+    "at2": "Salmos 13",
+    "nt": "Lucas 11:29-54"
+  },
+  {
+    "date": "2026-01-14",
+    "at1": "Gênesis 21",
+    "at2": "Salmos 14",
+    "nt": "Lucas 12:1-34"
+  },
+  {
+    "date": "2026-01-15",
+    "at1": "Gênesis 22",
+    "at2": "Salmos 15",
+    "nt": "Lucas 12:35-59"
+  },
+  {
+    "date": "2026-01-16",
+    "at1": "Gênesis 23",
+    "at2": "Salmos 16",
+    "nt": "Lucas 13:1-17"
+  },
+  {
+    "date": "2026-01-17",
+    "at1": "Gênesis 24",
+    "at2": "Salmos 17",
+    "nt": "Lucas 13:18-35"
+  },
+  {
+    "date": "2026-01-18",
+    "at1": "Gênesis 25",
+    "at2": "Salmos 18",
+    "nt": "Lucas 14:1-24"
+  },
+  {
+    "date": "2026-01-19",
+    "at1": "Gênesis 26",
+    "at2": "Salmos 19",
+    "nt": "Lucas 14:25-35"
+  },
+  {
+    "date": "2026-01-20",
+    "at1": "Gênesis 27",
+    "at2": "Salmos 20",
+    "nt": "Lucas 15"
+  },
+  {
+    "date": "2026-01-21",
+    "at1": "Gênesis 28",
+    "at2": "Salmos 21",
+    "nt": "Lucas 16"
+  },
+  {
+    "date": "2026-01-22",
+    "at1": "Gênesis 29",
+    "at2": "Salmos 22",
+    "nt": "Lucas 17"
+  },
+  {
+    "date": "2026-01-23",
+    "at1": "Gênesis 30",
+    "at2": "Salmos 23",
+    "nt": "Lucas 18:1-17"
+  },
+  {
+    "date": "2026-01-24",
+    "at1": "Gênesis 31",
+    "at2": "Salmos 24",
+    "nt": "Lucas 18:18-43"
+  },
+  {
+    "date": "2026-01-25",
+    "at1": "Gênesis 32-33",
+    "at2": "Salmos 25",
+    "nt": "Lucas 19:1-27"
+  },
+  {
+    "date": "2026-01-26",
+    "at1": "Gênesis 34",
+    "at2": "Salmos 26",
+    "nt": "Lucas 19:28-48"
+  },
+  {
+    "date": "2026-01-27",
+    "at1": "Gênesis 35-36",
+    "at2": "Salmos 27",
+    "nt": "Lucas 20:1-26"
+  },
+  {
+    "date": "2026-01-28",
+    "at1": "Gênesis 37",
+    "at2": "Salmos 28",
+    "nt": "Lucas 20:27-47"
+  },
+  {
+    "date": "2026-01-29",
+    "at1": "Gênesis 38",
+    "at2": "Salmos 29",
+    "nt": "Lucas 21"
+  },
+  {
+    "date": "2026-01-30",
+    "at1": "Gênesis 39",
+    "at2": "Salmos 30",
+    "nt": "Lucas 22:1-38"
+  },
+  {
+    "date": "2026-01-31",
+    "at1": "Gênesis 40",
+    "at2": "Salmos 31",
+    "nt": "Lucas 22:39-71"
+  },
+  {
+    "date": "2026-02-01",
+    "at1": "Gênesis 41",
+    "at2": "Salmos 32",
+    "nt": "Lucas 23:1-25"
+  },
+  {
+    "date": "2026-02-02",
+    "at1": "Gênesis 42",
+    "at2": "Salmos 33",
+    "nt": "Lucas 23:26-56"
+  },
+  {
+    "date": "2026-02-03",
+    "at1": "Gênesis 43",
+    "at2": "Salmos 34",
+    "nt": "Lucas 24:1-12"
+  },
+  {
+    "date": "2026-02-04",
+    "at1": "Gênesis 44",
+    "at2": "Salmos 35",
+    "nt": "Lucas 24:13-53"
+  },
+  {
+    "date": "2026-02-05",
+    "at1": "Gênesis 45-46",
+    "at2": "Salmos 36",
+    "nt": "Hebreus 1"
+  },
+  {
+    "date": "2026-02-06",
+    "at1": "Gênesis 47",
+    "at2": "Salmos 37",
+    "nt": "Hebreus 2"
+  },
+  {
+    "date": "2026-02-07",
+    "at1": "Gênesis 48",
+    "at2": "Salmos 38",
+    "nt": "Hebreus 3-4"
+  },
+  {
+    "date": "2026-02-08",
+    "at1": "Gênesis 49-50",
+    "at2": "Salmos 39",
+    "nt": "Hebreus 5"
+  },
+  {
+    "date": "2026-02-09",
+    "at1": "Êxodo 1-2",
+    "at2": "Salmos 40",
+    "nt": "Hebreus 6"
+  },
+  {
+    "date": "2026-02-10",
+    "at1": "Êxodo 3-4",
+    "at2": "Salmos 41",
+    "nt": "Hebreus 7"
+  },
+  {
+    "date": "2026-02-11",
+    "at1": "Êxodo 5-6",
+    "at2": "Provérbios 1",
+    "nt": "Hebreus 8"
+  },
+  {
+    "date": "2026-02-12",
+    "at1": "Êxodo 7-8",
+    "at2": "Provérbios 2",
+    "nt": "Hebreus 9:1-22"
+  },
+  {
+    "date": "2026-02-13",
+    "at1": "Êxodo 9-10",
+    "at2": "Provérbios 3",
+    "nt": "Hebreus 9:23-10:18"
+  },
+  {
+    "date": "2026-02-14",
+    "at1": "Êxodo 11-12",
+    "at2": "Provérbios 4",
+    "nt": "Hebreus 10:19-39"
+  },
+  {
+    "date": "2026-02-15",
+    "at1": "Êxodo 13-14",
+    "at2": "Provérbios 5",
+    "nt": "Hebreus 11:1-22"
+  },
+  {
+    "date": "2026-02-16",
+    "at1": "Êxodo 15",
+    "at2": "Provérbios 6",
+    "nt": "Hebreus 11:23-40"
+  },
+  {
+    "date": "2026-02-17",
+    "at1": "Êxodo 16-17",
+    "at2": "Provérbios 7",
+    "nt": "Hebreus 12"
+  },
+  {
+    "date": "2026-02-18",
+    "at1": "Êxodo 18-19",
+    "at2": "Provérbios 8",
+    "nt": "Hebreus 13"
+  },
+  {
+    "date": "2026-02-19",
+    "at1": "Êxodo 20-21",
+    "at2": "Provérbios 9",
+    "nt": "Mateus 1"
+  },
+  {
+    "date": "2026-02-20",
+    "at1": "Êxodo 22-23",
+    "at2": "Provérbios 10",
+    "nt": "Mateus 2"
+  },
+  {
+    "date": "2026-02-21",
+    "at1": "Êxodo 24",
+    "at2": "Provérbios 11",
+    "nt": "Mateus 3"
+  },
+  {
+    "date": "2026-02-22",
+    "at1": "Êxodo 25-27",
+    "at2": "Provérbios 12",
+    "nt": "Mateus 4"
+  },
+  {
+    "date": "2026-02-23",
+    "at1": "Êxodo 28-29",
+    "at2": "Provérbios 13",
+    "nt": "Mateus 5:1-16"
+  },
+  {
+    "date": "2026-02-24",
+    "at1": "Êxodo 30-32",
+    "at2": "Provérbios 14",
+    "nt": "Mateus 5:17-48"
+  },
+  {
+    "date": "2026-02-25",
+    "at1": "Êxodo 33-34",
+    "at2": "Provérbios 15",
+    "nt": "Mateus 6:1-18"
+  },
+  {
+    "date": "2026-02-26",
+    "at1": "Êxodo 35-36",
+    "at2": "Provérbios 16",
+    "nt": "Mateus 6:19-34"
+  },
+  {
+    "date": "2026-02-27",
+    "at1": "Êxodo 37-38",
+    "at2": "Provérbios 17",
+    "nt": "Mateus 7"
+  },
+  {
+    "date": "2026-02-28",
+    "at1": "Êxodo 39-40",
+    "at2": "Provérbios 18",
+    "nt": "Mateus 8:1-13"
+  },
+  {
+    "date": "2026-03-01",
+    "at1": "Levítico 3-4",
+    "at2": "Provérbios 20",
+    "nt": "Mateus 9:1-17"
+  },
+  {
+    "date": "2026-03-02",
+    "at1": "Levítico 5-6",
+    "at2": "Provérbios 21",
+    "nt": "Mateus 9:18-38"
+  },
+  {
+    "date": "2026-03-03",
+    "at1": "Levítico 7-8",
+    "at2": "Provérbios 22",
+    "nt": "Mateus 10:1-25"
+  },
+  {
+    "date": "2026-03-04",
+    "at1": "Levítico 9-10",
+    "at2": "Provérbios 23",
+    "nt": "Mateus 10:26-42"
+  },
+  {
+    "date": "2026-03-05",
+    "at1": "Levítico 11-12",
+    "at2": "Provérbios 24",
+    "nt": "Mateus 11:1-19"
+  },
+  {
+    "date": "2026-03-06",
+    "at1": "Levítico 13",
+    "at2": "Provérbios 25",
+    "nt": "Mateus 11:20-30"
+  },
+  {
+    "date": "2026-03-07",
+    "at1": "Levítico 14",
+    "at2": "Provérbios 26",
+    "nt": "Mateus 12:1-21"
+  },
+  {
+    "date": "2026-03-08",
+    "at1": "Levítico 15-16",
+    "at2": "Provérbios 27",
+    "nt": "Mateus 12:22-50"
+  },
+  {
+    "date": "2026-03-09",
+    "at1": "Levítico 17-18",
+    "at2": "Provérbios 28",
+    "nt": "Mateus 13:1-23"
+  },
+  {
+    "date": "2026-03-10",
+    "at1": "Levítico 19",
+    "at2": "Provérbios 29",
+    "nt": "Mateus 13:24-58"
+  },
+  {
+    "date": "2026-03-11",
+    "at1": "Levítico 20-21",
+    "at2": "Provérbios 30",
+    "nt": "Mateus 14:1-21"
+  },
+  {
+    "date": "2026-03-12",
+    "at1": "Levítico 22-23",
+    "at2": "Provérbios 31",
+    "nt": "Mateus 14:22-36"
+  },
+  {
+    "date": "2026-03-13",
+    "at1": "Levítico 24-25",
+    "at2": "Eclesiastes 1",
+    "nt": "Mateus 15:1-20"
+  },
+  {
+    "date": "2026-03-14",
+    "at1": "Levítico 26-27",
+    "at2": "Eclesiastes 2",
+    "nt": "Mateus 15:21-39"
+  },
+  {
+    "date": "2026-03-15",
+    "at1": "Números 1-2",
+    "at2": "Eclesiastes 3",
+    "nt": "Mateus 16"
+  },
+  {
+    "date": "2026-03-16",
+    "at1": "Números 3-4",
+    "at2": "Eclesiastes 4",
+    "nt": "Mateus 17"
+  },
+  {
+    "date": "2026-03-17",
+    "at1": "Números 5-6",
+    "at2": "Eclesiastes 5",
+    "nt": "Mateus 18:1-14"
+  },
+  {
+    "date": "2026-03-18",
+    "at1": "Números 7-8",
+    "at2": "Eclesiastes 6",
+    "nt": "Mateus 18:15-35"
+  },
+  {
+    "date": "2026-03-19",
+    "at1": "Números 9-10",
+    "at2": "Eclesiastes 7",
+    "nt": "Mateus 19:1-15"
+  },
+  {
+    "date": "2026-03-20",
+    "at1": "Números 11-12",
+    "at2": "Eclesiastes 8",
+    "nt": "Mateus 19:16-30"
+  },
+  {
+    "date": "2026-03-21",
+    "at1": "Números 13-14",
+    "at2": "Eclesiastes 9",
+    "nt": "Mateus 20:1-16"
+  },
+  {
+    "date": "2026-03-22",
+    "at1": "Números 15-16",
+    "at2": "Eclesiastes 10",
+    "nt": "Mateus 20:17-34"
+  },
+  {
+    "date": "2026-03-23",
+    "at1": "Números 17-18",
+    "at2": "Eclesiastes 11",
+    "nt": "Mateus 21:1-27"
+  },
+  {
+    "date": "2026-03-24",
+    "at1": "Números 19-20",
+    "at2": "Eclesiastes 12",
+    "nt": "Mateus 21:28-46"
+  },
+  {
+    "date": "2026-03-25",
+    "at1": "Números 21",
+    "at2": "Cantares 1",
+    "nt": "Mateus 22:1-22"
+  },
+  {
+    "date": "2026-03-26",
+    "at1": "Números 22",
+    "at2": "Cantares 2",
+    "nt": "Mateus 22:23-46"
+  },
+  {
+    "date": "2026-03-27",
+    "at1": "Números 23",
+    "at2": "Cantares 3-4",
+    "nt": "Mateus 23:1-12"
+  },
+  {
+    "date": "2026-03-28",
+    "at1": "Números 24",
+    "at2": "Cantares 5",
+    "nt": "Mateus 23:13-39"
+  },
+  {
+    "date": "2026-03-29",
+    "at1": "Números 25-27",
+    "at2": "Cantares 6-7",
+    "nt": "Mateus 24:1-28"
+  },
+  {
+    "date": "2026-03-30",
+    "at1": "Números 28-29",
+    "at2": "Cantares 8",
+    "nt": "Mateus 24:29-51"
+  },
+  {
+    "date": "2026-03-31",
+    "at1": "Números 30-31",
+    "at2": "Jó 1",
+    "nt": "Mateus 25:1-30"
+  },
+  {
+    "date": "2026-04-01",
+    "at1": "Números 32-34",
+    "at2": "Jó 2",
+    "nt": "Mateus 25:31-46"
+  },
+  {
+    "date": "2026-04-02",
+    "at1": "Números 35-36",
+    "at2": "Jó 3",
+    "nt": "Mateus 26:1-30"
+  },
+  {
+    "date": "2026-04-03",
+    "at1": "Deuteronômio 1-2",
+    "at2": "Jó 4",
+    "nt": "Mateus 26:31-46"
+  },
+  {
+    "date": "2026-04-04",
+    "at1": "Deuteronômio 3-4",
+    "at2": "Jó 5",
+    "nt": "Mateus 26:47-75"
+  },
+  {
+    "date": "2026-04-05",
+    "at1": "Deuteronômio 5-6",
+    "at2": "Jó 6",
+    "nt": "Mateus 27:1-31"
+  },
+  {
+    "date": "2026-04-06",
+    "at1": "Deuteronômio 7-8",
+    "at2": "Jó 7",
+    "nt": "Mateus 27:32-66"
+  },
+  {
+    "date": "2026-04-07",
+    "at1": "Deuteronômio 9-10",
+    "at2": "Jó 8",
+    "nt": "Mateus 28"
+  },
+  {
+    "date": "2026-04-08",
+    "at1": "Deuteronômio 11-12",
+    "at2": "Jó 9",
+    "nt": "Atos 1"
+  },
+  {
+    "date": "2026-04-09",
+    "at1": "Deuteronômio 13-14",
+    "at2": "Jó 10",
+    "nt": "Atos 2:1-13"
+  },
+  {
+    "date": "2026-04-10",
+    "at1": "Deuteronômio 15-16",
+    "at2": "Jó 11",
+    "nt": "Atos 2:14-47"
+  },
+  {
+    "date": "2026-04-11",
+    "at1": "Deuteronômio 17-18",
+    "at2": "Jó 12",
+    "nt": "Atos 3"
+  },
+  {
+    "date": "2026-04-12",
+    "at1": "Deuteronômio 19-20",
+    "at2": "Jó 13",
+    "nt": "Atos 4:1-22"
+  },
+  {
+    "date": "2026-04-13",
+    "at1": "Deuteronômio 21-22",
+    "at2": "Jó 14",
+    "nt": "Atos 4:23-37"
+  },
+  {
+    "date": "2026-04-14",
+    "at1": "Deuteronômio 23-24",
+    "at2": "Jó 15",
+    "nt": "Atos 5:1-16"
+  },
+  {
+    "date": "2026-04-15",
+    "at1": "Deuteronômio 25-27",
+    "at2": "Jó 16",
+    "nt": "Atos 5:17-42"
+  },
+  {
+    "date": "2026-04-16",
+    "at1": "Deuteronômio 28",
+    "at2": "Jó 17",
+    "nt": "Atos 6"
+  },
+  {
+    "date": "2026-04-17",
+    "at1": "Deuteronômio 29-30",
+    "at2": "Jó 18",
+    "nt": "Atos 7:1-22"
+  },
+  {
+    "date": "2026-04-18",
+    "at1": "Deuteronômio 31-32",
+    "at2": "Jó 19",
+    "nt": "Atos 7:23-60"
+  },
+  {
+    "date": "2026-04-19",
+    "at1": "Deuteronômio 33-34",
+    "at2": "Jó 20",
+    "nt": "Atos 8:1-25"
+  },
+  {
+    "date": "2026-04-20",
+    "at1": "Josué 1-2",
+    "at2": "Jó 21",
+    "nt": "Atos 8:26-40"
+  },
+  {
+    "date": "2026-04-21",
+    "at1": "Josué 3-4",
+    "at2": "Jó 22",
+    "nt": "Atos 9:1-18"
+  },
+  {
+    "date": "2026-04-22",
+    "at1": "Josué 5-6",
+    "at2": "Jó 23",
+    "nt": "Atos 9:19-43"
+  },
+  {
+    "date": "2026-04-23",
+    "at1": "Josué 7-8",
+    "at2": "Jó 24",
+    "nt": "Atos 10:1-33"
+  },
+  {
+    "date": "2026-04-24",
+    "at1": "Josué 9-10",
+    "at2": "Jó 25",
+    "nt": "Atos 10:34-48"
+  },
+  {
+    "date": "2026-04-25",
+    "at1": "Josué 11-12",
+    "at2": "Jó 26",
+    "nt": "Atos 11:1-18"
+  },
+  {
+    "date": "2026-04-26",
+    "at1": "Josué 13-14",
+    "at2": "Jó 27",
+    "nt": "Atos 11:19-30"
+  },
+  {
+    "date": "2026-04-27",
+    "at1": "Josué 15-17",
+    "at2": "Jó 28",
+    "nt": "Atos 12"
+  },
+  {
+    "date": "2026-04-28",
+    "at1": "Josué 18-19",
+    "at2": "Jó 29",
+    "nt": "Atos 13:1-25"
+  },
+  {
+    "date": "2026-04-29",
+    "at1": "Josué 20-21",
+    "at2": "Jó 30",
+    "nt": "Atos 13:26-52"
+  },
+  {
+    "date": "2026-04-30",
+    "at1": "Josué 22",
+    "at2": "Jó 31",
+    "nt": "Atos 14"
+  },
+  {
+    "date": "2026-05-01",
+    "at1": "Josué 23-24",
+    "at2": "Jó 32",
+    "nt": "Atos 15:1-21"
+  },
+  {
+    "date": "2026-05-02",
+    "at1": "Juízes 1",
+    "at2": "Jó 33",
+    "nt": "Atos 15:22-41"
+  },
+  {
+    "date": "2026-05-03",
+    "at1": "Juízes 2-3",
+    "at2": "Jó 34",
+    "nt": "Atos 16:1-15"
+  },
+  {
+    "date": "2026-05-04",
+    "at1": "Juízes 4-5",
+    "at2": "Jó 35",
+    "nt": "Atos 16:16-40"
+  },
+  {
+    "date": "2026-05-05",
+    "at1": "Juízes 6",
+    "at2": "Jó 36",
+    "nt": "Atos 17:1-15"
+  },
+  {
+    "date": "2026-05-06",
+    "at1": "Juízes 7-8",
+    "at2": "Jó 37",
+    "nt": "Atos 17:16-34"
+  },
+  {
+    "date": "2026-05-07",
+    "at1": "Juízes 9",
+    "at2": "Jó 38",
+    "nt": "Atos 18"
+  },
+  {
+    "date": "2026-05-08",
+    "at1": "Juízes 10",
+    "at2": "Jó 39",
+    "nt": "Atos 19:1-20"
+  },
+  {
+    "date": "2026-05-09",
+    "at1": "Juízes 11-12",
+    "at2": "Jó 40",
+    "nt": "Atos 19:21-41"
+  },
+  {
+    "date": "2026-05-10",
+    "at1": "Juízes 13",
+    "at2": "Jó 41",
+    "nt": "Atos 20:1-16"
+  },
+  {
+    "date": "2026-05-11",
+    "at1": "Juízes 14-15",
+    "at2": "Jó 42",
+    "nt": "Atos 20:17-38"
+  },
+  {
+    "date": "2026-05-12",
+    "at1": "Juízes 16",
+    "at2": "Salmos 42",
+    "nt": "Atos 21:1-36"
+  },
+  {
+    "date": "2026-05-13",
+    "at1": "Juízes 17-18",
+    "at2": "Salmos 43",
+    "nt": "Atos 21:37-22:29"
+  },
+  {
+    "date": "2026-05-14",
+    "at1": "Juízes 19",
+    "at2": "Salmos 44",
+    "nt": "Atos 22:30-23:22"
+  },
+  {
+    "date": "2026-05-15",
+    "at1": "Juízes 20",
+    "at2": "Salmos 45",
+    "nt": "Atos 23:23-24:9"
+  },
+  {
+    "date": "2026-05-16",
+    "at1": "Juízes 21",
+    "at2": "Salmos 46",
+    "nt": "Atos 24:10-27"
+  },
+  {
+    "date": "2026-05-17",
+    "at1": "Rute 1-2",
+    "at2": "Salmos 47",
+    "nt": "Atos 25"
+  },
+  {
+    "date": "2026-05-18",
+    "at1": "Rute 3-4",
+    "at2": "Salmos 48",
+    "nt": "Atos 26:1-18"
+  },
+  {
+    "date": "2026-05-19",
+    "at1": "1 Samuel 1",
+    "at2": "Salmos 49",
+    "nt": "Atos 26:19-32"
+  },
+  {
+    "date": "2026-05-20",
+    "at1": "1 Samuel 2",
+    "at2": "Salmos 50",
+    "nt": "Atos 27:1-12"
+  },
+  {
+    "date": "2026-05-21",
+    "at1": "1 Samuel 3",
+    "at2": "Salmos 51",
+    "nt": "Atos 27:13-44"
+  },
+  {
+    "date": "2026-05-22",
+    "at1": "1 Samuel 4-5",
+    "at2": "Salmos 52",
+    "nt": "Atos 28:1-16"
+  },
+  {
+    "date": "2026-05-23",
+    "at1": "1 Samuel 6-7",
+    "at2": "Salmos 53",
+    "nt": "Atos 28:17-31"
+  },
+  {
+    "date": "2026-05-24",
+    "at1": "1 Samuel 8",
+    "at2": "Salmos 54",
+    "nt": "Romanos 1:1-15"
+  },
+  {
+    "date": "2026-05-25",
+    "at1": "1 Samuel 9",
+    "at2": "Salmos 55",
+    "nt": "Romanos 1:16-32"
+  },
+  {
+    "date": "2026-05-26",
+    "at1": "1 Samuel 10-11",
+    "at2": "Salmos 56",
+    "nt": "Romanos 2"
+  },
+  {
+    "date": "2026-05-27",
+    "at1": "1 Samuel 12",
+    "at2": "Salmos 57",
+    "nt": "Romanos 3"
+  },
+  {
+    "date": "2026-05-28",
+    "at1": "1 Samuel 13",
+    "at2": "Salmos 58",
+    "nt": "Romanos 4"
+  },
+  {
+    "date": "2026-05-29",
+    "at1": "1 Samuel 14",
+    "at2": "Salmos 59",
+    "nt": "Romanos 5"
+  },
+  {
+    "date": "2026-05-30",
+    "at1": "1 Samuel 15",
+    "at2": "Salmos 60",
+    "nt": "Romanos 6"
+  },
+  {
+    "date": "2026-05-31",
+    "at1": "1 Samuel 16",
+    "at2": "Salmos 61",
+    "nt": "Romanos 7"
+  },
+  {
+    "date": "2026-06-01",
+    "at1": "1 Samuel 17",
+    "at2": "Salmos 62",
+    "nt": "Romanos 8"
+  },
+  {
+    "date": "2026-06-02",
+    "at1": "1 Samuel 18",
+    "at2": "Salmos 63",
+    "nt": "Romanos 9"
+  },
+  {
+    "date": "2026-06-03",
+    "at1": "1 Samuel 19",
+    "at2": "Salmos 64",
+    "nt": "Romanos 10"
+  },
+  {
+    "date": "2026-06-04",
+    "at1": "1 Samuel 20",
+    "at2": "Salmos 65",
+    "nt": "Romanos 11:1-24"
+  },
+  {
+    "date": "2026-06-05",
+    "at1": "1 Samuel 21-22",
+    "at2": "Salmos 66",
+    "nt": "Romanos 11:25-36"
+  },
+  {
+    "date": "2026-06-06",
+    "at1": "1 Samuel 23-24",
+    "at2": "Salmos 67",
+    "nt": "Romanos 12"
+  },
+  {
+    "date": "2026-06-07",
+    "at1": "1 Samuel 25",
+    "at2": "Salmos 68",
+    "nt": "Romanos 13"
+  },
+  {
+    "date": "2026-06-08",
+    "at1": "1 Samuel 26",
+    "at2": "Salmos 69",
+    "nt": "Romanos 14"
+  },
+  {
+    "date": "2026-06-09",
+    "at1": "1 Samuel 27-28",
+    "at2": "Salmos 70",
+    "nt": "Romanos 15:1-13"
+  },
+  {
+    "date": "2026-06-10",
+    "at1": "1 Samuel 29-31",
+    "at2": "Salmos 71",
+    "nt": "Romanos 15:14-33"
+  },
+  {
+    "date": "2026-06-11",
+    "at1": "2 Samuel 1",
+    "at2": "Salmos 72",
+    "nt": "Romanos 16"
+  },
+  {
+    "date": "2026-06-12",
+    "at1": "2 Samuel 2",
+    "at2": "Daniel 1",
+    "nt": "Marcos 1:1-20"
+  },
+  {
+    "date": "2026-06-13",
+    "at1": "2 Samuel 3",
+    "at2": "Daniel 2:1-23",
+    "nt": "Marcos 1:21-45"
+  },
+  {
+    "date": "2026-06-14",
+    "at1": "2 Samuel 4-5",
+    "at2": "Daniel 2:24-49",
+    "nt": "Marcos 2"
+  },
+  {
+    "date": "2026-06-15",
+    "at1": "2 Samuel 6",
+    "at2": "Daniel 3",
+    "nt": "Marcos 3:1-19"
+  },
+  {
+    "date": "2026-06-16",
+    "at1": "2 Samuel 7-8",
+    "at2": "Daniel 4",
+    "nt": "Marcos 3:20-35"
+  },
+  {
+    "date": "2026-06-17",
+    "at1": "2 Samuel 9-10",
+    "at2": "Daniel 5",
+    "nt": "Marcos 4:1-20"
+  },
+  {
+    "date": "2026-06-18",
+    "at1": "2 Samuel 11-12",
+    "at2": "Daniel 6",
+    "nt": "Marcos 4:21-41"
+  },
+  {
+    "date": "2026-06-19",
+    "at1": "2 Samuel 13",
+    "at2": "Daniel 7",
+    "nt": "Marcos 5:1-20"
+  },
+  {
+    "date": "2026-06-20",
+    "at1": "2 Samuel 14",
+    "at2": "Daniel 8",
+    "nt": "Marcos 5:21-43"
+  },
+  {
+    "date": "2026-06-21",
+    "at1": "2 Samuel 15",
+    "at2": "Daniel 9",
+    "nt": "Marcos 6:1-29"
+  },
+  {
+    "date": "2026-06-22",
+    "at1": "2 Samuel 16",
+    "at2": "Daniel 10",
+    "nt": "Marcos 6:30-56"
+  },
+  {
+    "date": "2026-06-23",
+    "at1": "2 Samuel 17",
+    "at2": "Daniel 11:1-20",
+    "nt": "Marcos 7:1-13"
+  },
+  {
+    "date": "2026-06-24",
+    "at1": "2 Samuel 18",
+    "at2": "Daniel 11:21-45",
+    "nt": "Marcos 7:14-37"
+  },
+  {
+    "date": "2026-06-25",
+    "at1": "2 Samuel 19",
+    "at2": "Oseias 1",
+    "nt": "Marcos 8:1-21"
+  },
+  {
+    "date": "2026-06-26",
+    "at1": "2 Samuel 20-21",
+    "at2": "Oseias 1",
+    "nt": "Marcos 8:22-38"
+  },
+  {
+    "date": "2026-06-27",
+    "at1": "2 Samuel 22",
+    "at2": "Oseias 2",
+    "nt": "Marcos 9"
+  },
+  {
+    "date": "2026-06-28",
+    "at1": "2 Samuel 23",
+    "at2": "Oseias 3",
+    "nt": "Marcos 10:1-31"
+  },
+  {
+    "date": "2026-06-29",
+    "at1": "2 Samuel 24",
+    "at2": "Oseias 4:1-10",
+    "nt": "Marcos 10:32-52"
+  },
+  {
+    "date": "2026-06-30",
+    "at1": "1 Reis 1",
+    "at2": "Oseias 4:11-4:19",
+    "nt": "Marcos 11:1-14"
+  },
+  {
+    "date": "2026-07-01",
+    "at1": "1 Reis 2",
+    "at2": "Oseias 5",
+    "nt": "Marcos 11:15-33"
+  },
+  {
+    "date": "2026-07-02",
+    "at1": "1 Reis 3",
+    "at2": "Oseias 6",
+    "nt": "Marcos 12:1-27"
+  },
+  {
+    "date": "2026-07-03",
+    "at1": "1 Reis 4-5",
+    "at2": "Oseias 7",
+    "nt": "Marcos 12:28-44"
+  },
+  {
+    "date": "2026-07-04",
+    "at1": "1 Reis 6",
+    "at2": "Oseias 8",
+    "nt": "Marcos 13:1-13"
+  },
+  {
+    "date": "2026-07-05",
+    "at1": "1 Reis 7",
+    "at2": "Oseias 9",
+    "nt": "Marcos 13:14-37"
+  },
+  {
+    "date": "2026-07-06",
+    "at1": "1 Reis 8",
+    "at2": "Oseias 10",
+    "nt": "Marcos 14:1-31"
+  },
+  {
+    "date": "2026-07-07",
+    "at1": "1 Reis 9",
+    "at2": "Oseias 11",
+    "nt": "Marcos 14:32-72"
+  },
+  {
+    "date": "2026-07-08",
+    "at1": "1 Reis 10",
+    "at2": "Oseias 12",
+    "nt": "Marcos 15:1-20"
+  },
+  {
+    "date": "2026-07-09",
+    "at1": "1 Reis 11",
+    "at2": "Oseias 13",
+    "nt": "Marcos 15:21-47"
+  },
+  {
+    "date": "2026-07-10",
+    "at1": "1 Reis 12",
+    "at2": "Oseias 14",
+    "nt": "Marcos 16"
+  },
+  {
+    "date": "2026-07-11",
+    "at1": "1 Reis 13",
+    "at2": "Joel 1",
+    "nt": "1 Coríntios 1:1-17"
+  },
+  {
+    "date": "2026-07-12",
+    "at1": "1 Reis 14",
+    "at2": "Joel 2:1-11",
+    "nt": "1 Coríntios 1:18-31"
+  },
+  {
+    "date": "2026-07-13",
+    "at1": "1 Reis 15",
+    "at2": "Joel 2:12-32",
+    "nt": "1 Coríntios 2"
+  },
+  {
+    "date": "2026-07-14",
+    "at1": "1 Reis 16",
+    "at2": "Joel 3",
+    "nt": "1 Coríntios 3"
+  },
+  {
+    "date": "2026-07-15",
+    "at1": "1 Reis 17",
+    "at2": "Amós 1",
+    "nt": "1 Coríntios 4"
+  },
+  {
+    "date": "2026-07-16",
+    "at1": "1 Reis 18",
+    "at2": "Amós 2",
+    "nt": "1 Coríntios 5"
+  },
+  {
+    "date": "2026-07-17",
+    "at1": "1 Reis 19",
+    "at2": "Amós 3",
+    "nt": "1 Coríntios 6"
+  },
+  {
+    "date": "2026-07-18",
+    "at1": "1 Reis 20",
+    "at2": "Amós 4",
+    "nt": "1 Coríntios 7:1-24"
+  },
+  {
+    "date": "2026-07-19",
+    "at1": "1 Reis 21",
+    "at2": "Amós 5",
+    "nt": "1 Coríntios 7:25-40"
+  },
+  {
+    "date": "2026-07-20",
+    "at1": "1 Reis 22",
+    "at2": "Amós 6",
+    "nt": "1 Coríntios 8"
+  },
+  {
+    "date": "2026-07-21",
+    "at1": "2 Reis 1-2",
+    "at2": "Amós 7",
+    "nt": "1 Coríntios 9"
+  },
+  {
+    "date": "2026-07-22",
+    "at1": "2 Reis 3",
+    "at2": "Amós 8",
+    "nt": "1 Coríntios 10"
+  },
+  {
+    "date": "2026-07-23",
+    "at1": "2 Reis 4",
+    "at2": "Amós 9",
+    "nt": "1 Coríntios 11:1-16"
+  },
+  {
+    "date": "2026-07-24",
+    "at1": "2 Reis 5",
+    "at2": "Obadias 1",
+    "nt": "1 Coríntios 11:17-34"
+  },
+  {
+    "date": "2026-07-25",
+    "at1": "2 Reis 6",
+    "at2": "Jonas 1",
+    "nt": "1 Coríntios 12"
+  },
+  {
+    "date": "2026-07-26",
+    "at1": "2 Reis 7",
+    "at2": "Jonas 2",
+    "nt": "1 Coríntios 13"
+  },
+  {
+    "date": "2026-07-27",
+    "at1": "2 Reis 8",
+    "at2": "Jonas 3",
+    "nt": "1 Coríntios 14:1-25"
+  },
+  {
+    "date": "2026-07-28",
+    "at1": "2 Reis 9",
+    "at2": "Jonas 4",
+    "nt": "1 Coríntios 14:26-40"
+  },
+  {
+    "date": "2026-07-29",
+    "at1": "2 Reis 10",
+    "at2": "Miqueias 1",
+    "nt": "1 Coríntios 15:1-34"
+  },
+  {
+    "date": "2026-07-30",
+    "at1": "2 Reis 11",
+    "at2": "Miqueias 2",
+    "nt": "1 Coríntios 15:35-58"
+  },
+  {
+    "date": "2026-07-31",
+    "at1": "2 Reis 12-13",
+    "at2": "Miqueias 3",
+    "nt": "1 Coríntios 16"
+  },
+  {
+    "date": "2026-08-01",
+    "at1": "2 Reis 14",
+    "at2": "Miqueias 4",
+    "nt": "2 Coríntios 1"
+  },
+  {
+    "date": "2026-08-02",
+    "at1": "2 Reis 15-16",
+    "at2": "Miqueias 5",
+    "nt": "2 Coríntios 2-3"
+  },
+  {
+    "date": "2026-08-03",
+    "at1": "2 Reis 17",
+    "at2": "Miqueias 6",
+    "nt": "2 Coríntios 4"
+  },
+  {
+    "date": "2026-08-04",
+    "at1": "2 Reis 18",
+    "at2": "Miqueias 7",
+    "nt": "2 Coríntios 5-6"
+  },
+  {
+    "date": "2026-08-05",
+    "at1": "2 Reis 19",
+    "at2": "Naum 1",
+    "nt": "2 Coríntios 7"
+  },
+  {
+    "date": "2026-08-06",
+    "at1": "2 Reis 20-21",
+    "at2": "Naum 2",
+    "nt": "2 Coríntios 8"
+  },
+  {
+    "date": "2026-08-07",
+    "at1": "2 Reis 22-23",
+    "at2": "Naum 3",
+    "nt": "2 Coríntios 9"
+  },
+  {
+    "date": "2026-08-08",
+    "at1": "2 Reis 24",
+    "at2": "Habacuque 1",
+    "nt": "2 Coríntios 10"
+  },
+  {
+    "date": "2026-08-09",
+    "at1": "2 Reis 25",
+    "at2": "Habacuque 2",
+    "nt": "2 Coríntios 11"
+  },
+  {
+    "date": "2026-08-10",
+    "at1": "1 Crônicas 1-2",
+    "at2": "Habacuque 3",
+    "nt": "2 Coríntios 12"
+  },
+  {
+    "date": "2026-08-11",
+    "at1": "1 Crônicas 3-4",
+    "at2": "Sofonias 1",
+    "nt": "2 Coríntios 13"
+  },
+  {
+    "date": "2026-08-12",
+    "at1": "1 Crônicas 5-6",
+    "at2": "Sofonias 2",
+    "nt": "João 1:1-14"
+  },
+  {
+    "date": "2026-08-13",
+    "at1": "1 Crônicas 7-8",
+    "at2": "Sofonias 3",
+    "nt": "João 1:15-34"
+  },
+  {
+    "date": "2026-08-14",
+    "at1": "1 Crônicas 9",
+    "at2": "Ageu 1-2",
+    "nt": "João 1:35-51"
+  },
+  {
+    "date": "2026-08-15",
+    "at1": "1 Crônicas 10-11",
+    "at2": "Zacarias 1",
+    "nt": "João 2"
+  },
+  {
+    "date": "2026-08-16",
+    "at1": "1 Crônicas 12",
+    "at2": "Zacarias 2",
+    "nt": "João 3:1-21"
+  },
+  {
+    "date": "2026-08-17",
+    "at1": "1 Crônicas 13-14",
+    "at2": "Zacarias 3",
+    "nt": "João 3:22-36"
+  },
+  {
+    "date": "2026-08-18",
+    "at1": "1 Crônicas 15:1-16:6",
+    "at2": "Zacarias 4",
+    "nt": "João 4:1-30"
+  },
+  {
+    "date": "2026-08-19",
+    "at1": "1 Crônicas 16:7-43",
+    "at2": "Zacarias 5",
+    "nt": "João 4:31-42"
+  },
+  {
+    "date": "2026-08-20",
+    "at1": "1 Crônicas 17",
+    "at2": "Zacarias 6",
+    "nt": "João 4:43-54"
+  },
+  {
+    "date": "2026-08-21",
+    "at1": "1 Crônicas 18-19",
+    "at2": "Zacarias 7",
+    "nt": "João 5:1-15"
+  },
+  {
+    "date": "2026-08-22",
+    "at1": "1 Crônicas 20-21",
+    "at2": "Zacarias 8",
+    "nt": "João 5:16-47"
+  },
+  {
+    "date": "2026-08-23",
+    "at1": "1 Crônicas 22-23",
+    "at2": "Zacarias 9",
     "nt": "João 6:1-21"
   },
   {
-    "date": "2025-12-25",
-    "at1": "Gênesis 5:33-6:8",
-    "at2": "Salmos 8",
-    "nt": "João 6:22-35"
+    "date": "2026-08-24",
+    "at1": "1 Crônicas 24",
+    "at2": "Zacarias 10",
+    "nt": "João 6:22-59"
+  },
+  {
+    "date": "2026-08-25",
+    "at1": "1 Crônicas 25-26",
+    "at2": "Zacarias 11",
+    "nt": "João 6:60-71"
+  },
+  {
+    "date": "2026-08-26",
+    "at1": "1 Crônicas 27-28",
+    "at2": "Zacarias 12",
+    "nt": "João 7:1-24"
+  },
+  {
+    "date": "2026-08-27",
+    "at1": "1 Crônicas 29",
+    "at2": "Zacarias 13",
+    "nt": "João 7:25-53"
+  },
+  {
+    "date": "2026-08-28",
+    "at1": "2 Crônicas 1",
+    "at2": "Zacarias 14",
+    "nt": "João 8:1-11"
+  },
+  {
+    "date": "2026-08-29",
+    "at1": "2 Crônicas 2-4",
+    "at2": "Malaquias 1",
+    "nt": "João 8:12-47"
+  },
+  {
+    "date": "2026-08-30",
+    "at1": "2 Crônicas 5",
+    "at2": "Malaquias 2",
+    "nt": "João 8:48-59"
+  },
+  {
+    "date": "2026-08-31",
+    "at1": "2 Crônicas 6",
+    "at2": "Malaquias 3",
+    "nt": "João 9:1-23"
+  },
+  {
+    "date": "2026-09-01",
+    "at1": "2 Crônicas 7",
+    "at2": "Malaquias 4",
+    "nt": "João 9:24-41"
+  },
+  {
+    "date": "2026-09-02",
+    "at1": "2 Crônicas 8",
+    "at2": "Salmos 73",
+    "nt": "João 10:1-21"
+  },
+  {
+    "date": "2026-09-03",
+    "at1": "2 Crônicas 9",
+    "at2": "Salmos 74",
+    "nt": "João 10:22-42"
+  },
+  {
+    "date": "2026-09-04",
+    "at1": "2 Crônicas 10-11",
+    "at2": "Salmos 75",
+    "nt": "João 11:1-27"
+  },
+  {
+    "date": "2026-09-05",
+    "at1": "2 Crônicas 12-13",
+    "at2": "Salmos 76",
+    "nt": "João 11:28-57"
+  },
+  {
+    "date": "2026-09-06",
+    "at1": "2 Crônicas 14-15",
+    "at2": "Salmos 77",
+    "nt": "João 12:1-26"
+  },
+  {
+    "date": "2026-09-07",
+    "at1": "2 Crônicas 16-17",
+    "at2": "Salmos 78:1-20",
+    "nt": "João 12:27-50"
+  },
+  {
+    "date": "2026-09-08",
+    "at1": "2 Crônicas 18",
+    "at2": "Salmos 78:21-39",
+    "nt": "João 13:1-20"
+  },
+  {
+    "date": "2026-09-09",
+    "at1": "2 Crônicas 19",
+    "at2": "Salmos 78:40-55",
+    "nt": "João 13:21-38"
+  },
+  {
+    "date": "2026-09-10",
+    "at1": "2 Crônicas 20",
+    "at2": "Salmos 78:56-72",
+    "nt": "João 14:1-15"
+  },
+  {
+    "date": "2026-09-11",
+    "at1": "2 Crônicas 21-22",
+    "at2": "Salmos 79",
+    "nt": "João 14:16-31"
+  },
+  {
+    "date": "2026-09-12",
+    "at1": "2 Crônicas 23",
+    "at2": "Salmos 80",
+    "nt": "João 15"
+  },
+  {
+    "date": "2026-09-13",
+    "at1": "2 Crônicas 24",
+    "at2": "Salmos 81",
+    "nt": "João 16"
+  },
+  {
+    "date": "2026-09-14",
+    "at1": "2 Crônicas 25",
+    "at2": "Salmos 82",
+    "nt": "João 17"
+  },
+  {
+    "date": "2026-09-15",
+    "at1": "2 Crônicas 26",
+    "at2": "Salmos 83",
+    "nt": "João 18:1-18"
+  },
+  {
+    "date": "2026-09-16",
+    "at1": "2 Crônicas 27-28",
+    "at2": "Salmos 84",
+    "nt": "João 18:19-38"
+  },
+  {
+    "date": "2026-09-17",
+    "at1": "2 Crônicas 29",
+    "at2": "Salmos 85",
+    "nt": "João 18:38-19:16"
+  },
+  {
+    "date": "2026-09-18",
+    "at1": "2 Crônicas 30",
+    "at2": "Salmos 86",
+    "nt": "João 19:16-42"
+  },
+  {
+    "date": "2026-09-19",
+    "at1": "2 Crônicas 31",
+    "at2": "Salmos 87",
+    "nt": "João 20:1-18"
+  },
+  {
+    "date": "2026-09-20",
+    "at1": "2 Crônicas 32",
+    "at2": "Salmos 88",
+    "nt": "João 20:19-31"
+  },
+  {
+    "date": "2026-09-21",
+    "at1": "2 Crônicas 33",
+    "at2": "Salmos 89:1-18",
+    "nt": "João 21"
+  },
+  {
+    "date": "2026-09-22",
+    "at1": "2 Crônicas 34",
+    "at2": "Salmos 89:19-37",
+    "nt": "1 João 1"
+  },
+  {
+    "date": "2026-09-23",
+    "at1": "2 Crônicas 35",
+    "at2": "Salmos 89:38-52",
+    "nt": "1 João 2"
+  },
+  {
+    "date": "2026-09-24",
+    "at1": "2 Crônicas 36",
+    "at2": "Salmos 90",
+    "nt": "1 João 3"
+  },
+  {
+    "date": "2026-09-25",
+    "at1": "Esdras 1-2",
+    "at2": "Salmos 91",
+    "nt": "1 João 4"
+  },
+  {
+    "date": "2026-09-26",
+    "at1": "Esdras 3-4",
+    "at2": "Salmos 92",
+    "nt": "1 João 5"
+  },
+  {
+    "date": "2026-09-27",
+    "at1": "Esdras 5-6",
+    "at2": "Salmos 93",
+    "nt": "2 João 1"
+  },
+  {
+    "date": "2026-09-28",
+    "at1": "Esdras 7-8",
+    "at2": "Salmos 94",
+    "nt": "3 João 1"
+  },
+  {
+    "date": "2026-09-29",
+    "at1": "Esdras 9-10",
+    "at2": "Salmos 95",
+    "nt": "Judas 1"
+  },
+  {
+    "date": "2026-09-30",
+    "at1": "Neemias 1-2",
+    "at2": "Salmos 96",
+    "nt": "Apocalipse 1"
+  },
+  {
+    "date": "2026-10-01",
+    "at1": "Neemias 3",
+    "at2": "Salmos 97",
+    "nt": "Apocalipse 2"
+  },
+  {
+    "date": "2026-10-02",
+    "at1": "Neemias 4",
+    "at2": "Salmos 98",
+    "nt": "Apocalipse 3"
+  },
+  {
+    "date": "2026-10-03",
+    "at1": "Neemias 5-7",
+    "at2": "Salmos 99",
+    "nt": "Apocalipse 4"
+  },
+  {
+    "date": "2026-10-04",
+    "at1": "Neemias 8",
+    "at2": "Salmos 100",
+    "nt": "Apocalipse 5"
+  },
+  {
+    "date": "2026-10-05",
+    "at1": "Neemias 9",
+    "at2": "Salmos 101",
+    "nt": "Apocalipse 6"
+  },
+  {
+    "date": "2026-10-06",
+    "at1": "Neemias 10",
+    "at2": "Salmos 102",
+    "nt": "Apocalipse 7"
+  },
+  {
+    "date": "2026-10-07",
+    "at1": "Neemias 11",
+    "at2": "Salmos 103",
+    "nt": "Apocalipse 8"
+  },
+  {
+    "date": "2026-10-08",
+    "at1": "Neemias 12",
+    "at2": "Salmos 104:1-23",
+    "nt": "Apocalipse 9"
+  },
+  {
+    "date": "2026-10-09",
+    "at1": "Neemias 13",
+    "at2": "Salmos 104:24-35",
+    "nt": "Apocalipse 10"
+  },
+  {
+    "date": "2026-10-10",
+    "at1": "Ester 1",
+    "at2": "Salmos 105:1-25",
+    "nt": "Apocalipse 11"
+  },
+  {
+    "date": "2026-10-11",
+    "at1": "Ester 2",
+    "at2": "Salmos 105:26-45",
+    "nt": "Apocalipse 12"
+  },
+  {
+    "date": "2026-10-12",
+    "at1": "Ester 3-4",
+    "at2": "Salmos 106:1-23",
+    "nt": "Apocalipse 13"
+  },
+  {
+    "date": "2026-10-13",
+    "at1": "Ester 5-6",
+    "at2": "Salmos 106:24-48",
+    "nt": "Apocalipse 14"
+  },
+  {
+    "date": "2026-10-14",
+    "at1": "Ester 7-8",
+    "at2": "Salmos 107:1-22",
+    "nt": "Apocalipse 15"
+  },
+  {
+    "date": "2026-10-15",
+    "at1": "Ester 9-10",
+    "at2": "Salmos 107:23-43",
+    "nt": "Apocalipse 16"
+  },
+  {
+    "date": "2026-10-16",
+    "at1": "Salmos 108",
+    "at2": "Isaías 1-2",
+    "nt": "Apocalipse 17"
+  },
+  {
+    "date": "2026-10-17",
+    "at1": "Salmos 109:1-19",
+    "at2": "Isaías 3-4",
+    "nt": "Apocalipse 18"
+  },
+  {
+    "date": "2026-10-18",
+    "at1": "Salmos 109:20-31",
+    "at2": "Isaías 5-6",
+    "nt": "Apocalipse 19"
+  },
+  {
+    "date": "2026-10-19",
+    "at1": "Salmos 110",
+    "at2": "Isaías 7-8",
+    "nt": "Apocalipse 20"
+  },
+  {
+    "date": "2026-10-20",
+    "at1": "Salmos 111",
+    "at2": "Isaías 9-10",
+    "nt": "Apocalipse 21-22"
+  },
+  {
+    "date": "2026-10-21",
+    "at1": "Salmos 112",
+    "at2": "Isaías 11-13",
+    "nt": "1 Tessalonicenses 1"
+  },
+  {
+    "date": "2026-10-22",
+    "at1": "Salmos 113",
+    "at2": "Isaías 14-16",
+    "nt": "1 Tessalonicenses 2"
+  },
+  {
+    "date": "2026-10-23",
+    "at1": "Salmos 114",
+    "at2": "Isaías 17-19",
+    "nt": "1 Tessalonicenses 3"
+  },
+  {
+    "date": "2026-10-24",
+    "at1": "Salmos 115",
+    "at2": "Isaías 20-22",
+    "nt": "1 Tessalonicenses 4"
+  },
+  {
+    "date": "2026-10-25",
+    "at1": "Salmos 116",
+    "at2": "Isaías 23-24",
+    "nt": "1 Tessalonicenses 5"
+  },
+  {
+    "date": "2026-10-26",
+    "at1": "Salmos 117",
+    "at2": "Isaías 25-26",
+    "nt": "2 Tessalonicenses 1"
+  },
+  {
+    "date": "2026-10-27",
+    "at1": "Salmos 118",
+    "at2": "Isaías 27-28",
+    "nt": "2 Tessalonicenses 2"
+  },
+  {
+    "date": "2026-10-28",
+    "at1": "Salmos 119:1-32",
+    "at2": "Isaías 29-30",
+    "nt": "2 Tessalonicenses 3"
+  },
+  {
+    "date": "2026-10-29",
+    "at1": "Salmos 119:33-64",
+    "at2": "Isaías 31-33",
+    "nt": "1 Timóteo 1"
+  },
+  {
+    "date": "2026-10-30",
+    "at1": "Salmos 119:65-96",
+    "at2": "Isaías 34-35",
+    "nt": "1 Timóteo 2"
+  },
+  {
+    "date": "2026-10-31",
+    "at1": "Salmos 119:97-120",
+    "at2": "Isaías 36-37",
+    "nt": "1 Timóteo 3"
+  },
+  {
+    "date": "2026-11-01",
+    "at1": "Salmos 119:121-144",
+    "at2": "Isaías 38-39",
+    "nt": "1 Timóteo 4"
+  },
+  {
+    "date": "2026-11-02",
+    "at1": "Salmos 119:145-176",
+    "at2": "Jeremias 1-2",
+    "nt": "1 Timóteo 5"
+  },
+  {
+    "date": "2026-11-03",
+    "at1": "Salmos 120",
+    "at2": "Jeremias 3-4",
+    "nt": "1 Timóteo 6"
+  },
+  {
+    "date": "2026-11-04",
+    "at1": "Salmos 121",
+    "at2": "Jeremias 5-6",
+    "nt": "2 Timóteo 1"
+  },
+  {
+    "date": "2026-11-05",
+    "at1": "Salmos 122",
+    "at2": "Jeremias 7-8",
+    "nt": "2 Timóteo 2"
+  },
+  {
+    "date": "2026-11-06",
+    "at1": "Salmos 123",
+    "at2": "Jeremias 9-10",
+    "nt": "2 Timóteo 3"
+  },
+  {
+    "date": "2026-11-07",
+    "at1": "Salmos 124",
+    "at2": "Jeremias 11-12",
+    "nt": "2 Timóteo 4"
+  },
+  {
+    "date": "2026-11-08",
+    "at1": "Salmos 125",
+    "at2": "Jeremias 13-14",
+    "nt": "Tito 1"
+  },
+  {
+    "date": "2026-11-09",
+    "at1": "Salmos 126",
+    "at2": "Jeremias 15-16",
+    "nt": "Tito 2"
+  },
+  {
+    "date": "2026-11-10",
+    "at1": "Salmos 127",
+    "at2": "Jeremias 17-18",
+    "nt": "Tito 3"
+  },
+  {
+    "date": "2026-11-11",
+    "at1": "Salmos 128",
+    "at2": "Jeremias 19-20",
+    "nt": "Filemom 1"
+  },
+  {
+    "date": "2026-11-12",
+    "at1": "Salmos 129",
+    "at2": "Jeremias 21-22",
+    "nt": "Tiago 1"
+  },
+  {
+    "date": "2026-11-13",
+    "at1": "Salmos 130",
+    "at2": "Jeremias 23-24",
+    "nt": "Tiago 2"
+  },
+  {
+    "date": "2026-11-14",
+    "at1": "Salmos 131",
+    "at2": "Jeremias 25-26",
+    "nt": "Tiago 3"
+  },
+  {
+    "date": "2026-11-15",
+    "at1": "Salmos 132",
+    "at2": "Jeremias 27-28",
+    "nt": "Tiago 4"
+  },
+  {
+    "date": "2026-11-16",
+    "at1": "Salmos 133",
+    "at2": "Jeremias 29-30",
+    "nt": "Tiago 5"
+  },
+  {
+    "date": "2026-11-17",
+    "at1": "Salmos 134",
+    "at2": "Jeremias 31-32",
+    "nt": "1 Pedro 1"
+  },
+  {
+    "date": "2026-11-18",
+    "at1": "Salmos 135",
+    "at2": "Jeremias 33-34",
+    "nt": "1 Pedro 2"
+  },
+  {
+    "date": "2026-11-19",
+    "at1": "Salmos 136",
+    "at2": "Jeremias 35-36",
+    "nt": "1 Pedro 3"
+  },
+  {
+    "date": "2026-11-20",
+    "at1": "Salmos 137",
+    "at2": "Jeremias 37-38",
+    "nt": "1 Pedro 4"
+  },
+  {
+    "date": "2026-11-21",
+    "at1": "Salmos 138",
+    "at2": "Jeremias 39-40",
+    "nt": "1 Pedro 5"
+  },
+  {
+    "date": "2026-11-22",
+    "at1": "Salmos 139",
+    "at2": "Jeremias 41-42",
+    "nt": "2 Pedro 1"
+  },
+  {
+    "date": "2026-11-23",
+    "at1": "Salmos 140",
+    "at2": "Jeremias 43-44",
+    "nt": "2 Pedro 2"
+  },
+  {
+    "date": "2026-11-24",
+    "at1": "Salmos 141",
+    "at2": "Jeremias 45-46",
+    "nt": "2 Pedro 3"
+  },
+  {
+    "date": "2026-11-25",
+    "at1": "Salmos 142",
+    "at2": "Jeremias 47-48",
+    "nt": "Gálatas 1"
+  },
+  {
+    "date": "2026-11-26",
+    "at1": "Salmos 143",
+    "at2": "Jeremias 49-50",
+    "nt": "Gálatas 2"
+  },
+  {
+    "date": "2026-11-27",
+    "at1": "Salmos 144",
+    "at2": "Jeremias 51-52",
+    "nt": "Gálatas 3:1-18"
+  },
+  {
+    "date": "2026-11-28",
+    "at1": "Salmos 145",
+    "at2": "Lamentações 1-2",
+    "nt": "Gálatas 3:19-4:20"
+  },
+  {
+    "date": "2026-11-29",
+    "at1": "Salmos 146",
+    "at2": "Lamentações 3-4",
+    "nt": "Gálatas 4:21-31"
+  },
+  {
+    "date": "2026-11-30",
+    "at1": "Salmos 147",
+    "at2": "Lamentações 5",
+    "nt": "Gálatas 5:1-15"
+  },
+  {
+    "date": "2026-12-01",
+    "at1": "Salmos 148",
+    "at2": "Ezequiel 1",
+    "nt": "Gálatas 5:16-26"
+  },
+  {
+    "date": "2026-12-02",
+    "at1": "Salmos 149",
+    "at2": "Ezequiel 2-3",
+    "nt": "Gálatas 6"
+  },
+  {
+    "date": "2026-12-03",
+    "at1": "Salmos 150",
+    "at2": "Ezequiel 4-5",
+    "nt": "Efésios 1"
+  },
+  {
+    "date": "2026-12-04",
+    "at1": "Isaías 40",
+    "at2": "Ezequiel 6-7",
+    "nt": "Efésios 2"
+  },
+  {
+    "date": "2026-12-05",
+    "at1": "Isaías 41",
+    "at2": "Ezequiel 8-9",
+    "nt": "Efésios 3"
+  },
+  {
+    "date": "2026-12-06",
+    "at1": "Isaías 42",
+    "at2": "Ezequiel 10-11",
+    "nt": "Efésios 4:1-16"
+  },
+  {
+    "date": "2026-12-07",
+    "at1": "Isaías 43",
+    "at2": "Ezequiel 12-13",
+    "nt": "Efésios 4:17-32"
+  },
+  {
+    "date": "2026-12-08",
+    "at1": "Isaías 44",
+    "at2": "Ezequiel 14-15",
+    "nt": "Efésios 5:1-21"
+  },
+  {
+    "date": "2026-12-09",
+    "at1": "Isaías 45",
+    "at2": "Ezequiel 16",
+    "nt": "Efésios 5:22-33"
+  },
+  {
+    "date": "2026-12-10",
+    "at1": "Isaías 46",
+    "at2": "Ezequiel 17",
+    "nt": "Efésios 6"
+  },
+  {
+    "date": "2026-12-11",
+    "at1": "Isaías 47",
+    "at2": "Ezequiel 18",
+    "nt": "Filipenses 1:1-11"
+  },
+  {
+    "date": "2026-12-12",
+    "at1": "Isaías 48",
+    "at2": "Ezequiel 19",
+    "nt": "Filipenses 1:12-30"
+  },
+  {
+    "date": "2026-12-13",
+    "at1": "Isaías 49",
+    "at2": "Ezequiel 20",
+    "nt": "Filipenses 2:1-11"
+  },
+  {
+    "date": "2026-12-14",
+    "at1": "Isaías 50",
+    "at2": "Ezequiel 21-22",
+    "nt": "Filipenses 2:12-30"
+  },
+  {
+    "date": "2026-12-15",
+    "at1": "Isaías 51",
+    "at2": "Ezequiel 23",
+    "nt": "Filipenses 3"
+  },
+  {
+    "date": "2026-12-16",
+    "at1": "Isaías 52",
+    "at2": "Ezequiel 24",
+    "nt": "Filipenses 4"
+  },
+  {
+    "date": "2026-12-17",
+    "at1": "Isaías 53",
+    "at2": "Ezequiel 25-26",
+    "nt": "Colossenses 1:1-23"
+  },
+  {
+    "date": "2026-12-18",
+    "at1": "Isaías 54",
+    "at2": "Ezequiel 27-28",
+    "nt": "Colossenses 1:24-2:19"
+  },
+  {
+    "date": "2026-12-19",
+    "at1": "Isaías 55",
+    "at2": "Ezequiel 29-30",
+    "nt": "Colossenses 2:20-3:17"
+  },
+  {
+    "date": "2026-12-20",
+    "at1": "Isaías 56",
+    "at2": "Ezequiel 31-32",
+    "nt": "Colossenses 3:18-4:18"
+  },
+  {
+    "date": "2026-12-21",
+    "at1": "Isaías 57",
+    "at2": "Ezequiel 33",
+    "nt": "Lucas 1:1-25"
+  },
+  {
+    "date": "2026-12-22",
+    "at1": "Isaías 58",
+    "at2": "Ezequiel 34",
+    "nt": "Lucas 1:26-56"
+  },
+  {
+    "date": "2026-12-23",
+    "at1": "Isaías 59",
+    "at2": "Ezequiel 35-36",
+    "nt": "Lucas 1:57-80"
+  },
+  {
+    "date": "2026-12-24",
+    "at1": "Isaías 60",
+    "at2": "Ezequiel 37",
+    "nt": "Lucas 2:1-20"
+  },
+  {
+    "date": "2026-12-25",
+    "at1": "Isaías 61",
+    "at2": "Ezequiel 38-39",
+    "nt": "Lucas 2:21-52"
+  },
+  {
+    "date": "2026-12-26",
+    "at1": "Isaías 62",
+    "at2": "Ezequiel 40-41",
+    "nt": "Lucas 3:1-20"
+  },
+  {
+    "date": "2026-12-27",
+    "at1": "Isaías 63",
+    "at2": "Ezequiel 42-43",
+    "nt": "Lucas 3:21-38"
+  },
+  {
+    "date": "2026-12-28",
+    "at1": "Isaías 64",
+    "at2": "Ezequiel 44-45",
+    "nt": "Lucas 4:1-30"
+  },
+  {
+    "date": "2026-12-29",
+    "at1": "Isaías 65",
+    "at2": "Ezequiel 46-47",
+    "nt": "Lucas 4:31-44"
+  },
+  {
+    "date": "2026-12-30",
+    "at1": "Isaías 66",
+    "at2": "Ezequiel 48",
+    "nt": "Lucas 5:1-26"
   }
 ]
