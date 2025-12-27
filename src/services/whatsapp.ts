@@ -224,6 +224,24 @@ export class WhatsAppService {
     await this.initialize();
   }
 
+  public async forceReconnect(): Promise<void> {
+    logger.info('🔄 Forcing WhatsApp reconnection...');
+    
+    // Reset connection state
+    this.isConnected = false;
+    
+    // Close existing client if any
+    await this.close();
+    
+    // Clear any existing QR code callback
+    if (this.onQRCodeGenerated) {
+      logger.info('🔄 Preparing for new QR code generation...');
+    }
+    
+    // Reinitialize the client
+    await this.initialize();
+  }
+
   public async close(): Promise<void> {
     if (this.client) {
       try {

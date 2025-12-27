@@ -5,7 +5,62 @@
 - Docker Desktop instalado e rodando
 - Arquivo `.env` configurado (ou variáveis de ambiente)
 
-## Uso Rápido
+## 🚀 Modo Desenvolvimento (Hot Reload)
+
+### Configuração Rápida
+
+1. **Copie o arquivo de exemplo:**
+```bash
+cp docker-dev.env.example .env
+```
+
+2. **Configure suas variáveis no arquivo `.env`:**
+```env
+NODE_ENV=development
+DOCKERFILE=Dockerfile.dev
+GROUP_CHAT_ID=seu-group-chat-id
+# ... outras configurações
+```
+
+3. **Execute em modo desenvolvimento:**
+```bash
+# Opção 1: Script automático
+./docker-dev.sh
+
+# Opção 2: Yarn script
+yarn docker:dev
+
+# Opção 3: Comandos manuais
+yarn docker:dev:build
+yarn docker:dev:up
+```
+
+### Funcionalidades do Modo Dev
+
+- ✅ **Hot Reload**: Mudanças no código são aplicadas automaticamente
+- ✅ **Debug ativo**: Logs detalhados para desenvolvimento
+- ✅ **Volume mapping**: Arquivos `src/` são mapeados para o container
+- ✅ **Sem build**: Executa diretamente o TypeScript com Bun
+
+### Comandos de Desenvolvimento
+
+```bash
+# Construir apenas a imagem de dev
+yarn docker:dev:build
+
+# Subir em modo desenvolvimento
+yarn docker:dev:up
+
+# Parar containers
+yarn docker:dev:down
+
+# Ver logs em tempo real
+docker-compose logs -f
+```
+
+## 📦 Modo Produção
+
+### Uso Rápido
 
 ### 1. Subir o serviço
 
