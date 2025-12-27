@@ -21,9 +21,28 @@ class DevotionalBot {
 
     // Setup QR code callback
     this.whatsappService.onQRCodeGenerated = (base64: string, ascii: string) => {
-      this.currentQRCode = base64;
+      this.currentQRCode = this.sanitizeBase64(base64);
       logger.info('🔗 QR Code salvo! Acesse http://localhost:3001/qr para visualizar');
     };
+  }
+
+  private sanitizeBase64(base64: string): string {
+    if (!base64) return '';
+    
+    let cleaned = base64.trim();
+    
+    if (cleaned.startsWith('data:')) {
+      const commaIndex = cleaned.indexOf(',');
+      if (commaIndex !== -1) {
+        cleaned = cleaned.substring(commaIndex + 1);
+      }
+    }
+    
+    cleaned = cleaned.replace(/\s/g, '');
+    cleaned = cleaned.replace(/\n/g, '');
+    cleaned = cleaned.replace(/\r/g, '');
+    
+    return cleaned;
   }
 
   public async initialize(): Promise<void> {
@@ -151,6 +170,29 @@ class DevotionalBot {
   public getTodaysReadingBasic() {
     return this.devotionalService.getTodaysReadingBasic();
   }
+
+  public async forceWhatsAppReconnect(): Promise<boolean> {
+    try {
+      logger.info('🔄 Forcing WhatsApp reconnection...');
+      
+      // Reset initialization flag
+      this.isInitialized = false;
+      this.currentQRCode = null;
+      
+      // Force reconnection
+      await this.whatsappService.forceReconnect();
+      
+      // Update initialization status
+      this.isInitialized = true;
+      
+      logger.info('✅ WhatsApp reconnection completed');
+      return true;
+    } catch (error) {
+      logger.error('❌ Failed to force WhatsApp reconnection', error);
+      this.isInitialized = false;
+      return false;
+    }
+  }
 }
 
 async function main() {
@@ -223,6 +265,37 @@ async function main() {
           }
         };
         
+        // CORS headers function
+        const addCorsHeaders = (headers: Record<string, string> = {}) => {
+          return {
+            ...headers,
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+            'Access-Control-Max-Age': '86400'
+          };
+        };
+
+        // Function to get local IP address
+        const getLocalIP = () => {
+          try {
+            const { networkInterfaces } = require('os');
+            const nets = networkInterfaces();
+            
+            for (const name of Object.keys(nets)) {
+              for (const net of nets[name]) {
+                // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+                if (net.family === 'IPv4' && !net.internal) {
+                  return net.address;
+                }
+              }
+            }
+          } catch (error) {
+            logger.debug('Could not determine local IP address', error);
+          }
+          return null;
+        };
+
         Bun.serve({
           port,
           hostname,
@@ -231,6 +304,14 @@ async function main() {
             const isDevelopment = process.env.NODE_ENV !== 'production';
             
             logger.debug(`📥 ${req.method} ${url.pathname}${url.search}`);
+            
+            // Handle preflight OPTIONS requests
+            if (req.method === 'OPTIONS') {
+              return new Response(null, {
+                status: 200,
+                headers: addCorsHeaders()
+              });
+            }
             
             if (url.pathname === '/send' && req.method === 'POST') {
               try {
@@ -242,7 +323,7 @@ async function main() {
                     error: 'GROUP_CHAT_ID environment variable is required' 
                   }), {
                     status: 400,
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: addCorsHeaders({ 'Content-Type': 'application/json' })
                   });
                 }
                 
@@ -254,7 +335,7 @@ async function main() {
                     message: 'Devotional sent successfully' 
                   }), {
                     status: 200,
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: addCorsHeaders({ 'Content-Type': 'application/json' })
                   });
                 } else {
                   return new Response(JSON.stringify({ 
@@ -262,7 +343,7 @@ async function main() {
                     error: 'Failed to send devotional' 
                   }), {
                     status: 500,
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: addCorsHeaders({ 'Content-Type': 'application/json' })
                   });
                 }
               } catch (error) {
@@ -272,7 +353,7 @@ async function main() {
                   error: error instanceof Error ? error.message : 'Unknown error' 
                 }), {
                   status: 500,
-                  headers: { 'Content-Type': 'application/json' }
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
                 });
               }
             }
@@ -285,17 +366,141 @@ async function main() {
                 hasQRCode: bot.currentQRCode !== null
               }), {
                 status: 200,
-                headers: { 'Content-Type': 'application/json' }
+                headers: addCorsHeaders({ 'Content-Type': 'application/json' })
               });
             }
             
-            if (url.pathname === '/qr' && req.method === 'GET') {
+            if (url.pathname === '/qr/image' && req.method === 'GET') {
               if (!bot.currentQRCode) {
-                return new Response(JSON.stringify({ 
-                  error: 'No QR code available. WhatsApp may already be connected or initializing.' 
-                }), {
+                return new Response('QR code não disponível', {
                   status: 404,
-                  headers: { 'Content-Type': 'application/json' }
+                  headers: addCorsHeaders({ 'Content-Type': 'text/plain' })
+                });
+              }
+              
+              try {
+                const base64Data = bot.currentQRCode;
+                const imageBuffer = Buffer.from(base64Data, 'base64');
+                
+                return new Response(imageBuffer, {
+                  status: 200,
+                  headers: addCorsHeaders({ 
+                    'Content-Type': 'image/png',
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
+                  })
+                });
+              } catch (error) {
+                logger.error('Erro ao gerar imagem do QR code:', error);
+                return new Response('Erro ao processar QR code', {
+                  status: 500,
+                  headers: addCorsHeaders({ 'Content-Type': 'text/plain' })
+                });
+              }
+            }
+            
+            if (url.pathname === '/qr' && req.method === 'GET') {
+              const forceReconnect = url.searchParams.get('reconnect') === 'true';
+              
+              // If force reconnect is requested, try to reconnect
+              if (forceReconnect) {
+                try {
+                  logger.info('🔄 Force reconnect requested via /qr?reconnect=true');
+                  await bot.forceWhatsAppReconnect();
+                  
+                  // Wait a bit for QR code generation
+                  await new Promise(resolve => setTimeout(resolve, 2000));
+                } catch (error) {
+                  logger.error('❌ Error during force reconnect', error);
+                }
+              }
+              
+              if (!bot.currentQRCode) {
+                const isConnected = bot.getConnectionStatus();
+                const reconnectButton = `
+                  <div style="margin-top: 20px;">
+                    <button class="refresh-btn" onclick="window.location.href='/qr?reconnect=true'">
+                      🔄 Forçar Nova Autenticação
+                    </button>
+                  </div>`;
+                
+                const statusMessage = isConnected 
+                  ? 'WhatsApp já está conectado! Se você está tendo problemas, pode forçar uma nova autenticação.' 
+                  : 'Nenhum QR code disponível no momento. Clique no botão abaixo para tentar uma nova autenticação.';
+                
+                const noQrHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp QR Code - Devocional Bot</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .refresh-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .refresh-btn:hover {
+      background: #128C7E;
+    }
+    .status {
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      background: ${isConnected ? '#d4edda' : '#f8d7da'};
+      color: ${isConnected ? '#155724' : '#721c24'};
+      border: 1px solid ${isConnected ? '#c3e6cb' : '#f5c6cb'};
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📱 WhatsApp QR Code</h1>
+    
+    <div class="status">
+      <strong>Status:</strong> ${isConnected ? '✅ Conectado' : '❌ Desconectado'}
+    </div>
+    
+    <p>${statusMessage}</p>
+    ${reconnectButton}
+    
+    <div style="margin-top: 30px; font-size: 14px; color: #666;">
+      <p>💡 <strong>Dica:</strong> Se o WhatsApp não conectar após escanear o QR code, tente:</p>
+      <ul style="text-align: left; display: inline-block;">
+        <li>Verificar se o WhatsApp Web não está aberto em outro navegador</li>
+        <li>Desconectar outros dispositivos no WhatsApp</li>
+        <li>Forçar uma nova autenticação usando o botão acima</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>`;
+                
+                return new Response(noQrHtml, {
+                  status: 200,
+                  headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
                 });
               }
               
@@ -333,28 +538,58 @@ async function main() {
       color: #666;
       line-height: 1.6;
     }
-    .refresh-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #25D366;
-      color: white;
+    .btn {
+      margin: 10px 5px;
+      padding: 12px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      text-decoration: none;
+      display: inline-block;
     }
-    .refresh-btn:hover {
+    .btn-primary {
+      background: #25D366;
+      color: white;
+    }
+    .btn-primary:hover {
       background: #128C7E;
+    }
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #28a745;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    .timer {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #666;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>📱 WhatsApp QR Code</h1>
-    <p>Escaneie o código QR abaixo com seu WhatsApp:</p>
+    <p><span class="status-indicator"></span>QR Code ativo - Escaneie com seu WhatsApp:</p>
     
     <div class="qr-code">
-      <img src="data:image/png;base64,${bot.currentQRCode}" alt="WhatsApp QR Code" style="max-width: 300px;">
+      <img id="qrImage" src="/qr/image" alt="WhatsApp QR Code" style="max-width: 300px; display: block; margin: 0 auto;" onerror="this.src='/qr/image?t=' + Date.now();">
     </div>
     
     <div class="instructions">
@@ -368,21 +603,77 @@ async function main() {
       </ol>
     </div>
     
-    <button class="refresh-btn" onclick="window.location.reload()">🔄 Atualizar QR Code</button>
+    <div>
+      <button class="btn btn-primary" onclick="window.location.reload()">🔄 Atualizar QR Code</button>
+      <button class="btn btn-secondary" onclick="window.location.href='/qr?reconnect=true'">🔄 Nova Autenticação</button>
+    </div>
+    
+    <div class="timer">
+      <p>⏱️ Página será atualizada automaticamente em <span id="countdown">15</span> segundos</p>
+    </div>
+    
+    <div style="margin-top: 30px; font-size: 14px; color: #666;">
+      <p>💡 <strong>Problemas para conectar?</strong></p>
+      <ul style="text-align: left; display: inline-block;">
+        <li>Verifique se o WhatsApp Web não está aberto em outro navegador</li>
+        <li>Desconecte outros dispositivos no WhatsApp (máximo 4 dispositivos)</li>
+        <li>Se o QR code expirar, clique em "Nova Autenticação"</li>
+      </ul>
+    </div>
   </div>
   
   <script>
-    // Auto refresh every 15 seconds
-    setTimeout(() => {
-      window.location.reload();
-    }, 15000);
+    let countdown = 15;
+    const countdownElement = document.getElementById('countdown');
+    const qrImage = document.getElementById('qrImage');
+    
+    const refreshQRImage = () => {
+      if (qrImage) {
+        qrImage.src = '/qr/image?t=' + Date.now();
+      }
+    };
+    
+    refreshQRImage();
+    setInterval(refreshQRImage, 5000);
+    
+    const timer = setInterval(() => {
+      countdown--;
+      countdownElement.textContent = countdown;
+      
+      if (countdown <= 0) {
+        window.location.reload();
+      }
+    }, 1000);
+    
+    const checkStatus = async () => {
+      try {
+        const response = await fetch('/health');
+        const data = await response.json();
+        
+        if (data.connected) {
+          clearInterval(timer);
+          document.body.innerHTML = \`
+            <div class="container">
+              <h1>✅ WhatsApp Conectado!</h1>
+              <p>A autenticação foi realizada com sucesso.</p>
+              <p>O bot está pronto para enviar mensagens.</p>
+              <button class="btn btn-primary" onclick="window.location.href='/'">🏠 Voltar ao Início</button>
+            </div>
+          \`;
+        }
+      } catch (error) {
+        console.log('Erro ao verificar status:', error);
+      }
+    };
+    
+    setInterval(checkStatus, 3000);
   </script>
 </body>
 </html>`;
               
               return new Response(qrHtml, {
                 status: 200,
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
+                headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
               });
             }
             
@@ -396,7 +687,7 @@ async function main() {
                     error: 'No devotional reading found for today'
                   }), {
                     status: 404,
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: addCorsHeaders({ 'Content-Type': 'application/json' })
                   });
                 }
                 
@@ -472,14 +763,47 @@ async function main() {
                   throw new Error('Swagger spec file not found');
                 }
                 
+                // Get the request host to determine the correct server URL
+                const requestHost = req.headers.get('host') || `${hostname}:${port}`;
+                const protocol = req.headers.get('x-forwarded-proto') || 'http';
+                const localIP = getLocalIP();
+                
+                // Create multiple server options for flexibility
+                const servers = [];
+                
+                // Add the current request host (highest priority)
+                servers.push({
+                  url: `${protocol}://${requestHost}`,
+                  description: 'Servidor atual (detectado automaticamente)'
+                });
+                
+                // Add local network IP if available and different from request host
+                if (localIP && !requestHost.includes(localIP)) {
+                  servers.push({
+                    url: `http://${localIP}:${port}`,
+                    description: `Servidor na rede local (${localIP})`
+                  });
+                }
+                
+                // Add localhost if different from request host
+                if (!requestHost.includes('localhost') && !requestHost.includes('127.0.0.1')) {
+                  servers.push({
+                    url: `http://localhost:${port}`,
+                    description: 'Servidor local (localhost)'
+                  });
+                }
+                
+                // Add 0.0.0.0 if hostname is set to that and useful for documentation
+                if (hostname === '0.0.0.0') {
+                  servers.push({
+                    url: `http://0.0.0.0:${port}`,
+                    description: 'Servidor em todas as interfaces (0.0.0.0)'
+                  });
+                }
+
                 const spec = {
                   ...swaggerData,
-                  servers: [
-                    {
-                      url: `http://${hostname === '0.0.0.0' ? 'localhost' : hostname}:${port}`,
-                      description: 'Servidor atual'
-                    }
-                  ]
+                  servers
                 };
                 return new Response(JSON.stringify(spec), {
                   status: 200,
@@ -547,7 +871,7 @@ async function main() {
 </html>`;
               return new Response(swaggerHtml, {
                 status: 200,
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
+                headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
               });
             }
             
@@ -675,14 +999,14 @@ async function main() {
     <div class="endpoint">
       <span class="method get">GET</span>
       <strong>/qr</strong>
-      <p>Exibe o QR code para pareamento do WhatsApp (se disponível).</p>
+      <p>Exibe o QR code para pareamento do WhatsApp. Use <code>?reconnect=true</code> para forçar uma nova autenticação.</p>
     </div>
     ${swaggerEndpoints}
   </div>
 </body>
 </html>`, {
                 status: 200,
-                headers: { 'Content-Type': 'text/html; charset=utf-8' }
+                headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
               });
             }
             
@@ -690,7 +1014,13 @@ async function main() {
           }
         });
         
+        const localIP = getLocalIP();
         logger.info(`🌐 HTTP server listening on http://${hostname}:${port}`);
+        if (localIP && hostname === '0.0.0.0') {
+          logger.info(`🌍 Acesso via rede local: http://${localIP}:${port}`);
+          logger.info(`📱 QR Code via rede: http://${localIP}:${port}/qr`);
+          logger.info(`📚 Swagger via rede: http://${localIP}:${port}/docs`);
+        }
         
         if (process.env.GROUP_CHAT_ID) {
           tryInitializeBot().then((initSuccess) => {

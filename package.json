@@ -7,7 +7,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run src/index.ts",
+    "dev": "bun --watch run src/index.ts",
+    "dev:hot": "bun --watch --hot run src/index.ts",
+    "docker:dev": "./docker-dev.sh",
+    "docker:dev:build": "NODE_ENV=development DOCKERFILE=Dockerfile.dev docker compose build",
+    "docker:dev:up": "NODE_ENV=development DOCKERFILE=Dockerfile.dev docker compose up",
+    "docker:dev:down": "docker compose down",
     "build": "bun install --frozen-lockfile && bun x tsc -p tsconfig.build.json && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
     "start": "bun dist/index.js",
     "test": "bun test",

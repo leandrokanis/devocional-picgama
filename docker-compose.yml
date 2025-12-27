@@ -2,7 +2,7 @@ services:
   devocional-bot:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ${DOCKERFILE:-Dockerfile}
     container_name: devocional-picgama
     ports:
       - "${PORT:-3000}:3000"
@@ -25,6 +25,11 @@ services:
       - ./tokens:/app/tokens
       - ./data:/app/data:ro
       - /dev/shm:/dev/shm
+      # Development volumes for hot reload
+      - ./src:/app/src:ro
+      - ./package.json:/app/package.json:ro
+      - ./tsconfig.json:/app/tsconfig.json:ro
+      - ./tsconfig.build.json:/app/tsconfig.build.json:ro
     restart: unless-stopped
     cap_add:
       - SYS_ADMIN
