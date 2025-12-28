@@ -32,6 +32,8 @@
     "@whiskeysockets/baileys": "^7.0.0-rc.9",
     "dotenv": "^17.2.3",
     "lodash": "^4.17.21",
+    "mongo-baileys": "^1.0.1",
+    "mongodb": "^7.0.0",
     "pino": "^10.1.0",
     "qrcode": "^1.5.4"
   }

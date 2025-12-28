@@ -10,7 +10,7 @@ RUN bun install --frozen-lockfile
 COPY . .
 RUN rm -rf dist && bun run build
 
-# Create tokens directory with proper permissions
+# Create tokens directory with proper permissions (fallback for local development)
 # Using /tmp ensures we have write access in most environments
 RUN mkdir -p /tmp/tokens && \
     chmod -R 777 /tmp/tokens

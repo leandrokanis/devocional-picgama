@@ -10,7 +10,9 @@
     "lib": ["ES2022"],
     "allowJs": true,
     "allowImportingTsExtensions": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules", "**/*.test.ts"],

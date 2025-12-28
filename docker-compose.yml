@@ -21,8 +21,11 @@ services:
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
       - DISPLAY=:99
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_DB_NAME=${MONGODB_DB_NAME:-devocional_bot}
+      - MONGODB_COLLECTION_NAME=${MONGODB_COLLECTION_NAME:-whatsapp_auth}
     volumes:
-      - ./tokens:/app/tokens
+      - ./tokens:/app/tokens  # Fallback for local development
       - ./data:/app/data:ro
       - /dev/shm:/dev/shm
       # Development volumes for hot reload
