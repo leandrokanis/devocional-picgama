@@ -8,13 +8,19 @@ on:
 jobs:
   trigger:
     runs-on: ubuntu-latest
+    environment: production
     
     steps:
     - name: Send devotional request
       env:
-        SERVER_URL: ${{ secrets.SERVER_URL }}
+        SERVER_URL: ${{ secrets.SERVER_URL || vars.SERVER_URL }}
         AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
       run: |
+        if [ -z "$SERVER_URL" ]; then
+          echo "❌ Error: SERVER_URL secret is not set. Please add it to Settings > Secrets and variables > Actions."
+          exit 1
+        fi
+
         echo "Triggering devotional at $SERVER_URL"
         response=$(curl -s -w "\n%{http_code}" -X POST "${SERVER_URL}/send" \
           -H "Authorization: Bearer ${AUTH_TOKEN}" \
