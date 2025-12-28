@@ -293,6 +293,55 @@ async function main() {
           return null;
         };
 
+        const checkBasicAuth = (req: Request): Response | null => {
+          const user = process.env.CONFIG_USER;
+          const pass = process.env.CONFIG_PASSWORD;
+
+          if (!user || !pass) {
+            return new Response('Setup required: CONFIG_USER and CONFIG_PASSWORD env vars not set', { 
+              status: 500,
+              headers: addCorsHeaders({ 'Content-Type': 'text/plain' })
+            });
+          }
+
+          const authHeader = req.headers.get('Authorization');
+          
+          if (!authHeader || !authHeader.startsWith('Basic ')) {
+            return new Response('Unauthorized', {
+              status: 401,
+              headers: addCorsHeaders({
+                'WWW-Authenticate': 'Basic realm="Devocional Bot Admin"',
+                'Content-Type': 'text/plain'
+              })
+            });
+          }
+
+          try {
+            const parts = authHeader.split(' ');
+            if (parts.length < 2) throw new Error('Invalid header format');
+            
+            const base64Credentials = parts[1];
+            if (!base64Credentials) throw new Error('Invalid credentials format');
+            
+            const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+            const [username, password] = credentials.split(':');
+
+            if (username === user && password === pass) {
+              return null;
+            }
+          } catch (e) {
+            // ignore error
+          }
+
+          return new Response('Invalid credentials', {
+            status: 401,
+            headers: addCorsHeaders({
+              'WWW-Authenticate': 'Basic realm="Devocional Bot Admin"',
+              'Content-Type': 'text/plain'
+            })
+          });
+        };
+
         Bun.serve({
           port,
           hostname,
@@ -683,6 +732,403 @@ async function main() {
                 headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
               });
             }
+
+            if (url.pathname === '/config' && req.method === 'GET') {
+              const authError = checkBasicAuth(req);
+              if (authError) return authError;
+              
+              const authToken = process.env.AUTH_TOKEN || '';
+
+              const configHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - Devocional Bot</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #25D366;
+      --secondary-color: #128C7E;
+      --bg-color: #f0f2f5;
+      --card-bg: #ffffff;
+      --text-color: #1c1e21;
+      --danger-color: #dc3545;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .header h1 {
+      margin: 0;
+      color: var(--secondary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: var(--secondary-color);
+      margin: 0;
+    }
+
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+
+    .status-online {
+      background-color: #d4edda;
+      color: var(--success-color);
+    }
+
+    .status-offline {
+      background-color: #f8d7da;
+      color: var(--danger-color);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s;
+      text-decoration: none;
+      color: white;
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary { background-color: var(--primary-color); }
+    .btn-primary:hover { background-color: var(--secondary-color); }
+    
+    .btn-danger { background-color: var(--danger-color); }
+    .btn-danger:hover { background-color: #c82333; }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--secondary-color);
+      color: var(--secondary-color);
+    }
+    .btn-outline:hover {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed #eee;
+    }
+
+    .info-label { color: #666; }
+    .info-value { font-weight: 500; }
+
+    #qr-preview {
+      text-align: center;
+      margin: 15px 0;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .hidden { display: none; }
+
+    .loading {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      display: none;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fab fa-whatsapp"></i> Painel Administrativo</h1>
+      <div id="connection-status" class="status-badge">Verificando...</div>
+    </div>
+
+    <div class="grid">
+      <!-- Status & Connections -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-network-wired"></i> Conexão</h2>
+        </div>
+        <div class="card-content">
+          <div class="info-row">
+            <span class="info-label">Status WhatsApp:</span>
+            <span id="wa-status" class="info-value">...</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Servidor:</span>
+            <span class="info-value status-online">Online</span>
+          </div>
+          
+          <div id="qr-section" class="hidden">
+            <div id="qr-preview">
+              <i class="fas fa-qrcode fa-3x" style="color: #ccc;"></i>
+            </div>
+            <a href="/qr" class="btn btn-primary" target="_blank">
+              <i class="fas fa-expand"></i> Abrir QR Code
+            </a>
+          </div>
+
+          <div id="connected-actions" class="hidden">
+            <button onclick="reconnect()" class="btn btn-outline">
+              <i class="fas fa-sync"></i> Reiniciar Conexão
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Devotional -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-book-bible"></i> Devocional de Hoje</h2>
+        </div>
+        <div class="card-content">
+          <div id="devotional-preview">
+            <div class="info-row">
+              <span class="info-label">Data:</span>
+              <span id="dev-date" class="info-value">...</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Leitura:</span>
+              <span id="dev-reading" class="info-value">...</span>
+            </div>
+          </div>
+          <button onclick="sendDevotional()" class="btn btn-primary" style="margin-top: 15px;">
+            <i class="fas fa-paper-plane"></i> Enviar Agora
+          </button>
+          <a href="/readings/today" target="_blank" class="btn btn-outline">
+            <i class="fas fa-eye"></i> Ver JSON
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Actions & Links -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-link"></i> Links Úteis</h2>
+        </div>
+        <div class="card-content">
+          <a href="/docs" target="_blank" class="btn btn-outline">
+            <i class="fas fa-file-code"></i> Documentação Swagger
+          </a>
+          <a href="/readings" target="_blank" class="btn btn-outline">
+            <i class="fas fa-list"></i> Ver Todas as Leituras
+          </a>
+          <a href="/health" target="_blank" class="btn btn-outline">
+            <i class="fas fa-heartbeat"></i> Health Check
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // Configuration
+    const REFRESH_INTERVAL = 5000;
+
+    // Utils
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.backgroundColor = type === 'error' ? 'var(--danger-color)' : '#333';
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    async function fetchData(endpoint) {
+      try {
+        const res = await fetch(endpoint);
+        return await res.json();
+      } catch (e) {
+        console.error('Error fetching ' + endpoint + ':', e);
+        return null;
+      }
+    }
+
+    // Actions
+    async function sendDevotional() {
+      if (!confirm('Tem certeza que deseja enviar o devocional agora?')) return;
+      
+      const btn = document.querySelector('button[onclick="sendDevotional()"]');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner loading"></i> Enviando...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/send', { 
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ${authToken}'
+          }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          showToast('✅ Devocional enviado com sucesso!');
+        } else {
+          showToast('❌ Erro: ' + (data.error || 'Falha ao enviar'), 'error');
+        }
+      } catch (e) {
+        showToast('❌ Erro de conexão', 'error');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    async function reconnect() {
+      if (!confirm('Isso irá desconectar a sessão atual. Continuar?')) return;
+      window.location.href = '/qr?reconnect=true';
+    }
+
+    // Updates
+    async function updateStatus() {
+      const health = await fetchData('/health');
+      const statusBadge = document.getElementById('connection-status');
+      const waStatus = document.getElementById('wa-status');
+      const qrSection = document.getElementById('qr-section');
+      const connectedActions = document.getElementById('connected-actions');
+      const qrPreview = document.getElementById('qr-preview');
+
+      if (health && health.connected) {
+        statusBadge.textContent = 'Conectado';
+        statusBadge.className = 'status-badge status-online';
+        waStatus.textContent = '🟢 Online';
+        qrSection.classList.add('hidden');
+        connectedActions.classList.remove('hidden');
+      } else {
+        statusBadge.textContent = 'Desconectado';
+        statusBadge.className = 'status-badge status-offline';
+        waStatus.textContent = '🔴 Offline';
+        qrSection.classList.remove('hidden');
+        connectedActions.classList.add('hidden');
+        
+        // Show QR Preview if available
+        if (health && health.hasQRCode) {
+           qrPreview.innerHTML = '<img src="/qr/image" style="max-width: 100%; max-height: 150px;">';
+        } else {
+           qrPreview.innerHTML = '<p>Aguardando QR Code...</p>';
+        }
+      }
+    }
+
+    async function updateReading() {
+      const reading = await fetchData('/readings/today');
+      if (reading) {
+        document.getElementById('dev-date').textContent = reading.formattedDate || reading.date;
+        document.getElementById('dev-reading').textContent = reading.reading;
+      } else {
+        document.getElementById('dev-reading').textContent = 'Não encontrada';
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStatus();
+      updateReading();
+      setInterval(updateStatus, REFRESH_INTERVAL);
+    });
+  </script>
+</body>
+</html>`;
+
+              return new Response(configHtml, {
+                status: 200,
+                headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
+              });
+            }
             
             if (url.pathname === '/readings/today' && req.method === 'GET') {
               try {
@@ -885,9 +1331,13 @@ async function main() {
             if (url.pathname === '/' && req.method === 'GET') {
               const swaggerLinks = isDevelopment ? `
     <div class="links">
+      <a href="/config" style="background-color: #25D366;">⚙️ Painel Administrativo</a>
       <a href="/docs">📚 Documentação Swagger</a>
       <a href="/api-docs">📄 OpenAPI Spec (JSON)</a>
-    </div>` : '';
+    </div>` : `
+    <div class="links">
+      <a href="/config" style="background-color: #25D366;">⚙️ Painel Administrativo</a>
+    </div>`;
               
               const swaggerEndpoints = isDevelopment ? `
     <div class="endpoint">
