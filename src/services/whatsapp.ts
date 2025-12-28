@@ -61,6 +61,9 @@ export class WhatsAppService {
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
         '--disable-gpu',
         '--disable-extensions',
         '--disable-infobars',
@@ -72,7 +75,16 @@ export class WhatsAppService {
         '--window-size=1280,720',
         '--start-maximized',
         '--disable-blink-features=AutomationControlled',
-        '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        // Memory optimization flags
+        '--js-flags="--max-old-space-size=256"',
+        '--disable-audio-output',
+        '--disable-logging',
+        '--disable-default-apps',
+        '--disable-translate',
+        '--disable-sync',
+        '--disable-notifications',
+        '--disable-popup-blocking'
       ];
 
       const browserOptions: any = {

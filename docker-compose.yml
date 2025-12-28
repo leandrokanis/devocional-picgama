@@ -33,6 +33,10 @@ services:
     restart: unless-stopped
     cap_add:
       - SYS_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     security_opt:
       - seccomp:unconfined
     healthcheck:

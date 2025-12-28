@@ -177,6 +177,33 @@ class DevotionalBot {
   }
 }
 
+// Memory monitoring and GC
+const setupMemoryMonitoring = () => {
+  const GC_INTERVAL = 60000; // 1 minute
+  
+  setInterval(() => {
+    // Force GC
+    Bun.gc(true);
+    
+    // Log memory usage
+    const used = process.memoryUsage();
+    // Only log if debug is enabled or memory is high (> 400MB)
+    const isHighMemory = used.rss > 400 * 1024 * 1024;
+    
+    if (process.env.DEBUG === 'true' || isHighMemory) {
+      const logFn = isHighMemory ? logger.warn : logger.debug;
+      logFn('🧠 Memory usage:', {
+        rss: `${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`,
+        heapTotal: `${Math.round(used.heapTotal / 1024 / 1024 * 100) / 100} MB`,
+        heapUsed: `${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`,
+        external: `${Math.round(used.external / 1024 / 1024 * 100) / 100} MB`,
+      });
+    }
+  }, GC_INTERVAL);
+  
+  logger.info('🧠 Memory monitoring and periodic GC enabled');
+};
+
 async function main() {
   const bot = new DevotionalBot();
 
@@ -225,6 +252,9 @@ async function main() {
       default:
         const port = parseInt(process.env.PORT || process.env.SERVER_PORT || '3000', 10);
         const hostname = process.env.SERVER_HOST || '0.0.0.0';
+        
+        // Setup memory monitoring
+        setupMemoryMonitoring();
         
         let botInitialized = false;
         
