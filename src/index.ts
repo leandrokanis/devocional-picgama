@@ -303,10 +303,15 @@ async function main() {
 
         const checkAuth = (req: Request): Response | null => {
           const authToken = process.env.AUTH_TOKEN;
+          const url = new URL(req.url);
+          const queryToken = url.searchParams.get('token');
           const authHeader = req.headers.get('Authorization');
           
           if (authToken) {
-            if (!authHeader || !authHeader.startsWith('Bearer ') || authHeader.slice(7) !== authToken) {
+            const headerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+            const token = headerToken || queryToken;
+
+            if (!token || token !== authToken) {
               logger.warn('⚠️ Unauthorized access attempt');
               return new Response(JSON.stringify({ 
                 success: false, 
@@ -488,6 +493,9 @@ async function main() {
               if (authError) return authError;
               
               const forceReconnect = url.searchParams.get('reconnect') === 'true';
+              const token = url.searchParams.get('token');
+              const tokenAmp = token ? `&token=${token}` : '';
+              const tokenQm = token ? `?token=${token}` : '';
               
               // If force reconnect is requested, try to reconnect
               if (forceReconnect) {
@@ -506,7 +514,7 @@ async function main() {
                 const isConnected = bot.getConnectionStatus();
                 const reconnectButton = `
                   <div style="margin-top: 20px;">
-                    <button class="refresh-btn" onclick="window.location.href='/qr?reconnect=true'">
+                    <button class="refresh-btn" onclick="window.location.href='/qr?reconnect=true${tokenAmp}'">
                       🔄 Forçar Nova Autenticação
                     </button>
                   </div>`;
@@ -675,7 +683,7 @@ async function main() {
     <p><span class="status-indicator"></span>QR Code ativo - Escaneie com seu WhatsApp:</p>
     
     <div class="qr-code">
-      <img id="qrImage" src="/qr/image" alt="WhatsApp QR Code" style="max-width: 300px; display: block; margin: 0 auto;" onerror="this.src='/qr/image?t=' + Date.now();">
+      <img id="qrImage" src="/qr/image${tokenQm}" alt="WhatsApp QR Code" style="max-width: 300px; display: block; margin: 0 auto;" onerror="this.src='/qr/image?t=' + Date.now() + '${tokenAmp}';">
     </div>
     
     <div class="instructions">
@@ -691,7 +699,7 @@ async function main() {
     
     <div>
       <button class="btn btn-primary" onclick="window.location.reload()">🔄 Atualizar QR Code</button>
-      <button class="btn btn-secondary" onclick="window.location.href='/qr?reconnect=true'">🔄 Nova Autenticação</button>
+      <button class="btn btn-secondary" onclick="window.location.href='/qr?reconnect=true${tokenAmp}'">🔄 Nova Autenticação</button>
     </div>
     
     <div class="timer">
@@ -715,7 +723,7 @@ async function main() {
     
     const refreshQRImage = () => {
       if (qrImage) {
-        qrImage.src = '/qr/image?t=' + Date.now();
+        qrImage.src = '/qr/image?t=' + Date.now() + '${tokenAmp}';
       }
     };
     
@@ -984,7 +992,7 @@ async function main() {
             <div id="qr-preview">
               <i class="fas fa-qrcode fa-3x" style="color: #ccc;"></i>
             </div>
-            <a href="/qr" class="btn btn-primary" target="_blank">
+            <a href="/qr${authToken ? '?token=' + authToken : ''}" class="btn btn-primary" target="_blank">
               <i class="fas fa-expand"></i> Abrir QR Code
             </a>
           </div>
@@ -1047,6 +1055,7 @@ async function main() {
   <script>
     // Configuration
     const REFRESH_INTERVAL = 5000;
+    const AUTH_TOKEN = '${authToken}';
 
     // Utils
     function showToast(message, type = 'info') {
@@ -1059,11 +1068,35 @@ async function main() {
 
     async function fetchData(endpoint) {
       try {
-        const res = await fetch(endpoint);
+        const headers = {};
+        if (AUTH_TOKEN) {
+          headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
+        }
+        const res = await fetch(endpoint, { headers });
         return await res.json();
       } catch (e) {
         console.error('Error fetching ' + endpoint + ':', e);
         return null;
+      }
+    }
+
+    async function loadQrImage(container) {
+      try {
+        const headers = {};
+        if (AUTH_TOKEN) {
+          headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
+        }
+        const res = await fetch('/qr/image', { headers });
+        if (res.ok) {
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          container.innerHTML = \`<img src="\${url}" style="max-width: 100%; max-height: 150px;" onload="URL.revokeObjectURL(this.src)">\`;
+        } else {
+          container.innerHTML = '<p>Erro ao carregar QR Code</p>';
+        }
+      } catch (e) {
+        console.error('Error loading QR image:', e);
+        container.innerHTML = '<p>Erro ao carregar QR Code</p>';
       }
     }
 
@@ -1077,11 +1110,14 @@ async function main() {
       btn.disabled = true;
 
       try {
+        const headers = {};
+        if (AUTH_TOKEN) {
+          headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
+        }
+
         const res = await fetch('/send', { 
           method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ${authToken}'
-          }
+          headers
         });
         const data = await res.json();
         
@@ -1100,7 +1136,7 @@ async function main() {
 
     async function reconnect() {
       if (!confirm('Isso irá desconectar a sessão atual. Continuar?')) return;
-      window.location.href = '/qr?reconnect=true';
+      window.location.href = '/qr?reconnect=true' + (AUTH_TOKEN ? '&token=' + AUTH_TOKEN : '');
     }
 
     // Updates
@@ -1127,7 +1163,7 @@ async function main() {
         
         // Show QR Preview if available
         if (health && health.hasQRCode) {
-           qrPreview.innerHTML = '<img src="/qr/image" style="max-width: 100%; max-height: 150px;">';
+           loadQrImage(qrPreview);
         } else {
            qrPreview.innerHTML = '<p>Aguardando QR Code...</p>';
         }
