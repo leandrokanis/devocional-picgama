@@ -113,9 +113,7 @@
                 },
                 "example": {
                   "date": "2025-12-26",
-                  "at1": "Gênesis 1:1-10",
-                  "at2": "Salmos 1",
-                  "nt": "João 3:16-21"
+                  "reading": "Gênesis 1-3"
                 }
               }
             }
@@ -177,9 +175,7 @@
                   "data": [
                     {
                       "date": "2025-12-26",
-                      "at1": "Gênesis 1:1-10",
-                      "at2": "Salmos 1",
-                      "nt": "João 3:16-21"
+                      "reading": "Gênesis 1-3"
                     }
                   ],
                   "metadata": {
@@ -317,23 +313,13 @@
             "description": "Data da leitura no formato YYYY-MM-DD",
             "example": "2025-12-26"
           },
-          "at1": {
+          "reading": {
             "type": "string",
-            "description": "Primeira leitura do Antigo Testamento",
-            "example": "Gênesis 1:1-10"
-          },
-          "at2": {
-            "type": "string",
-            "description": "Segunda leitura do Antigo Testamento",
-            "example": "Salmos 1"
-          },
-          "nt": {
-            "type": "string",
-            "description": "Leitura do Novo Testamento",
-            "example": "João 3:16-21"
+            "description": "Leitura do dia (formato simples)",
+            "example": "Gênesis 1-3"
           }
         },
-        "required": ["date", "at1", "at2", "nt"]
+        "required": ["date", "reading"]
       },
       "DevotionalMessage": {
         "type": "object",
@@ -349,23 +335,13 @@
             "description": "Data formatada para exibição",
             "example": "26/12/2025"
           },
-          "at1": {
+          "reading": {
             "type": "string",
-            "description": "Primeira leitura do Antigo Testamento",
-            "example": "Gênesis 1:1-10"
-          },
-          "at2": {
-            "type": "string",
-            "description": "Segunda leitura do Antigo Testamento",
-            "example": "Salmos 1"
-          },
-          "nt": {
-            "type": "string",
-            "description": "Leitura do Novo Testamento",
-            "example": "João 3:16-21"
+            "description": "Leitura do dia (formato simples)",
+            "example": "Gênesis 1-3"
           }
         },
-        "required": ["date", "formattedDate", "at1", "at2", "nt"]
+        "required": ["date", "formattedDate", "reading"]
       },
       "TodayReadingResponse": {
         "type": "object",

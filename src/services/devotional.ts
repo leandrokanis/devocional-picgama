@@ -5,17 +5,13 @@ import { logger } from '../utils/logger.js';
 
 export interface DevotionalReading {
   date: string;
-  at1: string;
-  at2: string;
-  nt: string;
+  reading: string;
 }
 
 export interface DevotionalMessage {
   date: string;
   formattedDate: string;
-  at1: string;
-  at2: string;
-  nt: string;
+  reading: string;
 }
 
 export class DevotionalService {
@@ -23,14 +19,45 @@ export class DevotionalService {
   private dataPath: string;
 
   constructor(dataPath?: string) {
-    this.dataPath = dataPath || join(process.cwd(), 'data', 'leituras.json');
+    this.dataPath = dataPath || join(process.cwd(), 'data', 'readings-2026.json');
     this.loadReadings();
+  }
+
+  private normalizeReading(input: unknown): DevotionalReading | null {
+    if (!input || typeof input !== 'object') return null;
+
+    const candidate = input as Record<string, unknown>;
+    const date = candidate.date;
+
+    if (typeof date !== 'string' || date.trim() === '') return null;
+
+    const reading = candidate.reading;
+    if (typeof reading === 'string' && reading.trim() !== '') {
+      return { date, reading };
+    }
+
+    return null;
   }
 
   private loadReadings(): void {
     try {
       const fileContent = readFileSync(this.dataPath, 'utf-8');
-      this.readings = JSON.parse(fileContent);
+      const parsed: unknown = JSON.parse(fileContent);
+
+      if (!Array.isArray(parsed)) {
+        throw new Error('Readings data is not an array');
+      }
+
+      const normalized: DevotionalReading[] = [];
+      for (const item of parsed) {
+        const reading = this.normalizeReading(item);
+        if (!reading) {
+          throw new Error('Invalid reading format');
+        }
+        normalized.push(reading);
+      }
+
+      this.readings = normalized;
       logger.info(`Loaded ${this.readings.length} devotional readings`);
     } catch (error) {
       logger.error('Error loading devotional readings', error);
@@ -50,9 +77,7 @@ export class DevotionalService {
     return {
       date: reading.date,
       formattedDate: formatDate(date),
-      at1: reading.at1,
-      at2: reading.at2,
-      nt: reading.nt
+      reading: reading.reading
     };
   }
 
@@ -66,11 +91,7 @@ export class DevotionalService {
   }
 
   public formatMessage(devotional: DevotionalMessage): string {
-    return `📖 Devocional - ${devotional.formattedDate}
-
-AT1: ${devotional.at1}
-AT2: ${devotional.at2}
-NT: ${devotional.nt}`;
+    return `📖 Devocional - ${devotional.formattedDate}\n\n${devotional.reading}`;
   }
 
   public validateReadings(): boolean {
@@ -80,7 +101,7 @@ NT: ${devotional.nt}`;
     }
 
     for (const reading of this.readings) {
-      if (!reading.date || !reading.at1 || !reading.at2 || !reading.nt) {
+      if (!reading.date || !reading.reading) {
         logger.error('Invalid reading format', reading);
         return false;
       }

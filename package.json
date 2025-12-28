@@ -15,7 +15,7 @@
     "docker:dev:down": "docker compose down",
     "build": "bun install --frozen-lockfile && bun x tsc -p tsconfig.build.json && cp src/swagger.json dist/swagger.json 2>/dev/null || true && cp -r data dist/ 2>/dev/null || true",
     "start": "bun dist/index.js",
-    "test": "bun test",
+    "test": "bun test ./src",
     "send": "bun run src/index.ts send",
     "postinstall": "echo 'Dependencies installed successfully'"
   },

@@ -64,15 +64,13 @@ DEBUG=false
 
 ### 4. Configure os textos devocionais
 
-Edite o arquivo `data/leituras.json` com os textos do seu plano devocional:
+Edite o arquivo `data/readings-2026.json` com o plano de leitura:
 
 ```json
 [
   {
-    "date": "2025-12-26",
-    "at1": "Gênesis 1:1-10",
-    "at2": "Salmos 1",
-    "nt": "João 3:16-21"
+    "date": "2026-01-01",
+    "reading": "Gênesis 1-3"
   }
 ]
 ```
