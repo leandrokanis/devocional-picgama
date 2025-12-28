@@ -224,9 +224,17 @@ async function main() {
         await bot.close();
         break;
       case 'send':
-        const serverPort = process.env.PORT || process.env.SERVER_PORT || '3000';
-        const serverHost = process.env.SERVER_HOST || 'localhost';
-        const url = `http://${serverHost}:${serverPort}/send`;
+        let url: string;
+        
+        if (process.env.SERVER_URL) {
+          // Remove trailing slash if present
+          const baseUrl = process.env.SERVER_URL.replace(/\/$/, '');
+          url = `${baseUrl}/send`;
+        } else {
+          const serverPort = process.env.PORT || process.env.SERVER_PORT || '3000';
+          const serverHost = process.env.SERVER_HOST || 'localhost';
+          url = `http://${serverHost}:${serverPort}/send`;
+        }
         
         try {
           logger.info(`📡 Sending request to running instance: ${url}`);
