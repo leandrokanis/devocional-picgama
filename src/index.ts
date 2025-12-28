@@ -277,6 +277,28 @@ async function main() {
           return null;
         };
 
+        const checkAuth = (req: Request): Response | null => {
+          const authToken = process.env.AUTH_TOKEN;
+          const authHeader = req.headers.get('Authorization');
+          
+          if (authToken) {
+            if (!authHeader || !authHeader.startsWith('Bearer ') || authHeader.slice(7) !== authToken) {
+              logger.warn('⚠️ Unauthorized access attempt');
+              return new Response(JSON.stringify({ 
+                success: false, 
+                error: 'Unauthorized' 
+              }), {
+                status: 401,
+                headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+              });
+            }
+          } else {
+            logger.warn('⚠️ AUTH_TOKEN not set, endpoint is unprotected');
+          }
+          
+          return null;
+        };
+
         Bun.serve({
           port,
           hostname,
@@ -296,24 +318,8 @@ async function main() {
             
             if (url.pathname === '/send' && req.method === 'POST') {
               try {
-                // Security check
-                const authToken = process.env.AUTH_TOKEN;
-                const authHeader = req.headers.get('Authorization');
-                
-                if (authToken) {
-                  if (!authHeader || !authHeader.startsWith('Bearer ') || authHeader.slice(7) !== authToken) {
-                    logger.warn('⚠️ Unauthorized access attempt to /send endpoint');
-                    return new Response(JSON.stringify({ 
-                      success: false, 
-                      error: 'Unauthorized' 
-                    }), {
-                      status: 401,
-                      headers: addCorsHeaders({ 'Content-Type': 'application/json' })
-                    });
-                  }
-                } else {
-                  logger.warn('⚠️ AUTH_TOKEN not set, /send endpoint is unprotected');
-                }
+                const authError = checkAuth(req);
+                if (authError) return authError;
 
                 logger.info('📨 Received send request via HTTP');
                 
@@ -371,6 +377,9 @@ async function main() {
             }
             
             if (url.pathname === '/qr/image' && req.method === 'GET') {
+              const authError = checkAuth(req);
+              if (authError) return authError;
+              
               if (!bot.currentQRCode) {
                 return new Response('QR code não disponível', {
                   status: 404,
@@ -401,6 +410,9 @@ async function main() {
             }
             
             if (url.pathname === '/qr' && req.method === 'GET') {
+              const authError = checkAuth(req);
+              if (authError) return authError;
+              
               const forceReconnect = url.searchParams.get('reconnect') === 'true';
               
               // If force reconnect is requested, try to reconnect

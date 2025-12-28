@@ -2,7 +2,7 @@ name: Trigger Daily Devotional
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # Executa diariamente às 07:00 (UTC-3)
+    - cron: '0 9 * * *'  # Executa diariamente às 06:00 (UTC-3)
   workflow_dispatch:      # Permite execução manual
 
 jobs:

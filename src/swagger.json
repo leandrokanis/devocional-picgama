@@ -40,6 +40,11 @@
         "summary": "Envia o devocional do dia",
         "description": "Envia automaticamente o devocional correspondente ao dia atual para o grupo WhatsApp configurado",
         "operationId": "sendDevotional",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Devocional enviado com sucesso",
@@ -51,6 +56,20 @@
                 "example": {
                   "success": true,
                   "message": "Devotional sent successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado - Token de autenticação inválido ou ausente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": "Unauthorized"
                 }
               }
             }
@@ -205,6 +224,11 @@
         "summary": "QR Code para autenticação WhatsApp",
         "description": "Exibe o QR code para pareamento do WhatsApp ou permite forçar uma nova autenticação. Retorna uma página HTML interativa com o QR code ou interface para reconexão.",
         "operationId": "getQRCode",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "reconnect",
@@ -229,23 +253,17 @@
                 "example": "<!DOCTYPE html><html>...</html>"
               }
             }
-          }
-        }
-      }
-    },
-    "/api-docs": {
-      "get": {
-        "tags": ["Documentation"],
-        "summary": "Especificação OpenAPI",
-        "description": "Retorna a especificação OpenAPI em formato JSON",
-        "operationId": "getApiDocs",
-        "responses": {
-          "200": {
-            "description": "Especificação OpenAPI",
+          },
+          "401": {
+            "description": "Não autorizado - Token de autenticação inválido ou ausente",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "success": false,
+                  "error": "Unauthorized"
                 }
               }
             }
@@ -255,6 +273,14 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token",
+        "description": "Autenticação via Bearer Token. Use o header Authorization: Bearer <token>"
+      }
+    },
     "schemas": {
       "SendResponse": {
         "type": "object",
