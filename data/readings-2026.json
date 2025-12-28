@@ -363,5 +363,12 @@
   { "date": "2026-12-28", "reading": "Apocalipse 9-12" },
   { "date": "2026-12-29", "reading": "Apocalipse 13-16" },
   { "date": "2026-12-30", "reading": "Apocalipse 17-19" },
-  { "date": "2026-12-31", "reading": "Apocalipse 20-22" }
+  { "date": "2026-12-31", "reading": "Apocalipse 20-22" },
+  { "date": "2025-12-25", "reading": "Judas 1" },
+  { "date": "2025-12-26", "reading": "Apocalipse 1-4" },
+  { "date": "2025-12-27", "reading": "Apocalipse 5-8" },
+  { "date": "2025-12-28", "reading": "Apocalipse 9-12" },
+  { "date": "2025-12-29", "reading": "Apocalipse 13-16" },
+  { "date": "2025-12-30", "reading": "Apocalipse 17-19" },
+  { "date": "2025-12-31", "reading": "Apocalipse 20-22" }
 ]

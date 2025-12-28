@@ -136,6 +136,21 @@ export class WhatsAppService {
         };
 
         this.client = await create(browserOptions);
+      } catch (createError: any) {
+        if (createError?.message?.includes('already running') || createError?.message?.includes('browser is already running')) {
+          logger.warn('Browser instance already running, attempting to force close...');
+          await this.forceCloseBrowser();
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
+          try {
+            this.client = await create(browserOptions);
+          } catch (retryError) {
+            logger.error('Error initializing WhatsApp client after retry', retryError);
+            throw new Error('Failed to initialize WhatsApp client after cleanup attempt');
+          }
+        } else {
+          throw createError;
+        }
       } finally {
         if (cwdChanged) {
           try {
@@ -227,31 +242,97 @@ export class WhatsAppService {
   public async forceReconnect(): Promise<void> {
     logger.info('🔄 Forcing WhatsApp reconnection...');
     
-    // Reset connection state
     this.isConnected = false;
     
-    // Close existing client if any
     await this.close();
     
-    // Clear any existing QR code callback
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     if (this.onQRCodeGenerated) {
       logger.info('🔄 Preparing for new QR code generation...');
     }
     
-    // Reinitialize the client
     await this.initialize();
+  }
+
+  private async forceCloseBrowser(): Promise<void> {
+    if (this.client) {
+      try {
+        const clientAny = this.client as any;
+        
+        if (clientAny.browser) {
+          try {
+            const pages = await clientAny.browser.pages();
+            for (const page of pages) {
+              try {
+                await page.close();
+              } catch (error) {
+                logger.debug('Error closing page during force close', error);
+              }
+            }
+          } catch (error) {
+            logger.debug('Error getting pages during force close', error);
+          }
+          
+          try {
+            await clientAny.browser.close();
+            logger.info('Browser force closed successfully');
+          } catch (error) {
+            logger.debug('Error force closing browser', error);
+          }
+        }
+        
+        try {
+          await this.client.close();
+        } catch (error) {
+          logger.debug('Error closing client during force close', error);
+        }
+      } catch (error) {
+        logger.debug('Error during force close browser', error);
+      }
+      
+      this.client = null;
+      this.isConnected = false;
+    }
   }
 
   public async close(): Promise<void> {
     if (this.client) {
       try {
+        const clientAny = this.client as any;
+        
+        if (clientAny.browser) {
+          try {
+            const pages = await clientAny.browser.pages();
+            for (const page of pages) {
+              try {
+                await page.close();
+              } catch (error) {
+                logger.debug('Error closing page', error);
+              }
+            }
+          } catch (error) {
+            logger.debug('Error getting pages', error);
+          }
+          
+          try {
+            await clientAny.browser.close();
+            logger.info('Browser closed successfully');
+          } catch (error) {
+            logger.debug('Error closing browser directly', error);
+          }
+        }
+        
         await this.client.close();
         logger.info('WhatsApp client closed');
       } catch (error) {
         logger.error('Error closing WhatsApp client', error);
       }
+      
       this.client = null;
       this.isConnected = false;
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
 

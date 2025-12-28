@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import cron from 'node-cron';
 import { DevotionalService } from './services/devotional.js';
 import { WhatsAppService } from './services/whatsapp.js';
 import { logger } from './utils/logger.js';
@@ -106,24 +105,6 @@ class DevotionalBot {
     }
   }
 
-  public setupScheduler(): void {
-    const sendTime = process.env.SEND_TIME || '07:00';
-    const timezone = process.env.TIMEZONE || 'America/Sao_Paulo';
-    
-    const [hour, minute] = sendTime.split(':').map(Number);
-    const cronExpression = `${minute} ${hour} * * *`;
-
-    logger.info(`⏰ Scheduling daily devotional at ${sendTime} (${timezone})`);
-    
-    cron.schedule(cronExpression, async () => {
-      logger.info('🕐 Scheduled devotional execution started');
-      await this.sendTodaysDevotional();
-    }, {
-      timezone: timezone
-    });
-
-    logger.info('📅 Scheduler configured successfully');
-  }
 
   public async testConnection(): Promise<void> {
     try {
@@ -315,6 +296,25 @@ async function main() {
             
             if (url.pathname === '/send' && req.method === 'POST') {
               try {
+                // Security check
+                const authToken = process.env.AUTH_TOKEN;
+                const authHeader = req.headers.get('Authorization');
+                
+                if (authToken) {
+                  if (!authHeader || !authHeader.startsWith('Bearer ') || authHeader.slice(7) !== authToken) {
+                    logger.warn('⚠️ Unauthorized access attempt to /send endpoint');
+                    return new Response(JSON.stringify({ 
+                      success: false, 
+                      error: 'Unauthorized' 
+                    }), {
+                      status: 401,
+                      headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                    });
+                  }
+                } else {
+                  logger.warn('⚠️ AUTH_TOKEN not set, /send endpoint is unprotected');
+                }
+
                 logger.info('📨 Received send request via HTTP');
                 
                 if (!process.env.GROUP_CHAT_ID) {
@@ -1025,8 +1025,7 @@ async function main() {
         if (process.env.GROUP_CHAT_ID) {
           tryInitializeBot().then((initSuccess) => {
             if (initSuccess) {
-              bot.setupScheduler();
-              logger.info('🎯 Bot initialized and scheduler configured. Press Ctrl+C to stop.');
+              logger.info('🎯 Bot initialized. Press Ctrl+C to stop.');
             } else {
               logger.info('🎯 Server is running but bot initialization failed. Press Ctrl+C to stop.');
             }

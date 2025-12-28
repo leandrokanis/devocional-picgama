@@ -91,7 +91,7 @@ export class DevotionalService {
   }
 
   public formatMessage(devotional: DevotionalMessage): string {
-    return `📖 Devocional - ${devotional.formattedDate}\n\n${devotional.reading}`;
+    return `📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.reading}`;
   }
 
   public validateReadings(): boolean {

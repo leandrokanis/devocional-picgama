@@ -1,31 +1,32 @@
-name: Deploy Devocional Bot
+name: Trigger Daily Devotional
 
 on:
-  push:
-    branches: [ main ]
   schedule:
     - cron: '0 10 * * *'  # Executa diariamente às 07:00 (UTC-3)
+  workflow_dispatch:      # Permite execução manual
 
 jobs:
-  deploy:
+  trigger:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Bun
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
-    
-    - name: Install dependencies
-      run: bun install
-    
-    - name: Send devotional message
+    - name: Send devotional request
       env:
-        WHATSAPP_SESSION_NAME: ${{ secrets.WHATSAPP_SESSION_NAME }}
-        GROUP_CHAT_ID: ${{ secrets.GROUP_CHAT_ID }}
-        SEND_TIME: ${{ secrets.SEND_TIME }}
-        TIMEZONE: ${{ secrets.TIMEZONE }}
-        NODE_ENV: production
-      run: bun run src/index.ts send
+        SERVER_URL: ${{ secrets.SERVER_URL }}
+        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+      run: |
+        echo "Triggering devotional at $SERVER_URL"
+        response=$(curl -s -w "\n%{http_code}" -X POST "${SERVER_URL}/send" \
+          -H "Authorization: Bearer ${AUTH_TOKEN}" \
+          -H "Content-Type: application/json")
+        
+        http_code=$(echo "$response" | tail -n1)
+        body=$(echo "$response" | sed '$d')
+        
+        echo "Response Code: $http_code"
+        echo "Response Body: $body"
+        
+        if [ "$http_code" -ne 200 ]; then
+          echo "Failed to trigger devotional"
+          exit 1
+        fi
