@@ -1,6 +1,6 @@
 import { create, Whatsapp } from '@wppconnect-team/wppconnect';
 import { logger } from '../utils/logger.js';
-import { mkdirSync, existsSync } from 'fs';
+import { mkdirSync, existsSync, rmSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
 
@@ -232,11 +232,27 @@ export class WhatsAppService {
   }
 
   public async forceReconnect(): Promise<void> {
-    logger.info('🔄 Forcing WhatsApp reconnection...');
+    logger.info('🔄 Forcing WhatsApp reconnection with session cleanup...');
     
     this.isConnected = false;
     
+    // Close current connection
     await this.close();
+    
+    // Clean up tokens to ensure fresh start
+    const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
+    const tokensFolderName = 'tokens';
+    const tokensDir = join(tokensBaseDir, tokensFolderName);
+    
+    if (existsSync(tokensDir)) {
+      try {
+        logger.info(`Deleting tokens directory: ${tokensDir}`);
+        rmSync(tokensDir, { recursive: true, force: true });
+        logger.info('✅ Tokens directory deleted successfully');
+      } catch (error: any) {
+        logger.error(`❌ Failed to delete tokens directory: ${tokensDir}`, error);
+      }
+    }
     
     await new Promise(resolve => setTimeout(resolve, 2000));
     
@@ -327,6 +343,7 @@ export class WhatsAppService {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
+
 
   public getConnectionStatus(): boolean {
     return this.isConnected;

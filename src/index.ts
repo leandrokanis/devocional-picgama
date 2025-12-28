@@ -152,6 +152,7 @@ class DevotionalBot {
     return this.devotionalService.getTodaysReadingBasic();
   }
 
+
   public async forceWhatsAppReconnect(): Promise<boolean> {
     try {
       logger.info('🔄 Forcing WhatsApp reconnection...');
@@ -309,6 +310,7 @@ async function main() {
               });
             }
             
+
             if (url.pathname === '/send' && req.method === 'POST') {
               try {
                 const authError = checkAuth(req);
@@ -977,6 +979,7 @@ async function main() {
     ${swaggerLinks}
     <h2>Endpoints Disponíveis</h2>
     
+
     <div class="endpoint">
       <span class="method">POST</span>
       <strong>/send</strong>

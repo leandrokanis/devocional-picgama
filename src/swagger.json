@@ -222,7 +222,7 @@
       "get": {
         "tags": ["WhatsApp"],
         "summary": "QR Code para autenticação WhatsApp",
-        "description": "Exibe o QR code para pareamento do WhatsApp ou permite forçar uma nova autenticação. Retorna uma página HTML interativa com o QR code ou interface para reconexão.",
+        "description": "Exibe o QR code para pareamento do WhatsApp. Se 'reconnect=true' for passado, limpa todos os dados da sessão anterior (tokens) e força uma nova autenticação.",
         "operationId": "getQRCode",
         "security": [
           {
