@@ -57,9 +57,27 @@ export class WhatsAppService {
         logger.warn(`Could not change working directory to ${tokensBaseDir}, using default: ${error.message}`);
       }
 
+      const browserArgs = [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-extensions',
+        '--disable-infobars',
+        '--disable-features=IsolateOrigins,site-per-process',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+        '--disable-software-rasterizer',
+        '--window-size=1280,720',
+        '--start-maximized',
+        '--disable-blink-features=AutomationControlled',
+        '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      ];
+
       const browserOptions: any = {
         session: this.config.sessionName,
-        headless: true,
+        headless: isProduction ? 'new' : true,
         debug: this.config.debug,
         logQR: true,
         folderNameToken: tokensFolderName,
@@ -68,32 +86,23 @@ export class WhatsAppService {
         updatesLog: false,
         autoClose: 120000,
         createPathFileToken: true,
-        browserArgs: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu',
-          '--disable-extensions',
-          '--disable-infobars',
-          '--disable-features=IsolateOrigins,site-per-process',
-          '--disable-background-timer-throttling',
-          '--disable-backgrounding-occluded-windows',
-          '--disable-renderer-backgrounding',
-          '--disable-software-rasterizer',
-          '--window-size=1280,720'
-        ]
+        browserArgs
       };
 
       if (isProduction) {
         browserOptions.puppeteerOptions = {
           executablePath: executablePath || '/usr/bin/google-chrome-stable',
-          args: browserOptions.browserArgs,
-          headless: true,
+          args: browserArgs,
+          headless: 'new',
           ignoreHTTPSErrors: true,
-          ignoreDefaultArgs: ['--disable-extensions'],
+          ignoreDefaultArgs: ['--disable-extensions', '--enable-automation'],
           timeout: 180000,
           protocolTimeout: 180000,
-          defaultViewport: { width: 1280, height: 720 }
+          defaultViewport: { 
+            width: 1280, 
+            height: 720,
+            deviceScaleFactor: 1
+          }
         };
       }
       
