@@ -4,11 +4,12 @@ Bot automatizado para envio diário de textos bíblicos devocionais via WhatsApp
 
 ## 🎯 Características
 
-- ✅ **100% Gratuito**: Usa WPPConnect (API gratuita) + hospedagem gratuita (Render.com)
+- ✅ **100% Gratuito**: Usa Baileys (API gratuita) + hospedagem gratuita (Render.com)
 - 🤖 **Automatizado**: Envio diário acionado via GitHub Actions
 - 🔧 **Configurável**: Horários e mensagens personalizáveis
-- 📱 **WhatsApp Nativo**: Integração completa via WPPConnect
+- 📱 **WhatsApp Nativo**: Integração via WebSocket (Baileys)
 - 🚀 **Moderno**: TypeScript + Bun para máxima performance
+- 🪶 **Leve**: Consumo de memória otimizado (< 100MB) sem necessidade de Chrome
 - 🔒 **Confiável**: Tratamento de erros e reconexão automática
 - 🛡️ **Seguro**: Endpoint de disparo protegido por token
 
@@ -20,14 +21,14 @@ O bot utiliza uma arquitetura híbrida onde a aplicação fica hospedada no Rend
 sequenceDiagram
     participant GHA as GitHub Actions
     participant Render as Render.com App
-    participant WA as WhatsApp API
+    participant WA as WhatsApp API (Baileys)
     
     Note over GHA: Executa diariamente 07:00 BRT
     GHA->>Render: POST /send<br/>Authorization: Bearer TOKEN
     alt Token válido
         Note over Render: App acorda se dormindo
         Render->>Render: getTodaysDevotional()
-        Render->>WA: Envia mensagem
+        Render->>WA: Envia mensagem via Socket
         WA-->>Render: Confirmação
         Render-->>GHA: 200 OK
     else Token inválido
@@ -39,7 +40,7 @@ sequenceDiagram
 
 - **Runtime**: [Bun](https://bun.sh/) 
 - **Linguagem**: TypeScript
-- **WhatsApp API**: [WPPConnect](https://wppconnect.io/)
+- **WhatsApp API**: [Baileys](https://github.com/WhiskeySockets/Baileys)
 - **Hospedagem**: Render.com (Web Service)
 - **Agendamento**: GitHub Actions
 
@@ -117,7 +118,6 @@ bun run dev send
 | `GROUP_CHAT_ID` | ID do grupo (ex: `123456789@g.us`) |
 | `WHATSAPP_SESSION_NAME` | `devocional-bot` |
 | `AUTH_TOKEN` | Token secreto para proteger o envio (crie uma senha forte) |
-| `PUPPETEER_EXECUTABLE_PATH` | `/usr/bin/google-chrome-stable` |
 
 5. Após o deploy, acesse a URL da sua aplicação `/qr` (ex: `https://sua-app.onrender.com/qr`) para escanear o QR Code.
 

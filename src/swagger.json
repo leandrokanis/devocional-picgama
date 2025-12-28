@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Devocional WhatsApp Bot API",
-    "description": "API para gerenciar o bot automatizado de envio de textos bíblicos devocionais via WhatsApp. Inclui funcionalidades de hot reload, reconexão automática do WhatsApp e interface web para QR code.",
+    "description": "API para gerenciar o bot automatizado de envio de textos bíblicos devocionais via WhatsApp (usando Baileys). Inclui funcionalidades de hot reload, reconexão automática do WhatsApp e interface web para QR code.",
     "version": "1.1.0",
     "contact": {
       "name": "Devocional Picgama",

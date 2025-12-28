@@ -1,8 +1,15 @@
-import { create, Whatsapp } from '@wppconnect-team/wppconnect';
+import makeWASocket, { 
+  DisconnectReason, 
+  useMultiFileAuthState,
+  makeCacheableSignalKeyStore,
+  type WASocket
+} from '@whiskeysockets/baileys';
+import QRCode from 'qrcode';
 import { logger } from '../utils/logger.js';
-import { mkdirSync, existsSync, rmSync } from 'fs';
+import { existsSync, rmSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
+import pino from 'pino';
 
 export interface WhatsAppConfig {
   sessionName: string;
@@ -12,210 +19,99 @@ export interface WhatsAppConfig {
 }
 
 export class WhatsAppService {
-  private client: Whatsapp | null = null;
+  private sock: WASocket | null = null;
   private config: WhatsAppConfig;
   private isConnected = false;
   public onQRCodeGenerated?: (base64: string, ascii: string) => void;
+  private authDir: string;
 
   constructor(config: WhatsAppConfig) {
-    this.config = {
-      headless: true,
-      debug: false,
-      ...config
-    };
+    this.config = config;
+    const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
+    // Use a folder specific to the session
+    this.authDir = join(tokensBaseDir, 'baileys_auth_info');
   }
 
   public async initialize(): Promise<void> {
     try {
-      logger.info('Initializing WhatsApp client...');
-      
-      const isProduction = process.env.NODE_ENV === 'production';
-      const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
-
-      const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
-      const tokensFolderName = 'tokens';
-      const tokensDir = join(tokensBaseDir, tokensFolderName);
-      
-      try {
-        if (!existsSync(tokensDir)) {
-          mkdirSync(tokensDir, { recursive: true });
-        }
-        logger.info(`Using tokens directory: ${tokensDir}`);
-      } catch (error: any) {
-        logger.error(`Failed to create tokens directory at ${tokensDir}`, error);
-        throw error;
-      }
-
-      const originalCwd = process.cwd();
-      let cwdChanged = false;
-      
-      try {
-        process.chdir(tokensBaseDir);
-        cwdChanged = true;
-        logger.info(`Changed working directory to ${tokensBaseDir} for tokens`);
-      } catch (error: any) {
-        logger.warn(`Could not change working directory to ${tokensBaseDir}, using default: ${error.message}`);
-      }
-
-      const browserArgs = [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--disable-gpu',
-        '--disable-extensions',
-        '--disable-infobars',
-        '--disable-features=IsolateOrigins,site-per-process',
-        '--disable-background-timer-throttling',
-        '--disable-backgrounding-occluded-windows',
-        '--disable-renderer-backgrounding',
-        '--disable-software-rasterizer',
-        '--window-size=1280,720',
-        '--start-maximized',
-        '--disable-blink-features=AutomationControlled',
-        '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        // Memory optimization flags
-        '--js-flags="--max-old-space-size=256"',
-        '--disable-audio-output',
-        '--disable-logging',
-        '--disable-default-apps',
-        '--disable-translate',
-        '--disable-sync',
-        '--disable-notifications',
-        '--disable-popup-blocking'
-      ];
-
-      const browserOptions: any = {
-        session: this.config.sessionName,
-        headless: isProduction ? 'new' : true,
-        debug: this.config.debug,
-        logQR: true,
-        folderNameToken: tokensFolderName,
-        disableSpins: true,
-        disableWelcome: true,
-        updatesLog: false,
-        autoClose: 120000,
-        createPathFileToken: true,
-        browserArgs
-      };
-
-      if (isProduction) {
-        browserOptions.puppeteerOptions = {
-          executablePath: executablePath || '/usr/bin/google-chrome-stable',
-          args: browserArgs,
-          headless: 'new',
-          ignoreHTTPSErrors: true,
-          ignoreDefaultArgs: ['--disable-extensions', '--enable-automation'],
-          timeout: 180000,
-          protocolTimeout: 180000,
-          defaultViewport: { 
-            width: 1280, 
-            height: 720,
-            deviceScaleFactor: 1
-          }
-        };
-      }
-      
-      browserOptions.catchQR = (base64Qr: string, asciiQR: string, attempts: number) => {
-        console.log('\n' + '='.repeat(80));
-        console.log('📱 WHATSAPP QR CODE GERADO!');
-        console.log('='.repeat(80));
-        console.log(asciiQR);
-        console.log('='.repeat(80));
-        console.log('💡 Abra o WhatsApp no seu celular > Menu > Aparelhos conectados > Conectar um aparelho');
-        console.log(`🔄 Tentativa ${attempts}/3`);
-        console.log('🌐 Ou acesse: http://localhost:3001/qr para ver no navegador');
-        console.log('='.repeat(80) + '\n');
-        
-        logger.info('📱 QR Code gerado com sucesso!');
-        
-        if (this.onQRCodeGenerated) {
-          this.onQRCodeGenerated(base64Qr, asciiQR);
-        }
-      };
-
-      browserOptions.logQR = true;
-
-      browserOptions.statusFind = (statusSession: string, session: string) => {
-        logger.info(`📱 WhatsApp status: ${statusSession} (${session})`);
-        if (statusSession === 'authenticated') {
-          logger.info('✅ WhatsApp autenticado com sucesso!');
-        }
-      };
-
-      try {
-        this.client = await create(browserOptions);
-      } catch (createError: any) {
-        if (createError?.message?.includes('already running') || createError?.message?.includes('browser is already running')) {
-          logger.warn('Browser instance already running, attempting to force close...');
-          await this.forceCloseBrowser();
-          await new Promise(resolve => setTimeout(resolve, 3000));
-          
-          try {
-            this.client = await create(browserOptions);
-          } catch (retryError) {
-            logger.error('Error initializing WhatsApp client after retry', retryError);
-            throw new Error('Failed to initialize WhatsApp client after cleanup attempt');
-          }
-        } else {
-          throw createError;
-        }
-      } finally {
-        if (cwdChanged) {
-          try {
-            process.chdir(originalCwd);
-          } catch (error: any) {
-            logger.warn(`Could not restore working directory to ${originalCwd}: ${error.message}`);
-          }
-        }
-      }
-
-      this.setupEventHandlers();
-      this.isConnected = true;
-      logger.info('WhatsApp client initialized successfully');
+      logger.info('Initializing WhatsApp client (Baileys)...');
+      await this.connectToWhatsApp();
     } catch (error) {
       logger.error('Error initializing WhatsApp client', error);
-      throw new Error('Failed to initialize WhatsApp client');
+      throw error;
     }
   }
 
-  private setupEventHandlers(): void {
-    if (!this.client) return;
+  private async connectToWhatsApp() {
+    const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
 
-    this.client.onStateChange((state) => {
-      logger.info('WhatsApp state changed', { state });
-      this.isConnected = state === 'CONNECTED';
+    this.sock = makeWASocket({
+      auth: {
+        creds: state.creds,
+        keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "silent" })) 
+      },
+      printQRInTerminal: false,
+      logger: pino({ level: this.config.debug ? "debug" : "silent" }) as any,
+      browser: ["Devocional Bot", "Chrome", "1.0.0"],
+      generateHighQualityLinkPreview: true,
     });
 
-    this.client.onMessage((message) => {
-      if (this.config.debug) {
-        logger.debug('Received message', message);
+    this.sock.ev.on('creds.update', saveCreds);
+
+    this.sock.ev.on('connection.update', async (update) => {
+      const { connection, lastDisconnect, qr } = update;
+
+      if (qr) {
+        logger.info('QR Code received');
+        try {
+          const base64 = await QRCode.toDataURL(qr);
+          if (this.onQRCodeGenerated) {
+            this.onQRCodeGenerated(base64, qr);
+          }
+        } catch (err) {
+          logger.error('Failed to generate QR code image', err);
+        }
+      }
+
+      if (connection === 'close') {
+        const statusCode = (lastDisconnect?.error as any)?.output?.statusCode;
+        const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+        
+        logger.warn(`Connection closed due to ${lastDisconnect?.error}, reconnecting: ${shouldReconnect}`);
+        this.isConnected = false;
+        
+        if (shouldReconnect) {
+          // Add a small delay before reconnecting to avoid tight loops
+          setTimeout(() => this.connectToWhatsApp(), 2000);
+        } else {
+            logger.error('Connection closed. You are logged out.');
+            // If logged out, we might want to clean credentials
+            if (statusCode === DisconnectReason.loggedOut) {
+               await this.forceReconnect();
+            }
+        }
+      } else if (connection === 'open') {
+        logger.info('✅ WhatsApp opened connection');
+        this.isConnected = true;
       }
     });
   }
 
   public async sendMessage(message: string): Promise<boolean> {
-    if (!this.client || !this.isConnected) {
-      logger.error('WhatsApp client not connected');
-      return false;
+    if (!this.sock || !this.isConnected) {
+        logger.error('WhatsApp client not connected');
+        return false;
     }
 
     try {
-      logger.info(`Sending message to group: ${this.config.groupChatId}`);
-      await this.client.sendText(this.config.groupChatId, message);
-      logger.info('Message sent successfully');
-      return true;
+        // Handle group JIDs correctly. If it doesn't end in @g.us, append it?
+        // Usually config.groupChatId should be correct.
+        await this.sock.sendMessage(this.config.groupChatId, { text: message });
+        logger.info('Message sent successfully');
+        return true;
     } catch (error) {
-      logger.error('Error sending message', error);
-      
-      // In production, if sending fails, at least log the message
-      if (process.env.NODE_ENV === 'production') {
-        logger.info('Failed to send via WhatsApp - Message content:', message);
-      }
-      
-      return false;
+        logger.error('Error sending message', error);
+        return false;
     }
   }
 
@@ -224,138 +120,44 @@ export class WhatsAppService {
   }
 
   public async checkConnection(): Promise<boolean> {
-    if (!this.client) return false;
-
-    try {
-      const connectionState = await this.client.getConnectionState();
-      this.isConnected = connectionState === 'CONNECTED';
-      return this.isConnected;
-    } catch (error) {
-      logger.error('Error checking connection', error);
-      this.isConnected = false;
-      return false;
-    }
+    return this.isConnected;
   }
 
   public async reconnect(): Promise<void> {
-    logger.info('Attempting to reconnect...');
-    await this.close();
-    await this.initialize();
+     await this.close();
+     await this.initialize();
   }
 
   public async forceReconnect(): Promise<void> {
     logger.info('🔄 Forcing WhatsApp reconnection with session cleanup...');
-    
-    this.isConnected = false;
-    
-    // Close current connection
     await this.close();
     
-    // Clean up tokens to ensure fresh start
-    const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
-    const tokensFolderName = 'tokens';
-    const tokensDir = join(tokensBaseDir, tokensFolderName);
-    
-    if (existsSync(tokensDir)) {
-      try {
-        logger.info(`Deleting tokens directory: ${tokensDir}`);
-        rmSync(tokensDir, { recursive: true, force: true });
-        logger.info('✅ Tokens directory deleted successfully');
-      } catch (error: any) {
-        logger.error(`❌ Failed to delete tokens directory: ${tokensDir}`, error);
-      }
+    if (existsSync(this.authDir)) {
+        try {
+            rmSync(this.authDir, { recursive: true, force: true });
+            logger.info('Auth directory deleted');
+        } catch (error) {
+            logger.error('Failed to delete auth directory', error);
+        }
     }
     
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    if (this.onQRCodeGenerated) {
-      logger.info('🔄 Preparing for new QR code generation...');
-    }
+    // Slight delay to ensure filesystem operations complete
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
     await this.initialize();
   }
 
-  private async forceCloseBrowser(): Promise<void> {
-    if (this.client) {
-      try {
-        const clientAny = this.client as any;
-        
-        if (clientAny.browser) {
-          try {
-            const pages = await clientAny.browser.pages();
-            for (const page of pages) {
-              try {
-                await page.close();
-              } catch (error) {
-                logger.debug('Error closing page during force close', error);
-              }
-            }
-          } catch (error) {
-            logger.debug('Error getting pages during force close', error);
-          }
-          
-          try {
-            await clientAny.browser.close();
-            logger.info('Browser force closed successfully');
-          } catch (error) {
-            logger.debug('Error force closing browser', error);
-          }
-        }
-        
-        try {
-          await this.client.close();
-        } catch (error) {
-          logger.debug('Error closing client during force close', error);
-        }
-      } catch (error) {
-        logger.debug('Error during force close browser', error);
-      }
-      
-      this.client = null;
-      this.isConnected = false;
-    }
-  }
-
   public async close(): Promise<void> {
-    if (this.client) {
-      try {
-        const clientAny = this.client as any;
-        
-        if (clientAny.browser) {
-          try {
-            const pages = await clientAny.browser.pages();
-            for (const page of pages) {
-              try {
-                await page.close();
-              } catch (error) {
-                logger.debug('Error closing page', error);
-              }
-            }
-          } catch (error) {
-            logger.debug('Error getting pages', error);
-          }
-          
-          try {
-            await clientAny.browser.close();
-            logger.info('Browser closed successfully');
-          } catch (error) {
-            logger.debug('Error closing browser directly', error);
-          }
+    if (this.sock) {
+        try {
+            this.sock.end(undefined);
+        } catch (e) {
+            logger.error('Error closing socket', e);
         }
-        
-        await this.client.close();
-        logger.info('WhatsApp client closed');
-      } catch (error) {
-        logger.error('Error closing WhatsApp client', error);
-      }
-      
-      this.client = null;
-      this.isConnected = false;
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        this.sock = null;
+        this.isConnected = false;
     }
   }
-
 
   public getConnectionStatus(): boolean {
     return this.isConnected;

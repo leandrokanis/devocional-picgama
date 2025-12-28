@@ -191,13 +191,21 @@ const setupMemoryMonitoring = () => {
     const isHighMemory = used.rss > 400 * 1024 * 1024;
     
     if (process.env.DEBUG === 'true' || isHighMemory) {
-      const logFn = isHighMemory ? logger.warn : logger.debug;
-      logFn('🧠 Memory usage:', {
-        rss: `${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`,
-        heapTotal: `${Math.round(used.heapTotal / 1024 / 1024 * 100) / 100} MB`,
-        heapUsed: `${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`,
-        external: `${Math.round(used.external / 1024 / 1024 * 100) / 100} MB`,
-      });
+      if (isHighMemory) {
+        logger.warn('🧠 Memory usage:', {
+          rss: `${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`,
+          heapTotal: `${Math.round(used.heapTotal / 1024 / 1024 * 100) / 100} MB`,
+          heapUsed: `${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`,
+          external: `${Math.round(used.external / 1024 / 1024 * 100) / 100} MB`,
+        });
+      } else {
+        logger.debug('🧠 Memory usage:', {
+          rss: `${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`,
+          heapTotal: `${Math.round(used.heapTotal / 1024 / 1024 * 100) / 100} MB`,
+          heapUsed: `${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`,
+          external: `${Math.round(used.external / 1024 / 1024 * 100) / 100} MB`,
+        });
+      }
     }
   }, GC_INTERVAL);
   

@@ -28,8 +28,11 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@wppconnect-team/wppconnect": "^1.37.8",
+    "@types/qrcode": "^1.5.6",
+    "@whiskeysockets/baileys": "^7.0.0-rc.9",
     "dotenv": "^17.2.3",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "pino": "^10.1.0",
+    "qrcode": "^1.5.4"
   }
 }
