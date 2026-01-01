@@ -5,6 +5,13 @@
 - Docker Desktop instalado e rodando
 - Arquivo `.env` configurado (ou variáveis de ambiente)
 
+## 🏗️ Arquitetura Simplificada
+
+A nova arquitetura é completamente local e autônoma:
+- ✅ **Sem MongoDB**: Sessão salva em arquivos locais
+- ✅ **Sem GitHub Actions**: Cron interno para agendamento
+- ✅ **Sem dependências externas**: Tudo roda na mesma máquina
+
 ## 🚀 Modo Desenvolvimento (Hot Reload)
 
 ### Configuração Rápida
@@ -16,10 +23,22 @@ cp docker-dev.env.example .env
 
 2. **Configure suas variáveis no arquivo `.env`:**
 ```env
+# Essenciais
+GROUP_CHAT_ID=seu_grupo_id_aqui@g.us
+WHATSAPP_SESSION_NAME=devocional-bot
+SEND_TIME=06:00
+TIMEZONE=America/Sao_Paulo
+
+# Opcionais
+PORT=3000
+DEBUG=false
+AUTH_TOKEN=seu_token_secreto_aqui
+CONFIG_USER=admin
+CONFIG_PASSWORD=sua_senha_admin
+
+# Desenvolvimento
 NODE_ENV=development
 DOCKERFILE=Dockerfile.dev
-GROUP_CHAT_ID=seu-group-chat-id
-# ... outras configurações
 ```
 
 3. **Execute em modo desenvolvimento:**

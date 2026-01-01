@@ -1,11 +1,13 @@
 import 'dotenv/config';
 import { DevotionalService } from './services/devotional.js';
 import { WhatsAppService } from './services/whatsapp.js';
+import { SchedulerService } from './services/scheduler.js';
 import { logger } from './utils/logger.js';
 
 class DevotionalBot {
   private devotionalService: DevotionalService;
   private whatsappService: WhatsAppService;
+  private schedulerService: SchedulerService | null = null;
   private isInitialized = false;
   public currentQRCode: string | null = null;
 
@@ -23,6 +25,18 @@ class DevotionalBot {
       this.currentQRCode = this.sanitizeBase64(base64);
       logger.info('🔗 QR Code salvo! Acesse http://localhost:3001/qr para visualizar');
     };
+
+    // Setup scheduler
+    const sendTime = process.env.SEND_TIME || '06:00';
+    const timezone = process.env.TIMEZONE || 'America/Sao_Paulo';
+    
+    this.schedulerService = new SchedulerService({
+      sendTime,
+      timezone,
+      onExecute: async () => {
+        return await this.sendTodaysDevotional();
+      }
+    });
   }
 
   private sanitizeBase64(base64: string): string {
@@ -132,6 +146,9 @@ class DevotionalBot {
 
   public async close(): Promise<void> {
     logger.info('🔄 Closing bot...');
+    if (this.schedulerService) {
+      this.schedulerService.stop();
+    }
     await this.whatsappService.close();
     logger.info('👋 Bot closed');
   }
@@ -150,6 +167,22 @@ class DevotionalBot {
 
   public getTodaysReadingBasic() {
     return this.devotionalService.getTodaysReadingBasic();
+  }
+
+  public getSchedulerStatus() {
+    return this.schedulerService?.getStatus() || { running: false };
+  }
+
+  public startScheduler(): void {
+    if (this.schedulerService) {
+      this.schedulerService.start();
+    }
+  }
+
+  public stopScheduler(): void {
+    if (this.schedulerService) {
+      this.schedulerService.stop();
+    }
   }
 
 
@@ -461,10 +494,12 @@ async function main() {
             
             if (url.pathname === '/health' && req.method === 'GET') {
               const isConnected = bot.getConnectionStatus();
+              const schedulerStatus = bot.getSchedulerStatus();
               return new Response(JSON.stringify({ 
                 status: 'ok', 
                 connected: isConnected,
-                hasQRCode: bot.currentQRCode !== null
+                hasQRCode: bot.currentQRCode !== null,
+                scheduler: schedulerStatus
               }), {
                 status: 200,
                 headers: addCorsHeaders({ 'Content-Type': 'application/json' })
@@ -1241,6 +1276,76 @@ async function main() {
               }
             }
             
+            if (url.pathname === '/scheduler/status' && req.method === 'GET') {
+              try {
+                const schedulerStatus = bot.getSchedulerStatus();
+                return new Response(JSON.stringify(schedulerStatus), {
+                  status: 200,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              } catch (error) {
+                logger.error('❌ Error getting scheduler status', error);
+                return new Response(JSON.stringify({ 
+                  error: error instanceof Error ? error.message : 'Failed to get scheduler status' 
+                }), {
+                  status: 500,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+            }
+            
+            if (url.pathname === '/scheduler/start' && req.method === 'POST') {
+              try {
+                const authError = checkAuth(req);
+                if (authError) return authError;
+
+                bot.startScheduler();
+                logger.info('📅 Scheduler started via API');
+                return new Response(JSON.stringify({ 
+                  success: true, 
+                  message: 'Scheduler started successfully' 
+                }), {
+                  status: 200,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              } catch (error) {
+                logger.error('❌ Error starting scheduler', error);
+                return new Response(JSON.stringify({ 
+                  success: false, 
+                  error: error instanceof Error ? error.message : 'Failed to start scheduler' 
+                }), {
+                  status: 500,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+            }
+            
+            if (url.pathname === '/scheduler/stop' && req.method === 'POST') {
+              try {
+                const authError = checkAuth(req);
+                if (authError) return authError;
+
+                bot.stopScheduler();
+                logger.info('📅 Scheduler stopped via API');
+                return new Response(JSON.stringify({ 
+                  success: true, 
+                  message: 'Scheduler stopped successfully' 
+                }), {
+                  status: 200,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              } catch (error) {
+                logger.error('❌ Error stopping scheduler', error);
+                return new Response(JSON.stringify({ 
+                  success: false, 
+                  error: error instanceof Error ? error.message : 'Failed to stop scheduler' 
+                }), {
+                  status: 500,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+            }
+            
             if (url.pathname === '/readings' && req.method === 'GET') {
               try {
                 logger.info('📖 Received request for readings');
@@ -1565,7 +1670,9 @@ async function main() {
         if (process.env.GROUP_CHAT_ID) {
           tryInitializeBot().then((initSuccess) => {
             if (initSuccess) {
-              logger.info('🎯 Bot initialized. Press Ctrl+C to stop.');
+              // Start the scheduler after successful bot initialization
+              bot.startScheduler();
+              logger.info('🎯 Bot initialized and scheduler started. Press Ctrl+C to stop.');
             } else {
               logger.info('🎯 Server is running but bot initialization failed. Press Ctrl+C to stop.');
             }

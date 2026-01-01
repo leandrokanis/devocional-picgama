@@ -4,13 +4,10 @@ import makeWASocket, {
   makeCacheableSignalKeyStore,
   type WASocket
 } from '@whiskeysockets/baileys';
-import { useMongoDBAuthState } from 'mongo-baileys';
 import * as QRCode from 'qrcode';
 import { logger } from '../utils/logger.js';
-import { mongoService } from './mongodb.js';
 import { existsSync, rmSync } from 'fs';
 import { join } from 'path';
-import { tmpdir } from 'os';
 import pino from 'pino';
 
 export interface WhatsAppConfig {
@@ -29,9 +26,8 @@ export class WhatsAppService {
 
   constructor(config: WhatsAppConfig) {
     this.config = config;
-    const tokensBaseDir = process.env.TOKENS_DIR || tmpdir();
-    // Use a folder specific to the session (fallback for local development)
-    this.authDir = join(tokensBaseDir, 'baileys_auth_info');
+    // Always use local tokens directory for session storage
+    this.authDir = join(process.cwd(), 'tokens', 'baileys_auth_info');
   }
 
   public async initialize(): Promise<void> {
@@ -45,32 +41,9 @@ export class WhatsAppService {
   }
 
   private async connectToWhatsApp() {
-    let state: any;
-    let saveCreds: any;
-
-    // Try MongoDB first, fallback to file system for local development
-    const useMongoAuth = process.env.MONGODB_URI && process.env.NODE_ENV === 'production';
-    
-    if (useMongoAuth) {
-      try {
-        await mongoService.ensureConnection();
-        const collection = mongoService.getAuthCollection();
-        const mongoAuth = await useMongoDBAuthState(collection as any);
-        state = mongoAuth.state;
-        saveCreds = mongoAuth.saveCreds;
-        logger.info('Using MongoDB for auth state storage');
-      } catch (error) {
-        logger.error('Failed to use MongoDB auth state, falling back to file system:', error);
-        const fileAuth = await useMultiFileAuthState(this.authDir);
-        state = fileAuth.state;
-        saveCreds = fileAuth.saveCreds;
-      }
-    } else {
-      const fileAuth = await useMultiFileAuthState(this.authDir);
-      state = fileAuth.state;
-      saveCreds = fileAuth.saveCreds;
-      logger.info('Using file system for auth state storage');
-    }
+    // Always use file system for auth state storage
+    const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
+    logger.info('Using file system for auth state storage');
 
     this.sock = makeWASocket({
       auth: {
@@ -183,15 +156,6 @@ export class WhatsAppService {
         }
         this.sock = null;
         this.isConnected = false;
-    }
-    
-    // Close MongoDB connection if it was used
-    if (process.env.MONGODB_URI && process.env.NODE_ENV === 'production') {
-      try {
-        await mongoService.disconnect();
-      } catch (e) {
-        logger.error('Error closing MongoDB connection', e);
-      }
     }
   }
 

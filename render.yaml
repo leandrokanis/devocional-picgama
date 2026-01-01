@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: devocional-picgama
-    env: docker
-    autoDeploy: true
-    plan: free
-    healthCheckPath: /health
-
