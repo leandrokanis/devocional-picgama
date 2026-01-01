@@ -29,4 +29,4 @@ EXPOSE 3000
 USER root
 
 # Start the application in development mode with hot reload
-CMD ["/root/.bun/bin/bun", "run", "dev:hot"]
+CMD ["/root/.bun/bin/bun", "run", "dev"]

@@ -12,7 +12,6 @@ import pino from 'pino';
 
 export interface WhatsAppConfig {
   sessionName: string;
-  groupChatId: string;
   headless?: boolean;
   debug?: boolean;
 }
@@ -97,16 +96,19 @@ export class WhatsAppService {
     });
   }
 
-  public async sendMessage(message: string): Promise<boolean> {
+  public async sendMessage(message: string, chatId: string): Promise<boolean> {
     if (!this.sock || !this.isConnected) {
         logger.error('WhatsApp client not connected');
         return false;
     }
 
     try {
-        // Handle group JIDs correctly. If it doesn't end in @g.us, append it?
-        // Usually config.groupChatId should be correct.
-        await this.sock.sendMessage(this.config.groupChatId, { text: message });
+        const target = chatId.trim();
+        if (!target) {
+          logger.error('Invalid chat id');
+          return false;
+        }
+        await this.sock.sendMessage(target, { text: message });
         logger.info('Message sent successfully');
         return true;
     } catch (error) {
@@ -115,8 +117,24 @@ export class WhatsAppService {
     }
   }
 
-  public async sendDevotionalMessage(devotionalText: string): Promise<boolean> {
-    return this.sendMessage(devotionalText);
+  public async sendDevotionalMessage(devotionalText: string, chatId: string): Promise<boolean> {
+    return this.sendMessage(devotionalText, chatId);
+  }
+
+  public async sendToAll(message: string, chatIds: string[]): Promise<{ success: number; failures: number }> {
+    let success = 0;
+    let failures = 0;
+
+    for (const chatId of chatIds) {
+      const sent = await this.sendMessage(message, chatId);
+      if (sent) {
+        success += 1;
+      } else {
+        failures += 1;
+      }
+    }
+
+    return { success, failures };
   }
 
   public async checkConnection(): Promise<boolean> {

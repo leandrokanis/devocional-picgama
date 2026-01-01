@@ -23,7 +23,7 @@ services:
       - DISPLAY=:99
     volumes:
       - ./tokens:/app/tokens  # WhatsApp session storage
-      - ./data:/app/data:ro   # Devotional readings
+      - ./data:/app/data      # Devotional readings and database
       - /dev/shm:/dev/shm
       # Development volumes for hot reload
       - ./src:/app/src:ro

@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Devocional WhatsApp Bot API",
-    "description": "API para gerenciar o bot automatizado de envio de textos bíblicos devocionais via WhatsApp (usando Baileys). Inclui funcionalidades de hot reload, reconexão automática do WhatsApp e interface web para QR code.",
-    "version": "1.1.0",
+    "description": "API para gerenciar o bot automatizado de envio de textos bíblicos devocionais via WhatsApp (usando Baileys). Inclui funcionalidades de hot reload, reconexão automática do WhatsApp, interface web para QR code e gerenciamento de destinatários.",
+    "version": "1.2.0",
     "contact": {
       "name": "Devocional Picgama",
       "url": "https://github.com/seu-usuario/devocional-picgama"
@@ -11,11 +11,11 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:4000",
       "description": "Servidor local de desenvolvimento"
     },
     {
-      "url": "http://0.0.0.0:3000",
+      "url": "http://0.0.0.0:4000",
       "description": "Servidor em todas as interfaces"
     },
     {
@@ -27,7 +27,7 @@
           "description": "Endereço IP ou hostname do servidor"
         },
         "port": {
-          "default": "3000",
+          "default": "4000",
           "description": "Porta do servidor"
         }
       }
@@ -38,7 +38,7 @@
       "post": {
         "tags": ["Devocional"],
         "summary": "Envia o devocional do dia",
-        "description": "Envia automaticamente o devocional correspondente ao dia atual para o grupo WhatsApp configurado",
+        "description": "Envia automaticamente o devocional correspondente ao dia atual para todos os destinatários configurados (grupos ou pessoas)",
         "operationId": "sendDevotional",
         "security": [
           {
@@ -218,6 +218,324 @@
         }
       }
     },
+    "/api/recipients": {
+      "get": {
+        "tags": ["Destinatários"],
+        "summary": "Listar destinatários",
+        "description": "Lista todos os destinatários (grupos ou pessoas) cadastrados para envio via WhatsApp",
+        "operationId": "listRecipients",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de destinatários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Recipient"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "chatId": "5581999999999@s.whatsapp.net",
+                      "name": "Contato Principal",
+                      "type": "person",
+                      "createdAt": "2024-12-26T10:00:00Z",
+                      "updatedAt": "2024-12-26T10:00:00Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Destinatários"],
+        "summary": "Criar destinatário",
+        "description": "Cadastra um novo destinatário (grupo ou pessoa) para envio via WhatsApp",
+        "operationId": "createRecipient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecipientRequest"
+              },
+              "example": {
+                "chat_id": "5581999999999@s.whatsapp.net",
+                "name": "Contato Principal",
+                "type": "person"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Destinatário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipient"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Chat ID duplicado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipients/{id}": {
+      "get": {
+        "tags": ["Destinatários"],
+        "summary": "Obter destinatário",
+        "description": "Obtém um destinatário pelo ID",
+        "operationId": "getRecipient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do destinatário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destinatário encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipient"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Destinatário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Destinatários"],
+        "summary": "Atualizar destinatário",
+        "description": "Atualiza um destinatário existente",
+        "operationId": "updateRecipient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do destinatário"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecipientRequest"
+              },
+              "example": {
+                "chat_id": "grupo-devocional@g.us",
+                "name": "Grupo Devocional",
+                "type": "group"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Destinatário atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipient"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Destinatário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Destinatários"],
+        "summary": "Excluir destinatário",
+        "description": "Remove um destinatário pelo ID",
+        "operationId": "deleteRecipient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do destinatário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destinatário removido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Destinatário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/qr": {
       "get": {
         "tags": ["WhatsApp"],
@@ -329,6 +647,67 @@
           }
         },
         "required": ["status", "connected", "hasQRCode"]
+      },
+      "Recipient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID interno do destinatário",
+            "example": 1
+          },
+          "chatId": {
+            "type": "string",
+            "description": "JID do WhatsApp (contato ou grupo)",
+            "example": "5581999999999@s.whatsapp.net"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome de identificação",
+            "example": "Grupo Devocional"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["group", "person"],
+            "description": "Tipo do destinatário",
+            "example": "group"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de criação do registro",
+            "example": "2024-12-26T10:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de última atualização",
+            "example": "2024-12-26T10:00:00Z"
+          }
+        },
+        "required": ["id", "chatId", "name", "type", "createdAt", "updatedAt"]
+      },
+      "RecipientRequest": {
+        "type": "object",
+        "properties": {
+          "chat_id": {
+            "type": "string",
+            "description": "JID do WhatsApp (contato ou grupo)",
+            "example": "grupo-devocional@g.us"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome de identificação",
+            "example": "Grupo Devocional"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["group", "person"],
+            "description": "Tipo do destinatário",
+            "example": "group"
+          }
+        },
+        "required": ["chat_id", "name", "type"]
       },
       "DevotionalReading": {
         "type": "object",
@@ -455,6 +834,10 @@
     {
       "name": "Documentation",
       "description": "Endpoints de documentação da API"
+    },
+    {
+      "name": "Destinatários",
+      "description": "Gerenciamento de destinatários (grupos e pessoas) para envio via WhatsApp"
     }
   ]
 }

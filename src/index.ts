@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { DevotionalService } from './services/devotional.js';
 import { WhatsAppService } from './services/whatsapp.js';
+import { RecipientsService } from './services/recipients.js';
 import { SchedulerService } from './services/scheduler.js';
 import { logger } from './utils/logger.js';
 
@@ -8,6 +9,7 @@ class DevotionalBot {
   private devotionalService: DevotionalService;
   private whatsappService: WhatsAppService;
   private schedulerService: SchedulerService | null = null;
+  public recipientsService: RecipientsService;
   private isInitialized = false;
   public currentQRCode: string | null = null;
 
@@ -16,9 +18,10 @@ class DevotionalBot {
     
     this.whatsappService = new WhatsAppService({
       sessionName: process.env.WHATSAPP_SESSION_NAME || 'devocional-bot',
-      groupChatId: process.env.GROUP_CHAT_ID || '',
       debug: process.env.DEBUG === 'true'
     });
+    this.recipientsService = new RecipientsService(process.env.RECIPIENTS_DB_PATH);
+    this.recipientsService.initialize();
 
     // Setup QR code callback
     this.whatsappService.onQRCodeGenerated = (base64: string, ascii: string) => {
@@ -61,10 +64,6 @@ class DevotionalBot {
   public async initialize(): Promise<void> {
     try {
       logger.info('🚀 Initializing Devocional Bot...');
-      
-      if (!process.env.GROUP_CHAT_ID) {
-        throw new Error('GROUP_CHAT_ID environment variable is required');
-      }
 
       if (!this.devotionalService.validateReadings()) {
         throw new Error('Invalid devotional readings data');
@@ -104,15 +103,33 @@ class DevotionalBot {
       const message = this.devotionalService.formatMessage(todaysReading);
       logger.info('📖 Sending today\'s devotional:', todaysReading.formattedDate);
       
-      const success = await this.whatsappService.sendDevotionalMessage(message);
-      
-      if (success) {
-        logger.info('✅ Devotional message sent successfully');
-      } else {
-        logger.error('❌ Failed to send devotional message');
+      const recipients = this.recipientsService.getAll();
+      if (!recipients.length) {
+        logger.warn('⚠️ No recipients configured. Add recipients in /config.');
+        return false;
       }
 
-      return success;
+      let success = 0;
+      let failures = 0;
+
+      for (const recipient of recipients) {
+        const sent = await this.whatsappService.sendDevotionalMessage(message, recipient.chatId);
+        if (sent) {
+          success += 1;
+          logger.info(`✅ Devotional sent to ${recipient.name} (${recipient.chatId})`);
+        } else {
+          failures += 1;
+          logger.error(`❌ Failed to send to ${recipient.name} (${recipient.chatId})`);
+        }
+      }
+
+      if (success > 0) {
+        logger.info(`✅ Devotional message sent successfully to ${success} recipient(s). Failures: ${failures}`);
+        return true;
+      }
+
+      logger.error('❌ Failed to send devotional message to all recipients');
+      return false;
     } catch (error) {
       logger.error('❌ Error sending devotional', error);
       return false;
@@ -131,8 +148,18 @@ class DevotionalBot {
       
       logger.info('📱 WhatsApp connection verified');
       
+      const recipients = this.recipientsService.getAll();
+      if (!recipients.length) {
+        throw new Error('No recipients configured to send test message');
+      }
+
+      const [firstRecipient] = recipients;
+      if (!firstRecipient) {
+        throw new Error('No recipients configured to send test message');
+      }
+
       const testMessage = '🤖 Bot de teste - conexão estabelecida com sucesso!';
-      const success = await this.whatsappService.sendMessage(testMessage);
+      const success = await this.whatsappService.sendMessage(testMessage, firstRecipient.chatId);
       
       if (success) {
         logger.info('✅ Test message sent successfully');
@@ -264,7 +291,7 @@ async function main() {
           const baseUrl = process.env.SERVER_URL.replace(/\/$/, '');
           url = `${baseUrl}/send`;
         } else {
-          const serverPort = process.env.PORT || process.env.SERVER_PORT || '3000';
+          const serverPort = process.env.PORT || process.env.SERVER_PORT || '4000';
           const serverHost = process.env.SERVER_HOST || 'localhost';
           url = `http://${serverHost}:${serverPort}/send`;
         }
@@ -299,7 +326,7 @@ async function main() {
         break;
       case 'start':
       default:
-        const port = parseInt(process.env.PORT || process.env.SERVER_PORT || '3000', 10);
+        const port = parseInt(process.env.PORT || process.env.SERVER_PORT || '4000', 10);
         const hostname = process.env.SERVER_HOST || '0.0.0.0';
         
         // Setup memory monitoring
@@ -443,6 +470,117 @@ async function main() {
               });
             }
             
+          const parseJsonBody = async <T>() => {
+            try {
+              return await req.json() as T;
+            } catch (error) {
+              logger.error('Failed to parse JSON body', error);
+              return null;
+            }
+          };
+
+          // Recipients API
+          if (url.pathname === '/api/recipients') {
+            const authError = checkAuth(req);
+            if (authError) return authError;
+
+            if (req.method === 'GET') {
+              const recipients = bot.recipientsService.getAll();
+              return new Response(JSON.stringify({ data: recipients }), {
+                status: 200,
+                headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+              });
+            }
+
+            if (req.method === 'POST') {
+              const payload = await parseJsonBody<{ chat_id?: string; name?: string; type?: string }>();
+              if (!payload) {
+                return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+                  status: 400,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+
+              const { chat_id, name, type } = payload;
+              try {
+                const created = bot.recipientsService.create(chat_id || '', name || '', (type || '') as 'group' | 'person');
+                return new Response(JSON.stringify(created), {
+                  status: 201,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              } catch (error) {
+                const message = error instanceof Error ? error.message : 'Failed to create recipient';
+                const status = message.includes('UNIQUE') ? 409 : 400;
+                return new Response(JSON.stringify({ error: message }), {
+                  status,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+            }
+          }
+
+          const matchRecipientId = url.pathname.match(/^\/api\/recipients\/(\d+)$/);
+          if (matchRecipientId) {
+            const authError = checkAuth(req);
+            if (authError) return authError;
+
+            const recipientId = parseInt(matchRecipientId[1]!, 10);
+
+            if (req.method === 'GET') {
+              const recipient = bot.recipientsService.getById(recipientId);
+              if (!recipient) {
+                return new Response(JSON.stringify({ error: 'Recipient not found' }), {
+                  status: 404,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+              return new Response(JSON.stringify(recipient), {
+                status: 200,
+                headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+              });
+            }
+
+            if (req.method === 'PUT') {
+              const payload = await parseJsonBody<{ chat_id?: string; name?: string; type?: string }>();
+              if (!payload) {
+                return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+                  status: 400,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+
+              const { chat_id, name, type } = payload;
+              try {
+                const updated = bot.recipientsService.update(recipientId, chat_id || '', name || '', (type || '') as 'group' | 'person');
+                return new Response(JSON.stringify(updated), {
+                  status: 200,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              } catch (error) {
+                const message = error instanceof Error ? error.message : 'Failed to update recipient';
+                const status = message.includes('not found') ? 404 : 400;
+                return new Response(JSON.stringify({ error: message }), {
+                  status,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+            }
+
+            if (req.method === 'DELETE') {
+              const deleted = bot.recipientsService.delete(recipientId);
+              if (!deleted) {
+                return new Response(JSON.stringify({ error: 'Recipient not found' }), {
+                  status: 404,
+                  headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+                });
+              }
+              return new Response(JSON.stringify({ success: true }), {
+                status: 200,
+                headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+              });
+            }
+          }
+
 
             if (url.pathname === '/send' && req.method === 'POST') {
               try {
@@ -450,17 +588,7 @@ async function main() {
                 if (authError) return authError;
 
                 logger.info('📨 Received send request via HTTP');
-                
-                if (!process.env.GROUP_CHAT_ID) {
-                  return new Response(JSON.stringify({ 
-                    success: false, 
-                    error: 'GROUP_CHAT_ID environment variable is required' 
-                  }), {
-                    status: 400,
-                    headers: addCorsHeaders({ 'Content-Type': 'application/json' })
-                  });
-                }
-                
+
                 const success = await bot.sendTodaysDevotional();
                 
                 if (success) {
@@ -1014,6 +1142,88 @@ async function main() {
       from { transform: translateY(100%); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #444;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: #e9ecef;
+      color: #555;
+      font-size: 0.9em;
+    }
+    .badge-group { background: #d1e7dd; color: #0f5132; }
+    .badge-person { background: #e7d1e7; color: #4a1d4f; }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .modal h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+    }
+    .form-group {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-weight: 600;
+      color: #444;
+    }
+    .form-group input,
+    .form-group select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
@@ -1081,6 +1291,35 @@ async function main() {
         </div>
       </div>
 
+      <!-- Recipients -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-users"></i> Destinatários WhatsApp</h2>
+          <button class="btn btn-primary" style="max-width: 200px;" onclick="openRecipientModal()">
+            <i class="fas fa-plus"></i> Adicionar
+          </button>
+        </div>
+        <div class="card-content">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Tipo</th>
+                  <th>Chat ID</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="recipients-body">
+                <tr>
+                  <td colspan="4">Carregando destinatários...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- Quick Actions & Links -->
       <div class="card">
         <div class="card-header">
@@ -1101,12 +1340,40 @@ async function main() {
     </div>
   </div>
 
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <h3 id="recipient-modal-title">Novo Destinatário</h3>
+      <div class="form-group">
+        <label for="recipient-name">Nome</label>
+        <input id="recipient-name" type="text" placeholder="Ex: Grupo Jovens">
+      </div>
+      <div class="form-group">
+        <label for="recipient-chat-id">Chat ID</label>
+        <input id="recipient-chat-id" type="text" placeholder="Ex: 5581999999999@s.whatsapp.net ou grupo@g.us">
+      </div>
+      <div class="form-group">
+        <label for="recipient-type">Tipo</label>
+        <select id="recipient-type">
+          <option value="group">Grupo</option>
+          <option value="person">Pessoa</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" style="max-width: 120px;" onclick="closeRecipientModal()">Cancelar</button>
+        <button class="btn btn-primary" style="max-width: 120px;" onclick="saveRecipient()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast"></div>
 
   <script>
     // Configuration
     const REFRESH_INTERVAL = 5000;
     const AUTH_TOKEN = '${authToken}';
+
+    let recipientsCache = [];
+    let editingRecipientId = null;
 
     // Utils
     function showToast(message, type = 'info') {
@@ -1152,6 +1419,153 @@ async function main() {
     }
 
     // Actions
+    function openRecipientModal(recipient) {
+      editingRecipientId = recipient?.id || null;
+      const overlay = document.getElementById('modal-overlay');
+      const title = document.getElementById('recipient-modal-title');
+      const nameInput = document.getElementById('recipient-name');
+      const chatInput = document.getElementById('recipient-chat-id');
+      const typeInput = document.getElementById('recipient-type');
+
+      title.textContent = editingRecipientId ? 'Editar Destinatário' : 'Novo Destinatário';
+      nameInput.value = recipient?.name || '';
+      chatInput.value = recipient?.chatId || '';
+      typeInput.value = recipient?.type || 'group';
+
+      if (overlay) {
+        overlay.style.display = 'flex';
+      }
+    }
+
+    function closeRecipientModal() {
+      editingRecipientId = null;
+      const overlay = document.getElementById('modal-overlay');
+      const nameInput = document.getElementById('recipient-name');
+      const chatInput = document.getElementById('recipient-chat-id');
+      const typeInput = document.getElementById('recipient-type');
+
+      nameInput.value = '';
+      chatInput.value = '';
+      typeInput.value = 'group';
+
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+    }
+
+    async function loadRecipients() {
+      const data = await fetchData('/api/recipients');
+      const body = document.getElementById('recipients-body');
+      if (!body) return;
+
+      if (!data || !data.data) {
+        body.innerHTML = '<tr><td colspan="4">Erro ao carregar destinatários</td></tr>';
+        return;
+      }
+
+      recipientsCache = data.data;
+
+      if (!recipientsCache.length) {
+        body.innerHTML = '<tr><td colspan="4">Nenhum destinatário cadastrado</td></tr>';
+        return;
+      }
+
+      body.innerHTML = recipientsCache.map(r => {
+        const badgeClass = r.type === 'group' ? 'badge badge-group' : 'badge badge-person';
+        const typeLabel = r.type === 'group' ? 'Grupo' : 'Pessoa';
+        return \`
+          <tr>
+            <td>\${r.name}</td>
+            <td><span class="\${badgeClass}">\${typeLabel}</span></td>
+            <td style="font-family: monospace;">\${r.chatId}</td>
+            <td>
+              <div class="actions">
+                <button class="btn btn-outline" style="max-width: 110px;" onclick="editRecipient(\${r.id})">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="btn btn-danger" style="max-width: 110px;" onclick="deleteRecipient(\${r.id})">
+                  <i class="fas fa-trash"></i> Excluir
+                </button>
+              </div>
+            </td>
+          </tr>
+        \`;
+      }).join('');
+    }
+
+    async function saveRecipient() {
+      const name = document.getElementById('recipient-name').value.trim();
+      const chatId = document.getElementById('recipient-chat-id').value.trim();
+      const type = document.getElementById('recipient-type').value;
+
+      if (!name || !chatId) {
+        showToast('Preencha nome e chat ID', 'error');
+        return;
+      }
+
+      const endpoint = editingRecipientId ? '/api/recipients/' + editingRecipientId : '/api/recipients';
+      const method = editingRecipientId ? 'PUT' : 'POST';
+
+      const headers = { 'Content-Type': 'application/json' };
+      if (AUTH_TOKEN) {
+        headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
+      }
+
+      try {
+        const res = await fetch(endpoint, {
+          method,
+          headers,
+          body: JSON.stringify({ name, chat_id: chatId, type })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showToast('Erro: ' + (data.error || 'Falha ao salvar'), 'error');
+          return;
+        }
+
+        showToast('Destinatário salvo com sucesso');
+        closeRecipientModal();
+        await loadRecipients();
+      } catch (e) {
+        console.error(e);
+        showToast('Erro ao salvar destinatário', 'error');
+      }
+    }
+
+    function editRecipient(id) {
+      const recipient = recipientsCache.find(r => r.id === id);
+      if (!recipient) {
+        showToast('Destinatário não encontrado', 'error');
+        return;
+      }
+      openRecipientModal(recipient);
+    }
+
+    async function deleteRecipient(id) {
+      if (!confirm('Excluir este destinatário?')) return;
+
+      const headers = {};
+      if (AUTH_TOKEN) {
+        headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
+      }
+
+      try {
+        const res = await fetch('/api/recipients/' + id, { method: 'DELETE', headers });
+        const data = await res.json();
+        if (!res.ok) {
+          showToast('Erro: ' + (data.error || 'Falha ao excluir'), 'error');
+          return;
+        }
+        showToast('Destinatário removido');
+        await loadRecipients();
+      } catch (e) {
+        console.error(e);
+        showToast('Erro ao excluir destinatário', 'error');
+      }
+    }
+
     async function sendDevotional() {
       if (!confirm('Tem certeza que deseja enviar o devocional agora?')) return;
       
@@ -1235,6 +1649,7 @@ async function main() {
     document.addEventListener('DOMContentLoaded', () => {
       updateStatus();
       updateReading();
+      loadRecipients();
       setInterval(updateStatus, REFRESH_INTERVAL);
     });
   </script>
@@ -1375,10 +1790,6 @@ async function main() {
             }
             
             if (url.pathname === '/api-docs' && req.method === 'GET') {
-              if (!isDevelopment) {
-                return new Response('Not Found', { status: 404 });
-              }
-              
               try {
                 const swaggerPaths = [
                   './src/swagger.json',
@@ -1459,10 +1870,6 @@ async function main() {
             }
             
             if (url.pathname === '/docs') {
-              if (!isDevelopment) {
-                return new Response('Not Found', { status: 404 });
-              }
-              
               const swaggerHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1667,23 +2074,17 @@ async function main() {
           logger.info(`📚 Swagger via rede: http://${localIP}:${port}/docs`);
         }
         
-        if (process.env.GROUP_CHAT_ID) {
-          tryInitializeBot().then((initSuccess) => {
-            if (initSuccess) {
-              // Start the scheduler after successful bot initialization
-              bot.startScheduler();
-              logger.info('🎯 Bot initialized and scheduler started. Press Ctrl+C to stop.');
-            } else {
-              logger.info('🎯 Server is running but bot initialization failed. Press Ctrl+C to stop.');
-            }
-          }).catch((error) => {
-            logger.error('❌ Error during bot initialization', error);
-            logger.info('🎯 Server is running but bot is not initialized. Press Ctrl+C to stop.');
-          });
-        } else {
-          logger.warn('⚠️ GROUP_CHAT_ID not set. Bot will not be initialized. Server will start but WhatsApp features will not work.');
-          logger.info('🎯 Server is running. Press Ctrl+C to stop.');
-        }
+        tryInitializeBot().then((initSuccess) => {
+          if (initSuccess) {
+            bot.startScheduler();
+            logger.info('🎯 Bot initialized and scheduler started. Press Ctrl+C to stop.');
+          } else {
+            logger.info('🎯 Server is running but bot initialization failed. Press Ctrl+C to stop.');
+          }
+        }).catch((error) => {
+          logger.error('❌ Error during bot initialization', error);
+          logger.info('🎯 Server is running but bot is not initialized. Press Ctrl+C to stop.');
+        });
         
         process.on('SIGINT', async () => {
           logger.info('\n🛑 Received SIGINT, shutting down gracefully...');
