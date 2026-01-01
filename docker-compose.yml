@@ -22,14 +22,8 @@ services:
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
       - DISPLAY=:99
     volumes:
-      - ./tokens:/app/tokens  # WhatsApp session storage
-      - ./data:/app/data      # Devotional readings and database
+      - ./data:/app/data
       - /dev/shm:/dev/shm
-      # Development volumes for hot reload
-      - ./src:/app/src:ro
-      - ./package.json:/app/package.json:ro
-      - ./tsconfig.json:/app/tsconfig.json:ro
-      - ./tsconfig.build.json:/app/tsconfig.build.json:ro
     restart: unless-stopped
     cap_add:
       - SYS_ADMIN

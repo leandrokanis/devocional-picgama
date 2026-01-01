@@ -39,3 +39,4 @@ dist/
 .wppconnect-session/
 tokens/
 .cursor/
+*.db
