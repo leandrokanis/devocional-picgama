@@ -3,6 +3,7 @@ import { DevotionalService } from './services/devotional.js';
 import { WhatsAppService } from './services/whatsapp.js';
 import { RecipientsService } from './services/recipients.js';
 import { SchedulerService } from './services/scheduler.js';
+import { UrlShortenerService } from './services/url-shortener.js';
 import { logger } from './utils/logger.js';
 
 class DevotionalBot {
@@ -14,7 +15,8 @@ class DevotionalBot {
   public currentQRCode: string | null = null;
 
   constructor() {
-    this.devotionalService = new DevotionalService(process.env.DATA_PATH);
+    const urlShortener = new UrlShortenerService();
+    this.devotionalService = new DevotionalService(process.env.DATA_PATH, urlShortener);
     
     this.whatsappService = new WhatsAppService({
       sessionName: process.env.WHATSAPP_SESSION_NAME || 'devocional-bot',
@@ -100,7 +102,7 @@ class DevotionalBot {
         return false;
       }
 
-      const message = this.devotionalService.formatMessage(todaysReading);
+      const message = await this.devotionalService.formatMessage(todaysReading);
       logger.info('📖 Sending today\'s devotional:', todaysReading.formattedDate);
       
       const recipients = this.recipientsService.getAll();

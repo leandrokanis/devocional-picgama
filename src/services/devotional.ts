@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { getDateString, formatDate } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
+import { UrlShortenerService } from './url-shortener.js';
 
 export interface DevotionalReading {
   date: string;
@@ -17,9 +18,11 @@ export interface DevotionalMessage {
 export class DevotionalService {
   private readings: DevotionalReading[] = [];
   private dataPath: string;
+  private urlShortener: UrlShortenerService | null;
 
-  constructor(dataPath?: string) {
+  constructor(dataPath?: string, urlShortener?: UrlShortenerService) {
     this.dataPath = dataPath || join(process.cwd(), 'data', 'readings-2026.json');
+    this.urlShortener = urlShortener || null;
     this.loadReadings();
   }
 
@@ -90,8 +93,26 @@ export class DevotionalService {
     return this.readings.find(r => r.date === dateString) || null;
   }
 
-  public formatMessage(devotional: DevotionalMessage): string {
-    return `📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.reading}`;
+  private formatReadingForUrl(reading: string): string {
+    return reading
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '%20');
+  }
+
+  private generateBibleGatewayLink(reading: string): string {
+    const searchParam = this.formatReadingForUrl(reading);
+    return `https://www.biblegateway.com/passage/?search=${searchParam}&version=NVI-PT&interface=print`;
+  }
+
+  public async formatMessage(devotional: DevotionalMessage): Promise<string> {
+    const originalLink = this.generateBibleGatewayLink(devotional.reading);
+    const link = this.urlShortener 
+      ? await this.urlShortener.shorten(originalLink)
+      : originalLink;
+    const audioLink = 'https://is.gd/rjLzat';
+    return `📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.reading}\n\n🔗 Leia: ${link}\n\n🎧 Devocional em áudio: ${audioLink}`;
   }
 
   public validateReadings(): boolean {

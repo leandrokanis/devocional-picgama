@@ -10,7 +10,7 @@ const createTempJsonFile = (data: unknown) => {
   return filePath;
 };
 
-test('loads simple readings format (date + reading)', () => {
+test('loads simple readings format (date + reading)', async () => {
   const filePath = createTempJsonFile([
     { date: '2026-01-02', reading: 'Gênesis 4-6' }
   ]);
@@ -24,8 +24,12 @@ test('loads simple readings format (date + reading)', () => {
     expect(message).not.toBeNull();
     expect(message!.reading).toBe('Gênesis 4-6');
 
-    const formatted = service.formatMessage(message!);
+    const formatted = await service.formatMessage(message!);
     expect(formatted).toContain('Gênesis 4-6');
+    expect(formatted).toContain('https://www.biblegateway.com/passage/');
+    expect(formatted).toContain('genesis%204-6');
+    expect(formatted).toContain('version=NVI-PT');
+    expect(formatted).toContain('https://bit.ly/devocional-restauracao');
     expect(formatted).not.toContain('AT1:');
   } finally {
     unlinkSync(filePath);
