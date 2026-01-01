@@ -1,14 +1,12 @@
 import makeWASocket, { 
   DisconnectReason, 
-  useMultiFileAuthState,
   makeCacheableSignalKeyStore,
   type WASocket
 } from '@whiskeysockets/baileys';
 import * as QRCode from 'qrcode';
 import { logger } from '../utils/logger.js';
-import { existsSync, rmSync } from 'fs';
-import { join } from 'path';
 import pino from 'pino';
+import { WhatsAppAuthService } from './whatsapp-auth.js';
 
 export interface WhatsAppConfig {
   sessionName: string;
@@ -21,12 +19,11 @@ export class WhatsAppService {
   private config: WhatsAppConfig;
   private isConnected = false;
   public onQRCodeGenerated?: (base64: string, ascii: string) => void;
-  private authDir: string;
+  private authService: WhatsAppAuthService;
 
   constructor(config: WhatsAppConfig) {
     this.config = config;
-    // Always use local tokens directory for session storage
-    this.authDir = join(process.cwd(), 'tokens', 'baileys_auth_info');
+    this.authService = new WhatsAppAuthService(config.sessionName);
   }
 
   public async initialize(): Promise<void> {
@@ -40,9 +37,8 @@ export class WhatsAppService {
   }
 
   private async connectToWhatsApp() {
-    // Always use file system for auth state storage
-    const { state, saveCreds } = await useMultiFileAuthState(this.authDir);
-    logger.info('Using file system for auth state storage');
+    const { state, saveCreds } = await this.authService.useAuthState();
+    logger.info('Using SQLite database for auth state storage');
 
     this.sock = makeWASocket({
       auth: {
@@ -150,16 +146,13 @@ export class WhatsAppService {
     logger.info('🔄 Forcing WhatsApp reconnection with session cleanup...');
     await this.close();
     
-    if (existsSync(this.authDir)) {
-        try {
-            rmSync(this.authDir, { recursive: true, force: true });
-            logger.info('Auth directory deleted');
-        } catch (error) {
-            logger.error('Failed to delete auth directory', error);
-        }
+    try {
+      await this.authService.clearAuth();
+      logger.info('Auth data cleared from database');
+    } catch (error) {
+      logger.error('Failed to clear auth data', error);
     }
     
-    // Slight delay to ensure filesystem operations complete
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     await this.initialize();

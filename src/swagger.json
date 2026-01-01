@@ -540,7 +540,7 @@
       "get": {
         "tags": ["WhatsApp"],
         "summary": "QR Code para autenticação WhatsApp",
-        "description": "Exibe o QR code para pareamento do WhatsApp. Se 'reconnect=true' for passado, limpa todos os dados da sessão anterior (tokens) e força uma nova autenticação.",
+        "description": "Exibe o QR code para pareamento do WhatsApp. Se 'reconnect=true' for passado, limpa todos os dados da sessão anterior (banco de dados SQLite) e força uma nova autenticação.",
         "operationId": "getQRCode",
         "security": [
           {
