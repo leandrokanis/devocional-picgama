@@ -59,6 +59,17 @@
         }
       }
     },
+    "/docs": {
+      "get": {
+        "tags": ["System"],
+        "summary": "Swagger UI",
+        "responses": {
+          "200": {
+            "description": "Swagger UI HTML"
+          }
+        }
+      }
+    },
     "/send": {
       "post": {
         "tags": ["Devotional"],

@@ -13,7 +13,7 @@ services:
       - PORT=${PORT:-4000}
       - SERVER_PORT=${SERVER_PORT:-4000}
       - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
-      - GROUP_CHAT_ID=${GROUP_CHAT_ID}
+      - GROUP_CHAT_ID=${GROUP_CHAT_ID:-}
       - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
       - SEND_TIME=${SEND_TIME:-06:00}
       - TIMEZONE=${TIMEZONE:-America/Sao_Paulo}

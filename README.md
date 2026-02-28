@@ -66,6 +66,14 @@ docker compose logs -f
 docker compose down
 ```
 
+Se aparecer erro `ERR_UNSUPPORTED_ESM_URL_SCHEME: Received protocol 'bun:'`, faça rebuild sem cache:
+
+```bash
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
+
 ## Endpoints
 
 ### Públicos
@@ -74,6 +82,7 @@ docker compose down
 - `GET /health`
 - `GET /readings`
 - `GET /readings/today`
+- `GET /docs`
 - `GET /api-docs`
 - `GET /scheduler/status`
 
@@ -98,6 +107,7 @@ curl -X POST http://localhost:4000/send \
 
 ## OpenAPI
 
+- Swagger UI: `GET /docs`
 - Spec JSON: `GET /api-docs`
 - Arquivo base: `src/swagger.json`
 

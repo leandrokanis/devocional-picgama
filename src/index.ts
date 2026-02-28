@@ -509,6 +509,37 @@ async function main() {
         });
       }
 
+      if (url.pathname === '/docs' && req.method === 'GET') {
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devocional API - Swagger UI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    window.onload = () => {
+      window.ui = SwaggerUIBundle({
+        url: '/api-docs',
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [SwaggerUIBundle.presets.apis],
+      });
+    };
+  </script>
+</body>
+</html>`;
+
+        return new Response(html, {
+          status: 200,
+          headers: addCorsHeaders({ 'Content-Type': 'text/html; charset=utf-8' })
+        });
+      }
+
       if (url.pathname === '/api-docs' && req.method === 'GET') {
         try {
           const swaggerPaths = [
@@ -556,7 +587,8 @@ async function main() {
         return new Response(JSON.stringify({
           name: 'devocional-picgama',
           version: '1.0.0',
-          docs: '/api-docs',
+          docs: '/docs',
+          openapi: '/api-docs',
           health: '/health'
         }), {
           status: 200,
