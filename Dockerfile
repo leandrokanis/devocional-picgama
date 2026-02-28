@@ -1,22 +1,19 @@
-FROM oven/bun:1
+FROM node:22-alpine
+
+RUN apk add --no-cache git
 
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-# Copy source code and build
 COPY . .
-RUN rm -rf dist && bun run build
+RUN rm -rf dist && npx tsc -p tsconfig.build.json && \
+    cp src/swagger.json dist/swagger.json 2>/dev/null || true && \
+    cp -r data dist/ 2>/dev/null || true
 
-# Create tokens directory with proper permissions (fallback for local development)
-# Using /tmp ensures we have write access in most environments
-RUN mkdir -p /tmp/tokens && \
-    chmod -R 777 /tmp/tokens
+RUN mkdir -p /tmp/tokens && chmod -R 777 /tmp/tokens
 
-# Expose port
-EXPOSE 3000
+EXPOSE 4000
 
-# Start the application
-CMD ["bun", "run", "start"]
+CMD ["node", "dist/index.js"]

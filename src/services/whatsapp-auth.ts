@@ -1,12 +1,12 @@
 import { join } from 'path';
 import { mkdirSync } from 'fs';
-import { Database } from 'bun:sqlite';
+import Database from 'better-sqlite3';
 import { logger } from '../utils/logger.js';
 import type { AuthenticationState, SignalDataTypeMap } from '@whiskeysockets/baileys';
 import { initAuthCreds, BufferJSON } from '@whiskeysockets/baileys';
 
 export class WhatsAppAuthService {
-  private db: Database;
+  private db: InstanceType<typeof Database>;
   private sessionId: string;
 
   constructor(sessionId: string) {
@@ -19,14 +19,14 @@ export class WhatsAppAuthService {
   }
 
   private initialize(): void {
-    this.db.run(`
+    this.db.exec(`
       CREATE TABLE IF NOT EXISTS whatsapp_creds (
         session_id TEXT NOT NULL PRIMARY KEY,
         creds TEXT NOT NULL
       )
     `);
 
-    this.db.run(`
+    this.db.exec(`
       CREATE TABLE IF NOT EXISTS whatsapp_keys (
         session_id TEXT NOT NULL,
         key_id TEXT NOT NULL,
@@ -49,6 +49,7 @@ export class WhatsAppAuthService {
       await this.saveCreds(creds);
     };
 
+    const keysMap = keys as Record<string, Record<string, unknown>>;
     return {
       state: {
         creds,
@@ -56,32 +57,32 @@ export class WhatsAppAuthService {
           get: async (type, ids) => {
             const result: { [id: string]: any } = {};
             for (const id of ids) {
-              if (keys[type]?.[id]) {
-                result[id] = keys[type][id];
+              if (keysMap[type]?.[id]) {
+                result[id] = keysMap[type][id];
               } else {
                 const key = await this.getKey(type, id);
                 if (key) {
-                  if (!keys[type]) {
-                    keys[type] = {};
+                  if (!keysMap[type]) {
+                    keysMap[type] = {};
                   }
-                  keys[type][id] = key;
+                  keysMap[type][id] = key;
                   result[id] = key;
                 }
               }
             }
             return result;
           },
-          set: async (data) => {
+          set: async (data: Record<string, Record<string, unknown>>) => {
             for (const category in data) {
-              if (!keys[category]) {
-                keys[category] = {};
+              if (!keysMap[category]) {
+                keysMap[category] = {};
               }
               for (const jid in data[category]) {
                 const value = data[category][jid];
-                keys[category][jid] = value;
+                keysMap[category][jid] = value;
                 if (value === null) {
                   await this.removeKey(category as keyof SignalDataTypeMap, jid);
-                  delete keys[category][jid];
+                  delete keysMap[category][jid];
                 } else {
                   await this.saveKey(category as keyof SignalDataTypeMap, jid, value);
                 }
@@ -96,7 +97,7 @@ export class WhatsAppAuthService {
 
   private async loadCreds(): Promise<any> {
     const row = this.db
-      .query('SELECT creds FROM whatsapp_creds WHERE session_id = ?')
+      .prepare('SELECT creds FROM whatsapp_creds WHERE session_id = ?')
       .get(this.sessionId) as { creds: string } | undefined;
 
     if (row) {
@@ -113,22 +114,23 @@ export class WhatsAppAuthService {
 
   private async saveCreds(creds: any): Promise<void> {
     const credsJson = JSON.stringify(creds, BufferJSON.replacer);
-    const stmt = this.db.query(`
-      INSERT OR REPLACE INTO whatsapp_creds (session_id, creds) 
-      VALUES (?, ?)
-    `);
-    stmt.run(this.sessionId, credsJson);
+    this.db
+      .prepare('INSERT OR REPLACE INTO whatsapp_creds (session_id, creds) VALUES (?, ?)')
+      .run(this.sessionId, credsJson);
   }
 
   private async loadKeys(): Promise<{ [T in keyof SignalDataTypeMap]: { [id: string]: SignalDataTypeMap[T] } }> {
     const rows = this.db
-      .query('SELECT key_id, key_data FROM whatsapp_keys WHERE session_id = ?')
+      .prepare('SELECT key_id, key_data FROM whatsapp_keys WHERE session_id = ?')
       .all(this.sessionId) as Array<{ key_id: string; key_data: string }>;
 
-    const keys: any = {};
+    const keys: Record<string, Record<string, unknown>> = {};
 
     for (const row of rows) {
-      const [type, id] = row.key_id.split(':');
+      const parts = row.key_id.split(':');
+      const type = parts[0];
+      const id = parts[1];
+      if (!type || !id) continue;
       if (!keys[type]) {
         keys[type] = {};
       }
@@ -139,13 +141,13 @@ export class WhatsAppAuthService {
       }
     }
 
-    return keys;
+    return keys as { [T in keyof SignalDataTypeMap]: { [id: string]: SignalDataTypeMap[T] } };
   }
 
   private async getKey(type: keyof SignalDataTypeMap, id: string): Promise<any | null> {
     const keyId = `${type}:${id}`;
     const row = this.db
-      .query('SELECT key_data FROM whatsapp_keys WHERE session_id = ? AND key_id = ?')
+      .prepare('SELECT key_data FROM whatsapp_keys WHERE session_id = ? AND key_id = ?')
       .get(this.sessionId, keyId) as { key_data: string } | undefined;
 
     if (row) {
@@ -167,25 +169,21 @@ export class WhatsAppAuthService {
   ): Promise<void> {
     const keyId = `${type}:${id}`;
     const keyData = JSON.stringify(value, BufferJSON.replacer);
-    const stmt = this.db.query(`
-      INSERT OR REPLACE INTO whatsapp_keys (session_id, key_id, key_data) 
-      VALUES (?, ?, ?)
-    `);
-    stmt.run(this.sessionId, keyId, keyData);
+    this.db
+      .prepare('INSERT OR REPLACE INTO whatsapp_keys (session_id, key_id, key_data) VALUES (?, ?, ?)')
+      .run(this.sessionId, keyId, keyData);
   }
 
   private async removeKey(type: keyof SignalDataTypeMap, id: string): Promise<void> {
     const keyId = `${type}:${id}`;
-    const stmt = this.db.query(`
-      DELETE FROM whatsapp_keys 
-      WHERE session_id = ? AND key_id = ?
-    `);
-    stmt.run(this.sessionId, keyId);
+    this.db
+      .prepare('DELETE FROM whatsapp_keys WHERE session_id = ? AND key_id = ?')
+      .run(this.sessionId, keyId);
   }
 
   public async clearAuth(): Promise<void> {
-    this.db.query('DELETE FROM whatsapp_creds WHERE session_id = ?').run(this.sessionId);
-    this.db.query('DELETE FROM whatsapp_keys WHERE session_id = ?').run(this.sessionId);
+    this.db.prepare('DELETE FROM whatsapp_creds WHERE session_id = ?').run(this.sessionId);
+    this.db.prepare('DELETE FROM whatsapp_keys WHERE session_id = ?').run(this.sessionId);
     logger.info('WhatsApp auth data cleared');
   }
 }

@@ -1,5 +1,6 @@
-import makeWASocket, { 
-  DisconnectReason, 
+import makeWASocket, {
+  DisconnectReason,
+  fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
   type WASocket
 } from '@whiskeysockets/baileys';
@@ -58,10 +59,12 @@ export class WhatsAppService {
     const { state, saveCreds } = await this.authService.useAuthState();
     logger.info('Using SQLite database for auth state storage');
 
+    const { version } = await fetchLatestBaileysVersion();
     this.sock = makeWASocket({
+      version,
       auth: {
         creds: state.creds,
-        keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "silent" })) 
+        keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "silent" }))
       },
       printQRInTerminal: false,
       logger: pino({ level: this.config.debug ? "debug" : "silent" }) as any,
@@ -78,6 +81,9 @@ export class WhatsAppService {
       if (qr) {
         logger.info('QR Code received');
         try {
+          const terminalQR = await QRCode.toString(qr, { type: 'terminal', small: true });
+          console.log('\n' + terminalQR + '\n');
+
           const base64 = await QRCode.toDataURL(qr);
           if (this.onQRCodeGenerated) {
             this.onQRCodeGenerated(base64, qr);

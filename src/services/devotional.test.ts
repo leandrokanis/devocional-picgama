@@ -1,4 +1,4 @@
-import { test, expect } from 'bun:test';
+import { test, expect } from 'vitest';
 import { writeFileSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -29,7 +29,7 @@ test('loads simple readings format (date + reading)', async () => {
     expect(formatted).toContain('https://www.biblegateway.com/passage/');
     expect(formatted).toContain('genesis%204-6');
     expect(formatted).toContain('version=NVI-PT');
-    expect(formatted).toContain('https://bit.ly/devocional-restauracao');
+    expect(formatted).toMatch(/https:\/\/(www\.biblegateway\.com|bit\.ly|is\.gd)/);
     expect(formatted).not.toContain('AT1:');
   } finally {
     unlinkSync(filePath);

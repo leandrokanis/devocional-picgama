@@ -1,4 +1,8 @@
 import 'dotenv/config';
+import { createServer } from 'http';
+import type { IncomingMessage, ServerResponse } from 'http';
+import { readFile } from 'fs/promises';
+import { existsSync } from 'fs';
 import { DevotionalService } from './services/devotional.js';
 import { WhatsAppService } from './services/whatsapp.js';
 import { RecipientsService } from './services/recipients.js';
@@ -28,7 +32,8 @@ class DevotionalBot {
     // Setup QR code callback
     this.whatsappService.onQRCodeGenerated = (base64: string, ascii: string) => {
       this.currentQRCode = this.sanitizeBase64(base64);
-      logger.info('🔗 QR Code salvo! Acesse http://localhost:3001/qr para visualizar');
+      const qrPort = process.env.PORT || process.env.SERVER_PORT || '4000';
+      logger.info(`🔗 QR Code salvo! Acesse http://localhost:${qrPort}/qr para visualizar`);
     };
 
     // Setup scheduler
@@ -245,7 +250,7 @@ const setupMemoryMonitoring = () => {
   
   setInterval(() => {
     // Force GC
-    Bun.gc(true);
+    global.gc?.();
     
     // Log memory usage
     const used = process.memoryUsage();
@@ -322,7 +327,7 @@ async function main() {
             process.exit(1);
           }
         } catch (error) {
-          logger.error('❌ Failed to connect to running instance. Make sure the bot is running with "bun run dev" or "bun run start"', error);
+          logger.error('❌ Failed to connect to running instance. Make sure the bot is running with "yarn dev" or "yarn start"', error);
           process.exit(1);
         }
         break;
@@ -455,10 +460,7 @@ async function main() {
           });
         };
 
-        Bun.serve({
-          port,
-          hostname,
-          async fetch(req) {
+        const fetchHandler = async (req: Request) => {
             const url = new URL(req.url);
             const isDevelopment = process.env.NODE_ENV !== 'production';
             
@@ -678,14 +680,15 @@ async function main() {
               const tokenAmp = token ? `&token=${token}` : '';
               const tokenQm = token ? `?token=${token}` : '';
               
-              // If force reconnect is requested, try to reconnect
               if (forceReconnect) {
                 try {
                   logger.info('🔄 Force reconnect requested via /qr?reconnect=true');
                   await bot.forceWhatsAppReconnect();
                   
-                  // Wait a bit for QR code generation
-                  await new Promise(resolve => setTimeout(resolve, 2000));
+                  for (let i = 0; i < 10; i++) {
+                    if (bot.currentQRCode) break;
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                  }
                 } catch (error) {
                   logger.error('❌ Error during force reconnect', error);
                 }
@@ -1799,12 +1802,11 @@ async function main() {
                   new URL('./swagger.json', import.meta.url).pathname
                 ];
                 
-                let swaggerData = null;
+let swaggerData = null;
                 for (const path of swaggerPaths) {
                   try {
-                    const file = Bun.file(path);
-                    if (await file.exists()) {
-                      swaggerData = await file.json();
+                    if (existsSync(path)) {
+                      swaggerData = JSON.parse(await readFile(path, 'utf-8'));
                       break;
                     }
                   } catch {
@@ -2066,8 +2068,57 @@ async function main() {
             
             return new Response('Not Found', { status: 404 });
           }
+
+        const server = createServer(async (nodeReq: IncomingMessage, nodeRes: ServerResponse) => {
+          try {
+            const protocol = 'http';
+            const host = nodeReq.headers.host || `localhost:${port}`;
+            const fullUrl = `${protocol}://${host}${nodeReq.url || '/'}`;
+            
+            let body: Buffer | undefined;
+            if (nodeReq.method !== 'GET' && nodeReq.method !== 'HEAD') {
+              body = await new Promise<Buffer>((resolve, reject) => {
+                const chunks: Buffer[] = [];
+                nodeReq.on('data', (chunk: Buffer) => chunks.push(chunk));
+                nodeReq.on('end', () => resolve(Buffer.concat(chunks)));
+                nodeReq.on('error', reject);
+              });
+            }
+
+            const headers = new Headers();
+            for (const [key, value] of Object.entries(nodeReq.headers)) {
+              if (value) {
+                if (Array.isArray(value)) {
+                  value.forEach(v => headers.append(key, v));
+                } else {
+                  headers.set(key, value);
+                }
+              }
+            }
+
+            const request = new Request(fullUrl, {
+              method: nodeReq.method || 'GET',
+              headers,
+              body: body && body.length > 0 ? body : undefined,
+            });
+
+            const response = await fetchHandler(request);
+            
+            nodeRes.statusCode = response.status;
+            response.headers.forEach((value, key) => {
+              nodeRes.setHeader(key, value);
+            });
+            
+            const responseBody = await response.arrayBuffer();
+            nodeRes.end(Buffer.from(responseBody));
+          } catch (err) {
+            logger.error('HTTP handler error', err);
+            nodeRes.statusCode = 500;
+            nodeRes.end('Internal Server Error');
+          }
         });
-        
+        server.listen(port, hostname);
+
         const localIP = getLocalIP();
         logger.info(`🌐 HTTP server listening on http://${hostname}:${port}`);
         if (localIP && hostname === '0.0.0.0') {

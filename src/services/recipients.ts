@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { mkdirSync } from 'fs';
-import { Database } from 'bun:sqlite';
+import Database from 'better-sqlite3';
 import { logger } from '../utils/logger.js';
 
 export type RecipientType = 'group' | 'person';
@@ -15,7 +15,7 @@ export interface Recipient {
 }
 
 export class RecipientsService {
-  private db: Database;
+  private db: InstanceType<typeof Database>;
 
   constructor(dbPath?: string) {
     const databasePath = dbPath || join(process.cwd(), 'data', 'recipients.db');
@@ -25,7 +25,7 @@ export class RecipientsService {
   }
 
   public initialize(): void {
-    this.db.run(`
+    this.db.exec(`
       CREATE TABLE IF NOT EXISTS recipients (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         chat_id TEXT NOT NULL UNIQUE,
@@ -35,7 +35,7 @@ export class RecipientsService {
         updated_at TEXT DEFAULT (datetime('now'))
       )
     `);
-    this.db.run(`
+    this.db.exec(`
       CREATE TRIGGER IF NOT EXISTS recipients_update_timestamp
       AFTER UPDATE ON recipients
       BEGIN
@@ -47,14 +47,14 @@ export class RecipientsService {
 
   public getAll(): Recipient[] {
     const rows = this.db
-      .query('SELECT id, chat_id as chatId, name, type, created_at as createdAt, updated_at as updatedAt FROM recipients ORDER BY id ASC')
+      .prepare('SELECT id, chat_id as chatId, name, type, created_at as createdAt, updated_at as updatedAt FROM recipients ORDER BY id ASC')
       .all() as Recipient[];
     return rows;
   }
 
   public getById(id: number): Recipient | null {
     const row = this.db
-      .query('SELECT id, chat_id as chatId, name, type, created_at as createdAt, updated_at as updatedAt FROM recipients WHERE id = ?')
+      .prepare('SELECT id, chat_id as chatId, name, type, created_at as createdAt, updated_at as updatedAt FROM recipients WHERE id = ?')
       .get(id) as Recipient | undefined;
     return row || null;
   }
@@ -70,7 +70,7 @@ export class RecipientsService {
       throw new Error('type must be group or person');
     }
 
-    const stmt = this.db.query('INSERT INTO recipients (chat_id, name, type) VALUES (?, ?, ?)');
+    const stmt = this.db.prepare('INSERT INTO recipients (chat_id, name, type) VALUES (?, ?, ?)');
     const result = stmt.run(chatId.trim(), name.trim(), type);
 
     if (result.changes !== 1) {
@@ -95,7 +95,7 @@ export class RecipientsService {
       throw new Error('type must be group or person');
     }
 
-    const stmt = this.db.query('UPDATE recipients SET chat_id = ?, name = ?, type = ? WHERE id = ?');
+    const stmt = this.db.prepare('UPDATE recipients SET chat_id = ?, name = ?, type = ? WHERE id = ?');
     const result = stmt.run(chatId.trim(), name.trim(), type, id);
 
     if (result.changes !== 1) {
@@ -110,7 +110,7 @@ export class RecipientsService {
   }
 
   public delete(id: number): boolean {
-    const stmt = this.db.query('DELETE FROM recipients WHERE id = ?');
+    const stmt = this.db.prepare('DELETE FROM recipients WHERE id = ?');
     const result = stmt.run(id);
     return result.changes === 1;
   }
