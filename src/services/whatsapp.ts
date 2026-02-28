@@ -20,6 +20,8 @@ export class WhatsAppService {
   private isConnected = false;
   public onQRCodeGenerated?: (base64: string, ascii: string) => void;
   private authService: WhatsAppAuthService;
+  private intentionalClose = false;
+  private reconnectTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor(config: WhatsAppConfig) {
     this.config = config;
@@ -37,6 +39,22 @@ export class WhatsAppService {
   }
 
   private async connectToWhatsApp() {
+    if (this.reconnectTimeoutId) {
+      clearTimeout(this.reconnectTimeoutId);
+      this.reconnectTimeoutId = null;
+    }
+    if (this.sock) {
+      this.intentionalClose = true;
+      try {
+        this.sock.end(undefined);
+      } catch (e) {
+        logger.error('Error closing socket', e);
+      }
+      this.sock = null;
+      this.isConnected = false;
+      setImmediate(() => { this.intentionalClose = false; });
+    }
+
     const { state, saveCreds } = await this.authService.useAuthState();
     logger.info('Using SQLite database for auth state storage');
 
@@ -50,6 +68,7 @@ export class WhatsAppService {
       browser: ["Devocional Bot", "Chrome", "1.0.0"],
       generateHighQualityLinkPreview: true,
     });
+    const currentSock = this.sock;
 
     this.sock.ev.on('creds.update', saveCreds);
 
@@ -69,21 +88,26 @@ export class WhatsAppService {
       }
 
       if (connection === 'close') {
+        if (this.intentionalClose) return;
+        if (this.sock !== currentSock) return;
+
         const statusCode = (lastDisconnect?.error as any)?.output?.statusCode;
         const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
-        
+
         logger.warn(`Connection closed due to ${lastDisconnect?.error}, reconnecting: ${shouldReconnect}`);
         this.isConnected = false;
-        
+        this.sock = null;
+
         if (shouldReconnect) {
-          // Add a small delay before reconnecting to avoid tight loops
-          setTimeout(() => this.connectToWhatsApp(), 2000);
+          this.reconnectTimeoutId = setTimeout(() => {
+            this.reconnectTimeoutId = null;
+            this.connectToWhatsApp();
+          }, 2000);
         } else {
-            logger.error('Connection closed. You are logged out.');
-            // If logged out, we might want to clean credentials
-            if (statusCode === DisconnectReason.loggedOut) {
-               await this.forceReconnect();
-            }
+          logger.error('Connection closed. You are logged out.');
+          if (statusCode === DisconnectReason.loggedOut) {
+            await this.forceReconnect();
+          }
         }
       } else if (connection === 'open') {
         logger.info('✅ WhatsApp opened connection');
@@ -159,14 +183,20 @@ export class WhatsAppService {
   }
 
   public async close(): Promise<void> {
+    if (this.reconnectTimeoutId) {
+      clearTimeout(this.reconnectTimeoutId);
+      this.reconnectTimeoutId = null;
+    }
     if (this.sock) {
-        try {
-            this.sock.end(undefined);
-        } catch (e) {
-            logger.error('Error closing socket', e);
-        }
-        this.sock = null;
-        this.isConnected = false;
+      this.intentionalClose = true;
+      try {
+        this.sock.end(undefined);
+      } catch (e) {
+        logger.error('Error closing socket', e);
+      }
+      this.sock = null;
+      this.isConnected = false;
+      setImmediate(() => { this.intentionalClose = false; });
     }
   }
 
