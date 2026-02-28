@@ -2,88 +2,27 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Devocional WhatsApp Bot API",
-    "description": "API para gerenciar o bot automatizado de envio de textos bíblicos devocionais via WhatsApp (usando Baileys). Inclui funcionalidades de hot reload, reconexão automática do WhatsApp, interface web para QR code e gerenciamento de destinatários.",
-    "version": "1.2.0",
-    "contact": {
-      "name": "Devocional Picgama",
-      "url": "https://github.com/seu-usuario/devocional-picgama"
-    }
+    "description": "API para envio automatizado de devocionais via WhatsApp e gerenciamento operacional.",
+    "version": "2.0.0"
   },
   "servers": [
     {
       "url": "http://localhost:4000",
-      "description": "Servidor local de desenvolvimento"
-    },
-    {
-      "url": "http://0.0.0.0:4000",
-      "description": "Servidor em todas as interfaces"
-    },
-    {
-      "url": "http://{host}:{port}",
-      "description": "Servidor personalizado",
-      "variables": {
-        "host": {
-          "default": "localhost",
-          "description": "Endereço IP ou hostname do servidor"
-        },
-        "port": {
-          "default": "4000",
-          "description": "Porta do servidor"
-        }
-      }
+      "description": "Local server"
     }
   ],
   "paths": {
-    "/send": {
-      "post": {
-        "tags": ["Devocional"],
-        "summary": "Envia o devocional do dia",
-        "description": "Envia automaticamente o devocional correspondente ao dia atual para todos os destinatários configurados (grupos ou pessoas)",
-        "operationId": "sendDevotional",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+    "/": {
+      "get": {
+        "tags": ["System"],
+        "summary": "API root",
         "responses": {
           "200": {
-            "description": "Devocional enviado com sucesso",
+            "description": "API metadata",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SendResponse"
-                },
-                "example": {
-                  "success": true,
-                  "message": "Devotional sent successfully"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Não autorizado - Token de autenticação inválido ou ausente",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "success": false,
-                  "error": "Unauthorized"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Erro ao enviar o devocional",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "success": false,
-                  "error": "Failed to send devotional"
+                  "$ref": "#/components/schemas/RootResponse"
                 }
               }
             }
@@ -93,22 +32,69 @@
     },
     "/health": {
       "get": {
-        "tags": ["Health"],
-        "summary": "Verifica o status da aplicação",
-        "description": "Retorna o status de saúde da aplicação e o estado da conexão com o WhatsApp",
-        "operationId": "healthCheck",
+        "tags": ["System"],
+        "summary": "Health check",
         "responses": {
           "200": {
-            "description": "Status da aplicação",
+            "description": "Service health",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HealthResponse"
-                },
-                "example": {
-                  "status": "ok",
-                  "connected": true,
-                  "hasQRCode": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "tags": ["System"],
+        "summary": "OpenAPI specification",
+        "responses": {
+          "200": {
+            "description": "OpenAPI JSON"
+          }
+        }
+      }
+    },
+    "/send": {
+      "post": {
+        "tags": ["Devotional"],
+        "summary": "Send today's devotional",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Send succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Send failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -118,40 +104,21 @@
     },
     "/readings/today": {
       "get": {
-        "tags": ["Devocional"],
-        "summary": "Retorna a leitura de hoje",
-        "description": "Retorna a leitura devocional correspondente ao dia atual",
-        "operationId": "getTodaysReading",
+        "tags": ["Devotional"],
+        "summary": "Get today's reading",
         "responses": {
           "200": {
-            "description": "Leitura do dia atual",
+            "description": "Today's reading",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DevotionalReading"
-                },
-                "example": {
-                  "date": "2025-12-26",
-                  "reading": "Gênesis 1-3"
                 }
               }
             }
           },
           "404": {
-            "description": "Nenhuma leitura encontrada para o dia atual",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "error": "No devotional reading found for today"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Erro ao buscar leitura",
+            "description": "Reading not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -165,48 +132,152 @@
     },
     "/readings": {
       "get": {
-        "tags": ["Devocional"],
-        "summary": "Retorna todas as leituras",
-        "description": "Retorna todas as leituras devocionais disponíveis no sistema. Pode ser filtrado por data usando o parâmetro de query 'date' no formato YYYY-MM-DD.",
-        "operationId": "getAllReadings",
+        "tags": ["Devotional"],
+        "summary": "List readings",
         "parameters": [
           {
             "name": "date",
             "in": "query",
-            "description": "Filtra leituras por data específica no formato YYYY-MM-DD",
             "required": false,
             "schema": {
               "type": "string",
-              "format": "date",
-              "example": "2025-12-26"
-            }
+              "format": "date"
+            },
+            "description": "Filter by date (YYYY-MM-DD)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Lista de leituras devocionais",
+            "description": "Readings list",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ReadingsResponse"
-                },
-                "example": {
-                  "data": [
-                    {
-                      "date": "2025-12-26",
-                      "reading": "Gênesis 1-3"
-                    }
-                  ],
-                  "metadata": {
-                    "count": 1,
-                    "filteredBy": "2025-12-26"
-                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qr": {
+      "get": {
+        "tags": ["WhatsApp"],
+        "summary": "Get WhatsApp QR status",
+        "description": "Returns QR data URL when WhatsApp is disconnected. Optional reconnect can force a fresh auth cycle.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "reconnect",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Force WhatsApp reconnection"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "QR status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QrResponse"
                 }
               }
             }
           },
-          "500": {
-            "description": "Erro ao buscar leituras",
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduler/status": {
+      "get": {
+        "tags": ["Scheduler"],
+        "summary": "Get scheduler status",
+        "responses": {
+          "200": {
+            "description": "Scheduler status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchedulerStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduler/start": {
+      "post": {
+        "tags": ["Scheduler"],
+        "summary": "Start scheduler",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scheduler started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduler/stop": {
+      "post": {
+        "tags": ["Scheduler"],
+        "summary": "Stop scheduler",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scheduler stopped",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -220,10 +291,8 @@
     },
     "/api/recipients": {
       "get": {
-        "tags": ["Destinatários"],
-        "summary": "Listar destinatários",
-        "description": "Lista todos os destinatários (grupos ou pessoas) cadastrados para envio via WhatsApp",
-        "operationId": "listRecipients",
+        "tags": ["Recipients"],
+        "summary": "List recipients",
         "security": [
           {
             "bearerAuth": []
@@ -231,7 +300,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de destinatários",
+            "description": "Recipients list",
             "content": {
               "application/json": {
                 "schema": {
@@ -243,29 +312,8 @@
                         "$ref": "#/components/schemas/Recipient"
                       }
                     }
-                  }
-                },
-                "example": {
-                  "data": [
-                    {
-                      "id": 1,
-                      "chatId": "5581999999999@s.whatsapp.net",
-                      "name": "Contato Principal",
-                      "type": "person",
-                      "createdAt": "2024-12-26T10:00:00Z",
-                      "updatedAt": "2024-12-26T10:00:00Z"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Não autorizado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  },
+                  "required": ["data"]
                 }
               }
             }
@@ -273,10 +321,8 @@
         }
       },
       "post": {
-        "tags": ["Destinatários"],
-        "summary": "Criar destinatário",
-        "description": "Cadastra um novo destinatário (grupo ou pessoa) para envio via WhatsApp",
-        "operationId": "createRecipient",
+        "tags": ["Recipients"],
+        "summary": "Create recipient",
         "security": [
           {
             "bearerAuth": []
@@ -288,18 +334,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RecipientRequest"
-              },
-              "example": {
-                "chat_id": "5581999999999@s.whatsapp.net",
-                "name": "Contato Principal",
-                "type": "person"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Destinatário criado com sucesso",
+            "description": "Recipient created",
             "content": {
               "application/json": {
                 "schema": {
@@ -309,7 +350,7 @@
             }
           },
           "400": {
-            "description": "Dados inválidos",
+            "description": "Invalid payload",
             "content": {
               "application/json": {
                 "schema": {
@@ -319,17 +360,7 @@
             }
           },
           "409": {
-            "description": "Chat ID duplicado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Não autorizado",
+            "description": "Conflict",
             "content": {
               "application/json": {
                 "schema": {
@@ -343,10 +374,8 @@
     },
     "/api/recipients/{id}": {
       "get": {
-        "tags": ["Destinatários"],
-        "summary": "Obter destinatário",
-        "description": "Obtém um destinatário pelo ID",
-        "operationId": "getRecipient",
+        "tags": ["Recipients"],
+        "summary": "Get recipient by ID",
         "security": [
           {
             "bearerAuth": []
@@ -359,13 +388,12 @@
             "required": true,
             "schema": {
               "type": "integer"
-            },
-            "description": "ID do destinatário"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Destinatário encontrado",
+            "description": "Recipient",
             "content": {
               "application/json": {
                 "schema": {
@@ -375,17 +403,7 @@
             }
           },
           "404": {
-            "description": "Destinatário não encontrado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Não autorizado",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -397,10 +415,8 @@
         }
       },
       "put": {
-        "tags": ["Destinatários"],
-        "summary": "Atualizar destinatário",
-        "description": "Atualiza um destinatário existente",
-        "operationId": "updateRecipient",
+        "tags": ["Recipients"],
+        "summary": "Update recipient",
         "security": [
           {
             "bearerAuth": []
@@ -413,8 +429,7 @@
             "required": true,
             "schema": {
               "type": "integer"
-            },
-            "description": "ID do destinatário"
+            }
           }
         ],
         "requestBody": {
@@ -423,18 +438,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RecipientRequest"
-              },
-              "example": {
-                "chat_id": "grupo-devocional@g.us",
-                "name": "Grupo Devocional",
-                "type": "group"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Destinatário atualizado",
+            "description": "Recipient updated",
             "content": {
               "application/json": {
                 "schema": {
@@ -443,18 +453,8 @@
               }
             }
           },
-          "404": {
-            "description": "Destinatário não encontrado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "400": {
-            "description": "Dados inválidos",
+            "description": "Invalid payload",
             "content": {
               "application/json": {
                 "schema": {
@@ -463,8 +463,8 @@
               }
             }
           },
-          "401": {
-            "description": "Não autorizado",
+          "404": {
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -476,10 +476,8 @@
         }
       },
       "delete": {
-        "tags": ["Destinatários"],
-        "summary": "Excluir destinatário",
-        "description": "Remove um destinatário pelo ID",
-        "operationId": "deleteRecipient",
+        "tags": ["Recipients"],
+        "summary": "Delete recipient",
         "security": [
           {
             "bearerAuth": []
@@ -492,96 +490,32 @@
             "required": true,
             "schema": {
               "type": "integer"
-            },
-            "description": "ID do destinatário"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Destinatário removido",
+            "description": "Recipient deleted",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "success": {
-                      "type": "boolean",
-                      "example": true
+                      "type": "boolean"
                     }
-                  }
+                  },
+                  "required": ["success"]
                 }
               }
             }
           },
           "404": {
-            "description": "Destinatário não encontrado",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Não autorizado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/qr": {
-      "get": {
-        "tags": ["WhatsApp"],
-        "summary": "QR Code para autenticação WhatsApp",
-        "description": "Exibe o QR code para pareamento do WhatsApp. Se 'reconnect=true' for passado, limpa todos os dados da sessão anterior (banco de dados SQLite) e força uma nova autenticação.",
-        "operationId": "getQRCode",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "reconnect",
-            "in": "query",
-            "description": "Força uma nova autenticação do WhatsApp mesmo se já estiver conectado",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Página HTML com QR code ou interface de reconexão",
-            "content": {
-              "text/html": {
-                "schema": {
-                  "type": "string",
-                  "description": "Página HTML interativa com QR code do WhatsApp"
-                },
-                "example": "<!DOCTYPE html><html>...</html>"
-              }
-            }
-          },
-          "401": {
-            "description": "Não autorizado - Token de autenticação inválido ou ausente",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "success": false,
-                  "error": "Unauthorized"
                 }
               }
             }
@@ -595,196 +529,97 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "Token",
-        "description": "Autenticação via Bearer Token. Use o header Authorization: Bearer <token>"
+        "bearerFormat": "Token"
       }
     },
     "schemas": {
+      "RootResponse": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "docs": { "type": "string" },
+          "health": { "type": "string" }
+        },
+        "required": ["name", "version", "docs", "health"]
+      },
       "SendResponse": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Indica se o envio foi bem-sucedido"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de sucesso"
-          }
+          "success": { "type": "boolean" },
+          "message": { "type": "string" }
         },
         "required": ["success"]
       },
       "ErrorResponse": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Indica que houve um erro",
-            "example": false
-          },
-          "error": {
-            "type": "string",
-            "description": "Mensagem de erro"
-          }
+          "success": { "type": "boolean", "example": false },
+          "error": { "type": "string" }
         },
-        "required": ["success", "error"]
+        "required": ["error"]
       },
       "HealthResponse": {
         "type": "object",
         "properties": {
-          "status": {
-            "type": "string",
-            "description": "Status da aplicação",
-            "example": "ok"
-          },
-          "connected": {
-            "type": "boolean",
-            "description": "Indica se o WhatsApp está conectado"
-          },
-          "hasQRCode": {
-            "type": "boolean",
-            "description": "Indica se há um QR code disponível para autenticação"
-          }
+          "status": { "type": "string" },
+          "connected": { "type": "boolean" },
+          "hasQRCode": { "type": "boolean" },
+          "scheduler": { "$ref": "#/components/schemas/SchedulerStatus" }
         },
-        "required": ["status", "connected", "hasQRCode"]
+        "required": ["status", "connected", "hasQRCode", "scheduler"]
+      },
+      "QrResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "connected": { "type": "boolean" },
+          "qr": {
+            "type": ["string", "null"],
+            "description": "QR code as data URL (data:image/png;base64,...)"
+          },
+          "message": { "type": "string" }
+        },
+        "required": ["success", "connected", "qr", "message"]
+      },
+      "SchedulerStatus": {
+        "type": "object",
+        "properties": {
+          "running": { "type": "boolean" },
+          "nextExecution": { "type": "string" },
+          "sendTime": { "type": "string" },
+          "timezone": { "type": "string" }
+        },
+        "required": ["running"]
       },
       "Recipient": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "ID interno do destinatário",
-            "example": 1
-          },
-          "chatId": {
-            "type": "string",
-            "description": "JID do WhatsApp (contato ou grupo)",
-            "example": "5581999999999@s.whatsapp.net"
-          },
-          "name": {
-            "type": "string",
-            "description": "Nome de identificação",
-            "example": "Grupo Devocional"
-          },
-          "type": {
-            "type": "string",
-            "enum": ["group", "person"],
-            "description": "Tipo do destinatário",
-            "example": "group"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Data de criação do registro",
-            "example": "2024-12-26T10:00:00Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Data de última atualização",
-            "example": "2024-12-26T10:00:00Z"
-          }
+          "id": { "type": "integer" },
+          "chatId": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["group", "person"] },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
         },
         "required": ["id", "chatId", "name", "type", "createdAt", "updatedAt"]
       },
       "RecipientRequest": {
         "type": "object",
         "properties": {
-          "chat_id": {
-            "type": "string",
-            "description": "JID do WhatsApp (contato ou grupo)",
-            "example": "grupo-devocional@g.us"
-          },
-          "name": {
-            "type": "string",
-            "description": "Nome de identificação",
-            "example": "Grupo Devocional"
-          },
-          "type": {
-            "type": "string",
-            "enum": ["group", "person"],
-            "description": "Tipo do destinatário",
-            "example": "group"
-          }
+          "chat_id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["group", "person"] }
         },
         "required": ["chat_id", "name", "type"]
       },
       "DevotionalReading": {
         "type": "object",
         "properties": {
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Data da leitura no formato YYYY-MM-DD",
-            "example": "2025-12-26"
-          },
-          "reading": {
-            "type": "string",
-            "description": "Leitura do dia (formato simples)",
-            "example": "Gênesis 1-3"
-          }
+          "date": { "type": "string", "format": "date" },
+          "reading": { "type": "string" }
         },
         "required": ["date", "reading"]
-      },
-      "DevotionalMessage": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Data da leitura no formato YYYY-MM-DD",
-            "example": "2025-12-26"
-          },
-          "formattedDate": {
-            "type": "string",
-            "description": "Data formatada para exibição",
-            "example": "26/12/2025"
-          },
-          "reading": {
-            "type": "string",
-            "description": "Leitura do dia (formato simples)",
-            "example": "Gênesis 1-3"
-          }
-        },
-        "required": ["date", "formattedDate", "reading"]
-      },
-      "TodayReadingResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/DevotionalMessage"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Leitura do dia atual ou null se não encontrada"
-          },
-          "metadata": {
-            "type": "object",
-            "properties": {
-              "date": {
-                "type": "string",
-                "format": "date",
-                "description": "Data da leitura",
-                "example": "2025-12-26"
-              },
-              "formattedDate": {
-                "type": "string",
-                "description": "Data formatada",
-                "example": "26/12/2025"
-              },
-              "message": {
-                "type": "string",
-                "description": "Mensagem informativa (apenas quando não há leitura)",
-                "example": "No devotional reading found for today"
-              }
-            }
-          }
-        },
-        "required": ["data", "metadata"]
       },
       "ReadingsResponse": {
         "type": "object",
@@ -793,23 +628,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/DevotionalReading"
-            },
-            "description": "Lista de todas as leituras devocionais"
+            }
           },
           "metadata": {
             "type": "object",
             "properties": {
-              "count": {
-                "type": "integer",
-                "description": "Número total de leituras retornadas",
-                "example": 8
-              },
-              "filteredBy": {
-                "type": "string",
-                "format": "date",
-                "description": "Data usada para filtrar as leituras (apenas presente quando o filtro é aplicado)",
-                "example": "2025-12-26"
-              }
+              "count": { "type": "integer" },
+              "filteredBy": { "type": "string", "format": "date" }
             },
             "required": ["count"]
           }
@@ -819,26 +644,10 @@
     }
   },
   "tags": [
-    {
-      "name": "Devocional",
-      "description": "Endpoints relacionados ao envio de devocionais"
-    },
-    {
-      "name": "WhatsApp",
-      "description": "Endpoints relacionados à autenticação e conexão com WhatsApp"
-    },
-    {
-      "name": "Health",
-      "description": "Endpoints de verificação de saúde da aplicação"
-    },
-    {
-      "name": "Documentation",
-      "description": "Endpoints de documentação da API"
-    },
-    {
-      "name": "Destinatários",
-      "description": "Gerenciamento de destinatários (grupos e pessoas) para envio via WhatsApp"
-    }
+    { "name": "System" },
+    { "name": "Devotional" },
+    { "name": "WhatsApp" },
+    { "name": "Scheduler" },
+    { "name": "Recipients" }
   ]
 }
-

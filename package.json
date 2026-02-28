@@ -12,7 +12,6 @@
     "start": "node dist/index.js",
     "test": "vitest run ./src",
     "send": "tsx src/index.ts send",
-    "docker:dev": "./docker-dev.sh",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f",
@@ -36,7 +35,6 @@
     "@whiskeysockets/baileys": "^7.0.0-rc.9",
     "better-sqlite3": "^12.6.2",
     "dotenv": "^17.2.3",
-    "lodash": "^4.17.21",
     "node-cron": "^4.2.1",
     "pino": "^10.1.0",
     "qrcode": "^1.5.4"
