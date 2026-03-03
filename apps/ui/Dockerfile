@@ -12,9 +12,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-ARG AUTH_TOKEN
-ENV AUTH_TOKEN=$AUTH_TOKEN
-
 RUN yarn workspace @devocional/ui build
 
 FROM nginx:1.27-alpine

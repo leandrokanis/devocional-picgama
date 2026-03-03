@@ -8,17 +8,13 @@ type ApiContextValue = {
 
 const ApiContext = createContext<ApiContextValue | null>(null);
 
-declare const __AUTH_TOKEN__: string | undefined;
 declare global {
   interface Window {
     __AUTH_TOKEN__?: string;
   }
 }
 
-const envToken =
-  (typeof window !== 'undefined' && window.__AUTH_TOKEN__?.trim()) ||
-  (typeof __AUTH_TOKEN__ !== 'undefined' && __AUTH_TOKEN__?.trim()) ||
-  '';
+const envToken = window.__AUTH_TOKEN__?.trim() ?? '';
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
   const [token] = useState<string>(envToken);

@@ -56,8 +56,6 @@ services:
     build:
       context: .
       dockerfile: apps/ui/Dockerfile
-      args:
-        AUTH_TOKEN: ${AUTH_TOKEN:-}
     container_name: devocional-picgama-ui
     environment:
       - AUTH_TOKEN=${AUTH_TOKEN:-}
