@@ -1,6 +1,6 @@
 FROM node:22-alpine
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git wget
 
 WORKDIR /app
 
@@ -19,4 +19,4 @@ WORKDIR /app/apps/api
 
 EXPOSE 4000
 
-CMD ["yarn", "start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && yarn start"]
