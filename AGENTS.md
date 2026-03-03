@@ -18,6 +18,7 @@
 
 - Main runtime: Docker Compose.
 - Start stack: `docker compose up -d --build`
+- CasaOS: see `CASAOS.md`
 - API health endpoint: `/health`
 
 ## API Notes

@@ -1,3 +1,5 @@
+name: devocional-picgama
+
 services:
   api:
     build:
@@ -11,7 +13,8 @@ services:
       - PORT=4000
       - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
       - SEND_TIME=${SEND_TIME:-06:00}
-      - TIMEZONE=${TIMEZONE:-America/Sao_Paulo}
+      - TZ=${TZ:-${TIMEZONE:-America/Sao_Paulo}}
+      - TIMEZONE=${TZ:-${TIMEZONE:-America/Sao_Paulo}}
       - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
       - AUTH_TOKEN=${AUTH_TOKEN:-}
       - DEBUG=${DEBUG:-false}
@@ -29,6 +32,25 @@ services:
     restart: unless-stopped
     networks:
       - devocional-network
+    x-casaos:
+      envs:
+        - container: AUTH_TOKEN
+          description:
+            en_US: Token to protect the admin panel.
+            pt_BR: Token para proteger o painel administrativo.
+        - container: SEND_TIME
+          description:
+            en_US: Daily send time (HH:mm).
+            pt_BR: Horário de envio diário (HH:mm).
+        - container: TZ
+          description:
+            en_US: Timezone.
+            pt_BR: Fuso horário.
+      volumes:
+        - container: /app/data
+          description:
+            en_US: Database and WhatsApp session data.
+            pt_BR: Dados do banco e sessão WhatsApp.
 
   ui:
     build:
@@ -38,7 +60,7 @@ services:
         AUTH_TOKEN: ${AUTH_TOKEN:-}
     container_name: devocional-picgama-ui
     ports:
-      - "${UI_PORT:-3002}:80"
+      - "${WEBUI_PORT:-${UI_PORT:-3002}}:80"
     depends_on:
       api:
         condition: service_healthy
@@ -49,3 +71,34 @@ services:
 networks:
   devocional-network:
     driver: bridge
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - arm
+  main: ui
+  author: Picgama
+  category: Lifestyle
+  description:
+    en_US: Devocional Picgama - Daily devotional scheduler with WhatsApp delivery.
+    pt_BR: Devocional Picgama - Agendador de devocionais diários com envio via WhatsApp.
+  developer: Picgama
+  icon: https://raw.githubusercontent.com/IceWhaleTech/CasaOS-AppStore/main/Apps/HelloWorld/icon.png
+  tagline:
+    en_US: Schedule and send daily devotionals via WhatsApp.
+    pt_BR: Agende e envie devocionais diários via WhatsApp.
+  title:
+    en_US: Devocional Picgama
+    pt_BR: Devocional Picgama
+  tips:
+    before_install:
+      pt_BR: |
+        Configure o **AUTH_TOKEN** nas variáveis de ambiente para proteger o painel.
+        O WhatsApp exigirá escanear QR Code na primeira execução.
+      en_US: |
+        Set **AUTH_TOKEN** in environment variables to protect the admin panel.
+        WhatsApp will require QR Code scan on first run.
+  index: /
+  port_map: "${WEBUI_PORT:-${UI_PORT:-3002}}"
+  scheme: http
