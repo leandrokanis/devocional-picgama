@@ -1,47 +1,104 @@
+name: devocional-picgama
+
 services:
-  devocional-bot:
+  api:
     build:
       context: .
-      dockerfile: ${DOCKERFILE:-Dockerfile}
-    container_name: devocional-picgama
-    ports:
-      - "${PORT:-4000}:${PORT:-4000}"
+      dockerfile: apps/api/Dockerfile
+    container_name: devocional-picgama-api
     env_file:
       - .env
     environment:
       - NODE_ENV=${NODE_ENV:-production}
-      - PORT=${PORT:-4000}
-      - SERVER_PORT=${SERVER_PORT:-4000}
+      - PORT=4000
       - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
-      - GROUP_CHAT_ID=${GROUP_CHAT_ID}
-      - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
       - SEND_TIME=${SEND_TIME:-06:00}
-      - TIMEZONE=${TIMEZONE:-America/Sao_Paulo}
+      - TZ=${TZ:-${TIMEZONE:-America/Sao_Paulo}}
+      - TIMEZONE=${TZ:-${TIMEZONE:-America/Sao_Paulo}}
+      - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
+      - AUTH_TOKEN=${AUTH_TOKEN:-}
       - DEBUG=${DEBUG:-false}
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - DISPLAY=:99
+      - DATABASE_URL=file:/app/data/devocional.db
+    ports:
+      - "${API_PORT:-4000}:4000"
     volumes:
       - ./data:/app/data
-      - /dev/shm:/dev/shm
-    restart: unless-stopped
-    cap_add:
-      - SYS_ADMIN
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-    security_opt:
-      - seccomp:unconfined
     healthcheck:
-      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:$$PORT/health || exit 1"]
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:4000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))\""]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - devocional-network
+    x-casaos:
+      envs:
+        - container: AUTH_TOKEN
+          description:
+            en_US: Token to protect the admin panel.
+            pt_BR: Token para proteger o painel administrativo.
+        - container: SEND_TIME
+          description:
+            en_US: Daily send time (HH:mm).
+            pt_BR: Horário de envio diário (HH:mm).
+        - container: TZ
+          description:
+            en_US: Timezone.
+            pt_BR: Fuso horário.
+      volumes:
+        - container: /app/data
+          description:
+            en_US: Database and WhatsApp session data.
+            pt_BR: Dados do banco e sessão WhatsApp.
+
+  ui:
+    build:
+      context: .
+      dockerfile: apps/ui/Dockerfile
+      args:
+        AUTH_TOKEN: ${AUTH_TOKEN:-}
+    container_name: devocional-picgama-ui
+    ports:
+      - "${WEBUI_PORT:-${UI_PORT:-3002}}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - devocional-network
 
 networks:
   devocional-network:
     driver: bridge
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - arm
+  main: ui
+  author: Picgama
+  category: Lifestyle
+  description:
+    en_US: Devocional Picgama - Daily devotional scheduler with WhatsApp delivery.
+    pt_BR: Devocional Picgama - Agendador de devocionais diários com envio via WhatsApp.
+  developer: Picgama
+  icon: https://raw.githubusercontent.com/IceWhaleTech/CasaOS-AppStore/main/Apps/HelloWorld/icon.png
+  tagline:
+    en_US: Schedule and send daily devotionals via WhatsApp.
+    pt_BR: Agende e envie devocionais diários via WhatsApp.
+  title:
+    en_US: Devocional Picgama
+    pt_BR: Devocional Picgama
+  tips:
+    before_install:
+      pt_BR: |
+        Configure o **AUTH_TOKEN** nas variáveis de ambiente para proteger o painel.
+        O WhatsApp exigirá escanear QR Code na primeira execução.
+      en_US: |
+        Set **AUTH_TOKEN** in environment variables to protect the admin panel.
+        WhatsApp will require QR Code scan on first run.
+  index: /
+  port_map: "${WEBUI_PORT:-${UI_PORT:-3002}}"
+  scheme: http

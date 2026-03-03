@@ -1,42 +1,37 @@
-# dependencies (bun install)
+# dependencies
 node_modules
 
-# output
-out
+# build outputs
 dist
-*.tgz
-
-# code coverage
+out
 coverage
-*.lcov
+.turbo
 
 # logs
 logs
-_.log
-report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
+*.log
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# dotenv environment variable files
+# env
 .env
+.env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
 
 # caches
 .eslintcache
 .cache
 *.tsbuildinfo
 
-# IntelliJ based IDEs
+# editors
 .idea
-
-# Finder (MacOS) folder config
+.vscode
 .DS_Store
-node_modules/
-dist/
-.env
-*.log
-.wppconnect-session/
-tokens/
-.cursor/
+*.swp
+*.swo
+*~
+
+# runtime
 *.db
+apps/api/data/*.db

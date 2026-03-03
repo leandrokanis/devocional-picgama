@@ -1,0 +1,43 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Devocional WhatsApp Bot API",
+    "description": "API para envio automatizado de devocionais via WhatsApp e gerenciamento operacional.",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/": { "get": { "summary": "API root", "responses": { "200": { "description": "API metadata" } } } },
+    "/health": { "get": { "summary": "Health check", "responses": { "200": { "description": "Service health" } } } },
+    "/api-docs": { "get": { "summary": "OpenAPI specification", "responses": { "200": { "description": "OpenAPI JSON" } } } },
+    "/docs": { "get": { "summary": "Swagger UI", "responses": { "200": { "description": "Swagger UI HTML" } } } },
+    "/send": { "post": { "summary": "Send today's devotional", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Send succeeded" }, "401": { "description": "Unauthorized" }, "500": { "description": "Send failed" } } } },
+    "/readings/today": { "get": { "summary": "Get today's reading", "responses": { "200": { "description": "Today's reading" }, "404": { "description": "Reading not found" } } } },
+    "/readings": { "get": { "summary": "List readings", "responses": { "200": { "description": "Readings list" } } } },
+    "/qr": { "get": { "summary": "Get WhatsApp QR status", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "QR status" }, "401": { "description": "Unauthorized" } } } },
+    "/scheduler/status": { "get": { "summary": "Get scheduler status", "responses": { "200": { "description": "Scheduler status" } } } },
+    "/scheduler/start": { "post": { "summary": "Start scheduler", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Scheduler started" }, "401": { "description": "Unauthorized" } } } },
+    "/scheduler/stop": { "post": { "summary": "Stop scheduler", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Scheduler stopped" }, "401": { "description": "Unauthorized" } } } },
+    "/api/recipients": { "get": { "summary": "List recipients", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipients list" } } }, "post": { "summary": "Create recipient", "security": [{ "bearerAuth": [] }], "responses": { "201": { "description": "Recipient created" }, "400": { "description": "Invalid payload" }, "409": { "description": "Conflict" } } } },
+    "/api/recipients/{id}": {
+      "get": { "summary": "Get recipient by ID", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient" }, "404": { "description": "Not found" } } },
+      "put": { "summary": "Update recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient updated" }, "400": { "description": "Invalid payload" }, "404": { "description": "Not found" } } },
+      "delete": { "summary": "Delete recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient deleted" }, "404": { "description": "Not found" } } },
+    },
+    "/api/recipients/{id}/send": { "post": { "summary": "Send today's devotional to recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Devotional sent" }, "401": { "description": "Unauthorized" }, "404": { "description": "Recipient not found" }, "500": { "description": "Send failed" } } } }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token"
+      }
+    }
+  }
+}
