@@ -11,11 +11,10 @@ Este projeto está pronto para rodar no CasaOS.
    cd devocional-picgama
    ```
 
-2. Crie o diretório de dados e o arquivo `.env`:
+2. Crie o diretório de dados e configure as variáveis (via CasaOS UI ou export no shell):
    ```bash
    mkdir -p data
-   cp .env.example .env
-   # Edite .env e defina AUTH_TOKEN (obrigatório) e outras variáveis
+   # Opcional: export AUTH_TOKEN=seu_token antes de subir
    ```
 
 3. Suba os containers:
@@ -30,9 +29,11 @@ Este projeto está pronto para rodar no CasaOS.
 1. Clone o repositório em `/DATA/AppData/devocional-picgama/` (passo 1 acima)
 2. No CasaOS: **Apps** → **+** → **Import** → **Import Docker Compose**
 3. Cole o conteúdo de `docker-compose.yml`
-4. Configure as variáveis de ambiente na UI do CasaOS (AUTH_TOKEN, etc.)
+4. Configure as variáveis de ambiente na UI do CasaOS (AUTH_TOKEN, SEND_TIME, TZ, etc.)
 
 ## Variáveis de ambiente
+
+As variáveis vêm do ambiente (CasaOS UI, shell, etc.). O `.env.example` lista todas para referência.
 
 | Variável | Descrição | Padrão |
 |----------|-----------|--------|

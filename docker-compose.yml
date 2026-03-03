@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: apps/api/Dockerfile
     container_name: devocional-picgama-api
-    env_file:
-      - .env
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=4000
