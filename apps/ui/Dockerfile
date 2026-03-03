@@ -12,8 +12,8 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-ARG VITE_AUTH_TOKEN
-ENV VITE_AUTH_TOKEN=$VITE_AUTH_TOKEN
+ARG AUTH_TOKEN
+ENV AUTH_TOKEN=$AUTH_TOKEN
 
 RUN yarn workspace @devocional/ui build
 

@@ -51,6 +51,20 @@ export function RecipientsPage() {
     onSuccess: () => recipients.refetch()
   });
 
+  const [sendingId, setSendingId] = useState<number | null>(null);
+
+  const sendToRecipient = useMutation({
+    mutationFn: async (id: number) => api.post(`/api/recipients/${id}/send`),
+    onMutate: (id) => setSendingId(id),
+    onSettled: () => setSendingId(null),
+    onSuccess: () => recipients.refetch()
+  });
+
+  const sendToAll = useMutation({
+    mutationFn: async () => api.post('/send'),
+    onSuccess: () => recipients.refetch()
+  });
+
   const rows = (recipients.data || []).map((recipient) => (
     <Table.Tr key={recipient.id}>
       <Table.Td>{recipient.id}</Table.Td>
@@ -59,6 +73,14 @@ export function RecipientsPage() {
       <Table.Td>{recipient.type}</Table.Td>
       <Table.Td>
         <Group gap="xs">
+          <Button
+            size="xs"
+            variant="light"
+            onClick={() => sendToRecipient.mutate(recipient.id)}
+            loading={sendingId === recipient.id}
+          >
+            Enviar
+          </Button>
           <Button
             size="xs"
             variant="light"
@@ -86,7 +108,16 @@ export function RecipientsPage() {
     <Stack>
       <Group justify="space-between">
         <Title order={2}>Destinatários</Title>
-        <Button onClick={() => { setForm(defaultForm); open(); }}>Novo destinatário</Button>
+        <Group>
+          <Button
+            variant="light"
+            onClick={() => sendToAll.mutate()}
+            loading={sendToAll.isPending}
+          >
+            Enviar para todos
+          </Button>
+          <Button onClick={() => { setForm(defaultForm); open(); }}>Novo destinatário</Button>
+        </Group>
       </Group>
 
       <Table striped withTableBorder withColumnBorders>
@@ -107,12 +138,18 @@ export function RecipientsPage() {
           <TextInput
             label="Nome"
             value={form.name}
-            onChange={(event) => setForm((state) => ({ ...state, name: event.currentTarget.value }))}
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+              setForm((state) => ({ ...state, name: value }));
+            }}
           />
           <TextInput
             label="Chat ID"
             value={form.chat_id}
-            onChange={(event) => setForm((state) => ({ ...state, chat_id: event.currentTarget.value }))}
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+              setForm((state) => ({ ...state, chat_id: value }));
+            }}
           />
           <Select
             label="Tipo"

@@ -7,7 +7,8 @@ type ApiContextValue = {
 };
 
 const ApiContext = createContext<ApiContextValue | null>(null);
-const envToken = (import.meta.env.VITE_AUTH_TOKEN as string | undefined)?.trim() ?? '';
+declare const __AUTH_TOKEN__: string;
+const envToken = __AUTH_TOKEN__?.trim() ?? '';
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
   const [token] = useState<string>(envToken);

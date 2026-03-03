@@ -1,4 +1,4 @@
-import { Button, Card, Group, Stack, Text, Title } from '@mantine/core';
+import { Button, Card, Group, Stack, Switch, Text, Title } from '@mantine/core';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useApi } from '../services/api-provider';
 import type { SchedulerStatus } from '@devocional/shared';
@@ -12,13 +12,11 @@ export function SchedulerPage() {
     refetchInterval: 5000
   });
 
-  const start = useMutation({
-    mutationFn: async () => api.post('/scheduler/start'),
-    onSuccess: () => status.refetch()
-  });
-
-  const stop = useMutation({
-    mutationFn: async () => api.post('/scheduler/stop'),
+  const toggle = useMutation({
+    mutationFn: async (running: boolean) => {
+      if (running) await api.post('/scheduler/stop');
+      else await api.post('/scheduler/start');
+    },
     onSuccess: () => status.refetch()
   });
 
@@ -26,18 +24,27 @@ export function SchedulerPage() {
     mutationFn: async () => api.post('/send')
   });
 
+  const running = status.data?.running ?? false;
+
   return (
     <Stack>
       <Title order={2}>Scheduler</Title>
       <Card withBorder>
-        <Text>Status: {status.data?.running ? 'Ativo' : 'Parado'}</Text>
-        <Text>Horário: {status.data?.sendTime || '-'}</Text>
-        <Text>Próxima execução: {status.data?.nextExecution || '-'}</Text>
+        <Stack gap="xs">
+          <Switch
+            checked={running}
+            onChange={() => toggle.mutate(running)}
+            disabled={toggle.isPending}
+            label={running ? 'Ativo' : 'Parado'}
+          />
+          <Text size="sm" c="dimmed">Horário: {status.data?.sendTime || '-'}</Text>
+          <Text size="sm" c="dimmed">Próxima execução: {status.data?.nextExecution || '-'}</Text>
+        </Stack>
       </Card>
       <Group>
-        <Button onClick={() => start.mutate()} loading={start.isPending}>Iniciar</Button>
-        <Button color="orange" onClick={() => stop.mutate()} loading={stop.isPending}>Parar</Button>
-        <Button variant="light" onClick={() => sendNow.mutate()} loading={sendNow.isPending}>Enviar agora</Button>
+        <Button variant="light" onClick={() => sendNow.mutate()} loading={sendNow.isPending}>
+          Enviar agora
+        </Button>
       </Group>
     </Stack>
   );

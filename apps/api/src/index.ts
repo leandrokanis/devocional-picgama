@@ -78,6 +78,21 @@ class DevotionalBot {
     }
   }
 
+  public async sendTodaysDevotionalToRecipient(recipientId: number): Promise<boolean> {
+    try {
+      if (!this.isInitialized) await this.initialize();
+      const recipient = await this.recipientsService.getById(recipientId);
+      if (!recipient) return false;
+      const todaysReading = this.devotionalService.getTodaysReading();
+      if (!todaysReading) return false;
+      const message = await this.devotionalService.formatMessage(todaysReading);
+      return this.whatsappService.sendDevotionalMessage(message, recipient.chatId);
+    } catch (error) {
+      logger.error('Error sending devotional to recipient', error);
+      return false;
+    }
+  }
+
   public async close(): Promise<void> {
     this.schedulerService.stop();
     await this.whatsappService.close();
@@ -140,13 +155,13 @@ const parseJsonBody = async <T>(req: Request): Promise<T | null> => {
 };
 
 const checkAuth = (req: Request): Response | null => {
-  const authToken = process.env.AUTH_TOKEN;
+  const authToken = process.env.AUTH_TOKEN?.trim();
   if (!authToken) return null;
   const url = new URL(req.url);
   const queryToken = url.searchParams.get('token');
   const authHeader = req.headers.get('Authorization');
-  const headerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const token = headerToken || queryToken;
+  const headerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+  const token = (headerToken || queryToken)?.trim() ?? '';
   if (!token || token !== authToken) {
     return new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), {
       status: 401,
@@ -243,6 +258,20 @@ async function main() {
           headers: addCorsHeaders({ 'Content-Type': 'application/json' })
         });
       }
+    }
+
+    const recipientSendMatch = url.pathname.match(/^\/(?:api\/)?recipients\/(\d+)\/send$/);
+    if (recipientSendMatch && req.method === 'POST') {
+      const authError = checkAuth(req);
+      if (authError) return authError;
+      const recipientId = parseInt(recipientSendMatch[1]!, 10);
+      const success = await bot.sendTodaysDevotionalToRecipient(recipientId);
+      return new Response(JSON.stringify(
+        success ? { success: true, message: 'Devotional sent successfully' } : { success: false, error: 'Failed to send devotional' }
+      ), {
+        status: success ? 200 : 500,
+        headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+      });
     }
 
     const recipientMatch = url.pathname.match(/^\/api\/recipients\/(\d+)$/);

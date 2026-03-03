@@ -20,7 +20,14 @@ export function ReadingsPage() {
     <Stack>
       <Title order={2}>Leituras</Title>
       <Group>
-        <TextInput placeholder="YYYY-MM-DD" value={date} onChange={(event) => setDate(event.currentTarget.value)} />
+        <TextInput
+          placeholder="YYYY-MM-DD"
+          value={date}
+          onChange={(event) => {
+            const value = event.currentTarget.value;
+            setDate(value);
+          }}
+        />
         <Button onClick={() => readings.refetch()}>Filtrar</Button>
       </Group>
       <Table withTableBorder striped>

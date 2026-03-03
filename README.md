@@ -30,8 +30,7 @@ Variáveis principais:
 
 - `API_PORT` porta externa da API
 - `UI_PORT` porta externa do painel (padrão: 3002)
-- `AUTH_TOKEN` token Bearer validado pela API
-- `VITE_AUTH_TOKEN` token Bearer enviado pela UI (em Docker, vem do `AUTH_TOKEN`)
+- `AUTH_TOKEN` token Bearer usado pela API e pela UI
 - `DATABASE_URL` conexão SQLite usada pelo Prisma
 - `WHATSAPP_SESSION_NAME` nome da sessão WhatsApp
 
