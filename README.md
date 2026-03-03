@@ -1,19 +1,18 @@
-# Devocional WhatsApp Bot (API-only)
+# Devocional Picgama Monorepo
 
-API para envio automatizado de devocionais via WhatsApp, sem interface gráfica.
+Monorepo com API e painel administrativo separados.
 
-## Stack
+## Arquitetura
 
-- Node.js
-- TypeScript
-- Yarn
-- Baileys
-- SQLite (`better-sqlite3`)
+- `apps/api`: API Node.js + TypeScript + Prisma + Baileys
+- `apps/ui`: painel administrativo React + Vite + Mantine (dark)
+- `packages/shared`: tipos compartilhados entre API e UI
 
 ## Requisitos
 
 - Node.js 22+
 - Yarn 1.22+
+- Docker + Docker Compose
 
 ## Instalação
 
@@ -23,42 +22,39 @@ yarn install
 
 ## Configuração
 
-Crie `.env` a partir de `.env.example`:
-
 ```bash
 cp .env.example .env
 ```
 
 Variáveis principais:
 
-- `SEND_TIME` horário diário (`HH:MM`)
-- `TIMEZONE` fuso horário
-- `PORT` porta da API
+- `API_PORT` porta externa da API
+- `UI_PORT` porta externa do painel (padrão: 3002)
 - `AUTH_TOKEN` token Bearer para endpoints protegidos
-- `WHATSAPP_SESSION_NAME` nome da sessão
+- `DATABASE_URL` conexão SQLite usada pelo Prisma
+- `WHATSAPP_SESSION_NAME` nome da sessão WhatsApp
 
-## Execução
+## Desenvolvimento
 
-Desenvolvimento:
+Rodar tudo:
 
 ```bash
 yarn dev
 ```
 
-Produção local:
+Rodar apenas API:
 
 ```bash
-yarn build
-yarn start
+yarn dev:api
 ```
 
-Envio manual:
+Rodar apenas UI:
 
 ```bash
-yarn send
+yarn dev:ui
 ```
 
-## Docker
+## Produção com Docker
 
 ```bash
 docker compose up -d --build
@@ -66,17 +62,14 @@ docker compose logs -f
 docker compose down
 ```
 
-Se aparecer erro `ERR_UNSUPPORTED_ESM_URL_SCHEME: Received protocol 'bun:'`, faça rebuild sem cache:
+Serviços:
 
-```bash
-docker compose down
-docker compose build --no-cache
-docker compose up -d
-```
+- API: `http://localhost:4000` (ou `API_PORT`)
+- UI: `http://localhost:3002` (ou `UI_PORT`)
 
-## Endpoints
+## API
 
-### Públicos
+Endpoints públicos:
 
 - `GET /`
 - `GET /health`
@@ -86,7 +79,7 @@ docker compose up -d
 - `GET /api-docs`
 - `GET /scheduler/status`
 
-### Protegidos por Bearer token (`AUTH_TOKEN`)
+Endpoints protegidos por Bearer token:
 
 - `POST /send`
 - `GET /qr` (`?reconnect=true` opcional)
@@ -98,18 +91,29 @@ docker compose up -d
 - `PUT /api/recipients/:id`
 - `DELETE /api/recipients/:id`
 
-## Exemplo de autenticação
+## Prisma
+
+Schema em:
+
+- `apps/api/prisma/schema.prisma`
+
+Comandos:
 
 ```bash
-curl -X POST http://localhost:4000/send \
-  -H "Authorization: Bearer seu_token_aqui"
+yarn workspace @devocional/api prisma:generate
+yarn workspace @devocional/api prisma:migrate
 ```
 
-## OpenAPI
+## Fluxo em produção
 
-- Swagger UI: `GET /docs`
-- Spec JSON: `GET /api-docs`
-- Arquivo base: `src/swagger.json`
+```mermaid
+graph TB
+  Browser[Browser] -->|:3002| UI[UI Nginx]
+  UI -->|/api/*| API[API Node.js]
+  API --> Prisma[Prisma Client]
+  Prisma --> SQLite[(SQLite)]
+  API --> WA[WhatsApp Baileys]
+```
 
 ## Licença
 

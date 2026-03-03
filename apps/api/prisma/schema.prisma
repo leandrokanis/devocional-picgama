@@ -1,0 +1,35 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Recipient {
+  id        Int      @id @default(autoincrement())
+  chatId    String   @unique @map("chat_id")
+  name      String
+  type      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("recipients")
+}
+
+model WhatsAppCreds {
+  sessionId String @id @map("session_id")
+  creds     String
+
+  @@map("whatsapp_creds")
+}
+
+model WhatsAppKey {
+  sessionId String @map("session_id")
+  keyId     String @map("key_id")
+  keyData   String @map("key_data")
+
+  @@id([sessionId, keyId])
+  @@map("whatsapp_keys")
+}

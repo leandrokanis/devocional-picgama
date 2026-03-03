@@ -1,44 +1,46 @@
 services:
-  devocional-bot:
+  api:
     build:
       context: .
-      dockerfile: ${DOCKERFILE:-Dockerfile}
-    container_name: devocional-picgama
-    ports:
-      - "${PORT:-4000}:${PORT:-4000}"
+      dockerfile: apps/api/Dockerfile
+    container_name: devocional-picgama-api
     env_file:
       - .env
     environment:
       - NODE_ENV=${NODE_ENV:-production}
-      - PORT=${PORT:-4000}
-      - SERVER_PORT=${SERVER_PORT:-4000}
+      - PORT=4000
       - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
-      - GROUP_CHAT_ID=${GROUP_CHAT_ID:-}
-      - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
       - SEND_TIME=${SEND_TIME:-06:00}
       - TIMEZONE=${TIMEZONE:-America/Sao_Paulo}
+      - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
+      - AUTH_TOKEN=${AUTH_TOKEN:-}
       - DEBUG=${DEBUG:-false}
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - DISPLAY=:99
+      - DATABASE_URL=${DATABASE_URL:-file:./data/devocional.db}
+    ports:
+      - "${API_PORT:-4000}:4000"
     volumes:
-      - ./data:/app/data
-      - /dev/shm:/dev/shm
-    restart: unless-stopped
-    cap_add:
-      - SYS_ADMIN
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-    security_opt:
-      - seccomp:unconfined
+      - ./data:/app/apps/api/data
     healthcheck:
-      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:$$PORT/health || exit 1"]
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:4000/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    restart: unless-stopped
+    networks:
+      - devocional-network
+
+  ui:
+    build:
+      context: .
+      dockerfile: apps/ui/Dockerfile
+    container_name: devocional-picgama-ui
+    ports:
+      - "${UI_PORT:-3002}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - devocional-network
 

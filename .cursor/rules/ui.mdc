@@ -1,0 +1,14 @@
+---
+description: Convenções para apps/ui
+globs: apps/ui/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# UI Rules
+
+- UI em React + Mantine com tema escuro por padrão.
+- Layout padrão deve usar `AppShell` com sidebar e navegação simples.
+- Fetch de dados deve passar por `ApiProvider` e React Query.
+- Evitar lógica de negócio pesada nos componentes de página.
+- Componentes devem ser orientados a composição e tipados.
+- Preferir estados locais simples e previsíveis.
