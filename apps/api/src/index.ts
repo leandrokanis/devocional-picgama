@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { randomBytes, timingSafeEqual } from 'crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
@@ -21,6 +22,11 @@ type RecipientPayload = {
   chat_id?: string;
   name?: string;
   type?: string;
+};
+
+type LoginPayload = {
+  user?: string;
+  password?: string;
 };
 
 class DevotionalBot {
@@ -154,15 +160,23 @@ const parseJsonBody = async <T>(req: Request): Promise<T | null> => {
   }
 };
 
+const runtimeAuthToken = process.env.AUTH_TOKEN?.trim() || randomBytes(32).toString('hex');
+
+const secureEqual = (left: string, right: string) => {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  if (leftBuffer.length !== rightBuffer.length) return false;
+  return timingSafeEqual(leftBuffer, rightBuffer);
+};
+
 const checkAuth = (req: Request): Response | null => {
-  const authToken = process.env.AUTH_TOKEN?.trim();
-  if (!authToken) return null;
+  const authToken = runtimeAuthToken;
   const url = new URL(req.url);
   const queryToken = url.searchParams.get('token');
   const authHeader = req.headers.get('Authorization');
   const headerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
   const token = (headerToken || queryToken)?.trim() ?? '';
-  if (!token || token !== authToken) {
+  if (!token || !secureEqual(token, authToken)) {
     return new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), {
       status: 401,
       headers: addCorsHeaders({ 'Content-Type': 'application/json' })
@@ -219,6 +233,44 @@ async function main() {
     const url = new URL(req.url);
     if (req.method === 'OPTIONS') {
       return new Response(null, { status: 200, headers: addCorsHeaders() });
+    }
+
+    if (url.pathname === '/auth/login' && req.method === 'POST') {
+      const adminUser = process.env.ADMIN_USER?.trim() ?? '';
+      const adminPassword = process.env.ADMIN_PASSWORD?.trim() ?? '';
+      if (!adminUser || !adminPassword) {
+        return new Response(JSON.stringify({ success: false, error: 'Login is not configured' }), {
+          status: 500,
+          headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+        });
+      }
+      const payload = await parseJsonBody<LoginPayload>(req);
+      if (!payload) {
+        return new Response(JSON.stringify({ success: false, error: 'Invalid JSON body' }), {
+          status: 400,
+          headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+        });
+      }
+      const user = payload.user?.trim() ?? '';
+      const password = payload.password?.trim() ?? '';
+      if (!user || !password) {
+        return new Response(JSON.stringify({ success: false, error: 'User and password are required' }), {
+          status: 400,
+          headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+        });
+      }
+      const validUser = secureEqual(user, adminUser);
+      const validPassword = secureEqual(password, adminPassword);
+      if (!validUser || !validPassword) {
+        return new Response(JSON.stringify({ success: false, error: 'Invalid credentials' }), {
+          status: 401,
+          headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+        });
+      }
+      return new Response(JSON.stringify({ success: true, token: runtimeAuthToken }), {
+        status: 200,
+        headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+      });
     }
 
     if (url.pathname === '/api/recipients' && req.method === 'GET') {

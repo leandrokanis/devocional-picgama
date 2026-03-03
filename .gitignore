@@ -35,3 +35,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # runtime
 *.db
 apps/api/data/*.db
+*.yml.bak

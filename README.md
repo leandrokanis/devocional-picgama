@@ -30,7 +30,9 @@ Variáveis principais:
 
 - `API_PORT` porta externa da API
 - `UI_PORT` porta externa do painel (padrão: 31902)
-- `AUTH_TOKEN` token Bearer usado pela API e pela UI
+- `ADMIN_USER` usuário de login do painel
+- `ADMIN_PASSWORD` senha de login do painel
+- `AUTH_TOKEN` token Bearer usado internamente pela API
 - `DATABASE_URL` conexão SQLite usada pelo Prisma
 - `WHATSAPP_SESSION_NAME` nome da sessão WhatsApp
 

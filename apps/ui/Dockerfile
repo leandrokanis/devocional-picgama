@@ -17,12 +17,6 @@ RUN yarn workspace @devocional/ui build
 FROM nginx:1.27-alpine
 
 COPY apps/ui/nginx.conf /etc/nginx/conf.d/default.conf
-COPY apps/ui/entrypoint.sh /entrypoint.sh
 COPY --from=builder /app/apps/ui/dist /usr/share/nginx/html
 
-RUN chmod +x /entrypoint.sh
-
-ENV AUTH_TOKEN=
 EXPOSE 80
-
-ENTRYPOINT ["/entrypoint.sh"]

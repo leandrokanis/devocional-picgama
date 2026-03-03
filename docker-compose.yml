@@ -16,6 +16,8 @@ services:
       - TIMEZONE=${TZ:-${TIMEZONE:-America/Sao_Paulo}}
       - WHATSAPP_SESSION_NAME=${WHATSAPP_SESSION_NAME:-devocional-bot}
       - AUTH_TOKEN=${AUTH_TOKEN:-}
+      - ADMIN_USER=${ADMIN_USER:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
       - DEBUG=${DEBUG:-false}
       - DATABASE_URL=file:/app/data/devocional.db
     ports:
@@ -33,23 +35,31 @@ services:
       - devocional-network
     x-casaos:
       envs:
+        - container: ADMIN_USER
+          description:
+            en_US: Admin username for panel login.
+            pt_BR: Usuario admin para login no painel.
+        - container: ADMIN_PASSWORD
+          description:
+            en_US: Admin password for panel login.
+            pt_BR: Senha admin para login no painel.
         - container: AUTH_TOKEN
           description:
-            en_US: Token to protect the admin panel.
-            pt_BR: Token para proteger o painel administrativo.
+            en_US: API bearer token returned after login.
+            pt_BR: Token bearer da API retornado apos login.
         - container: SEND_TIME
           description:
             en_US: Daily send time (HH:mm).
-            pt_BR: Horário de envio diário (HH:mm).
+            pt_BR: Horario de envio diario (HH:mm).
         - container: TZ
           description:
             en_US: Timezone.
-            pt_BR: Fuso horário.
+            pt_BR: Fuso horario.
       volumes:
         - container: /app/data
           description:
             en_US: Database and WhatsApp session data.
-            pt_BR: Dados do banco e sessão WhatsApp.
+            pt_BR: Dados do banco e sessao WhatsApp.
 
   ui:
     image: devocional-picgama/ui:2.0.0
@@ -57,8 +67,6 @@ services:
       context: .
       dockerfile: apps/ui/Dockerfile
     container_name: devocional-picgama-ui
-    environment:
-      - AUTH_TOKEN=${AUTH_TOKEN:-}
     ports:
       - "${WEBUI_PORT:-${UI_PORT:-31902}}:80"
     depends_on:
@@ -67,12 +75,6 @@ services:
     restart: unless-stopped
     networks:
       - devocional-network
-    x-casaos:
-      envs:
-        - container: AUTH_TOKEN
-          description:
-            en_US: Token to protect the admin panel.
-            pt_BR: Token para proteger o painel administrativo.
 
 networks:
   devocional-network:
@@ -88,23 +90,23 @@ x-casaos:
   category: Lifestyle
   description:
     en_US: Devocional Picgama - Daily devotional scheduler with WhatsApp delivery.
-    pt_BR: Devocional Picgama - Agendador de devocionais diários com envio via WhatsApp.
+    pt_BR: Devocional Picgama - Agendador de devocionais diarios com envio via WhatsApp.
   developer: Picgama
   icon: https://raw.githubusercontent.com/leandrokanis/devocional-picgama/main/casaos/icon.png
   tagline:
     en_US: Schedule and send daily devotionals via WhatsApp.
-    pt_BR: Agende e envie devocionais diários via WhatsApp.
+    pt_BR: Agende e envie devocionais diarios via WhatsApp.
   title:
     en_US: Devocional Picgama
     pt_BR: Devocional Picgama
   tips:
     before_install:
       pt_BR: |
-        Configure o **AUTH_TOKEN** nas variáveis de ambiente para proteger o painel.
-        O WhatsApp exigirá escanear QR Code na primeira execução.
+        Configure `ADMIN_USER` e `ADMIN_PASSWORD` para habilitar o login do painel.
+        Defina `AUTH_TOKEN` para manter o token da API fixo entre reinicios.
       en_US: |
-        Set **AUTH_TOKEN** in environment variables to protect the admin panel.
-        WhatsApp will require QR Code scan on first run.
+        Configure `ADMIN_USER` and `ADMIN_PASSWORD` to enable panel login.
+        Set `AUTH_TOKEN` to keep API token stable across restarts.
   index: /
   port_map: "${WEBUI_PORT:-${UI_PORT:-31902}}"
   scheme: http

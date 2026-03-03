@@ -7,7 +7,7 @@ export function SettingsPage() {
       <Card withBorder>
         <Stack>
           <Text c="dimmed">Autenticacao do painel</Text>
-          <Alert color="blue">O token da API e carregado via variavel de ambiente da UI (`VITE_AUTH_TOKEN`).</Alert>
+          <Alert color="blue">Use `ADMIN_USER` e `ADMIN_PASSWORD` para acessar o painel. A sessao fica no navegador apos o login.</Alert>
         </Stack>
       </Card>
       <Card withBorder>

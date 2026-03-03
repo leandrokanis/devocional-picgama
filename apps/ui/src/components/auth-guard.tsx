@@ -1,15 +1,10 @@
-import { Alert, Stack, Title } from '@mantine/core';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useApi } from '../services/api-provider';
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { token } = useApi();
+  const { isAuthenticated } = useApi();
+  const location = useLocation();
 
-  if (token) return <>{children}</>;
-
-  return (
-    <Stack maw={420} mx="auto" mt={120}>
-      <Title order={2}>Acesso ao painel</Title>
-      <Alert color="violet">Token nao configurado. Defina AUTH_TOKEN nas variaveis de ambiente (CasaOS ou .env).</Alert>
-    </Stack>
-  );
+  if (isAuthenticated) return <>{children}</>;
+  return <Navigate to="/login" replace state={{ from: location }} />;
 }

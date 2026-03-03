@@ -14,7 +14,8 @@ Este projeto está pronto para rodar no CasaOS.
 2. Crie o diretório de dados e configure as variáveis (via CasaOS UI ou export no shell):
    ```bash
    mkdir -p data
-   # Opcional: export AUTH_TOKEN=seu_token antes de subir
+   # Obrigatório: ADMIN_USER e ADMIN_PASSWORD
+   # Opcional: AUTH_TOKEN para manter token fixo
    ```
 
 3. Suba os containers:
@@ -30,7 +31,7 @@ Este projeto está pronto para rodar no CasaOS.
 2. No diretório do projeto, faça o build das imagens: `docker compose build`
 3. No CasaOS: **Apps** → **+** → **Import** → **Import Docker Compose**
 4. Cole o conteúdo de `docker-compose.yml` — o campo "Imagem Docker" será preenchido automaticamente (`devocional-picgama/api` e `devocional-picgama/ui`)
-5. Configure as variáveis de ambiente na UI do CasaOS (AUTH_TOKEN, SEND_TIME, TZ, etc.)
+5. Configure as variáveis de ambiente na UI do CasaOS (ADMIN_USER, ADMIN_PASSWORD, SEND_TIME, TZ, etc.)
 
 ## Variáveis de ambiente
 
@@ -38,7 +39,9 @@ As variáveis vêm do ambiente (CasaOS UI, shell, etc.). O `.env.example` lista 
 
 | Variável | Descrição | Padrão |
 |----------|-----------|--------|
-| `AUTH_TOKEN` | Token para autenticação no painel | (obrigatório) |
+| `ADMIN_USER` | Usuário de login do painel | (obrigatório) |
+| `ADMIN_PASSWORD` | Senha de login do painel | (obrigatório) |
+| `AUTH_TOKEN` | Token bearer da API (sessão estável entre reinícios) | (opcional) |
 | `SEND_TIME` | Horário de envio (HH:mm) | 06:00 |
 | `TZ` | Timezone | America/Sao_Paulo |
 | `WHATSAPP_SESSION_NAME` | Nome da sessão WhatsApp | devocional-bot |
