@@ -9,7 +9,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   return (
     <Stack maw={420} mx="auto" mt={120}>
       <Title order={2}>Acesso ao painel</Title>
-      <Alert color="violet">Token nao configurado. Defina AUTH_TOKEN no .env da raiz do projeto.</Alert>
+      <Alert color="violet">Token nao configurado. Defina AUTH_TOKEN nas variaveis de ambiente (CasaOS ou .env).</Alert>
     </Stack>
   );
 }

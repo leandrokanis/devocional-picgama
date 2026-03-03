@@ -59,6 +59,8 @@ services:
       args:
         AUTH_TOKEN: ${AUTH_TOKEN:-}
     container_name: devocional-picgama-ui
+    environment:
+      - AUTH_TOKEN=${AUTH_TOKEN:-}
     ports:
       - "${WEBUI_PORT:-${UI_PORT:-31902}}:80"
     depends_on:
@@ -67,6 +69,12 @@ services:
     restart: unless-stopped
     networks:
       - devocional-network
+    x-casaos:
+      envs:
+        - container: AUTH_TOKEN
+          description:
+            en_US: Token to protect the admin panel.
+            pt_BR: Token para proteger o painel administrativo.
 
 networks:
   devocional-network:
