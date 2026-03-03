@@ -2,6 +2,7 @@ name: devocional-picgama
 
 services:
   api:
+    image: devocional-picgama/api:2.0.0
     build:
       context: .
       dockerfile: apps/api/Dockerfile
@@ -51,6 +52,7 @@ services:
             pt_BR: Dados do banco e sessão WhatsApp.
 
   ui:
+    image: devocional-picgama/ui:2.0.0
     build:
       context: .
       dockerfile: apps/ui/Dockerfile
@@ -58,7 +60,7 @@ services:
         AUTH_TOKEN: ${AUTH_TOKEN:-}
     container_name: devocional-picgama-ui
     ports:
-      - "${WEBUI_PORT:-${UI_PORT:-3002}}:80"
+      - "${WEBUI_PORT:-${UI_PORT:-31902}}:80"
     depends_on:
       api:
         condition: service_healthy
@@ -82,7 +84,7 @@ x-casaos:
     en_US: Devocional Picgama - Daily devotional scheduler with WhatsApp delivery.
     pt_BR: Devocional Picgama - Agendador de devocionais diários com envio via WhatsApp.
   developer: Picgama
-  icon: https://raw.githubusercontent.com/IceWhaleTech/CasaOS-AppStore/main/Apps/HelloWorld/icon.png
+  icon: https://raw.githubusercontent.com/leandrokanis/devocional-picgama/main/casaos/icon.png
   tagline:
     en_US: Schedule and send daily devotionals via WhatsApp.
     pt_BR: Agende e envie devocionais diários via WhatsApp.
@@ -98,5 +100,5 @@ x-casaos:
         Set **AUTH_TOKEN** in environment variables to protect the admin panel.
         WhatsApp will require QR Code scan on first run.
   index: /
-  port_map: "${WEBUI_PORT:-${UI_PORT:-3002}}"
+  port_map: "${WEBUI_PORT:-${UI_PORT:-31902}}"
   scheme: http

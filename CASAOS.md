@@ -22,14 +22,15 @@ Este projeto está pronto para rodar no CasaOS.
    docker compose up -d --build
    ```
 
-4. Acesse o painel em `http://<ip-do-servidor>:3002` (ou a porta em `WEBUI_PORT`)
+4. Acesse o painel em `http://<ip-do-servidor>:31902` (ou a porta em `WEBUI_PORT`/`UI_PORT`)
 
 ## Importar via CasaOS
 
 1. Clone o repositório em `/DATA/AppData/devocional-picgama/` (passo 1 acima)
-2. No CasaOS: **Apps** → **+** → **Import** → **Import Docker Compose**
-3. Cole o conteúdo de `docker-compose.yml`
-4. Configure as variáveis de ambiente na UI do CasaOS (AUTH_TOKEN, SEND_TIME, TZ, etc.)
+2. No diretório do projeto, faça o build das imagens: `docker compose build`
+3. No CasaOS: **Apps** → **+** → **Import** → **Import Docker Compose**
+4. Cole o conteúdo de `docker-compose.yml` — o campo "Imagem Docker" será preenchido automaticamente (`devocional-picgama/api` e `devocional-picgama/ui`)
+5. Configure as variáveis de ambiente na UI do CasaOS (AUTH_TOKEN, SEND_TIME, TZ, etc.)
 
 ## Variáveis de ambiente
 
@@ -41,7 +42,7 @@ As variáveis vêm do ambiente (CasaOS UI, shell, etc.). O `.env.example` lista 
 | `SEND_TIME` | Horário de envio (HH:mm) | 06:00 |
 | `TZ` | Timezone | America/Sao_Paulo |
 | `WHATSAPP_SESSION_NAME` | Nome da sessão WhatsApp | devocional-bot |
-| `WEBUI_PORT` | Porta da interface web | 3002 |
+| `WEBUI_PORT` / `UI_PORT` | Porta da interface web | 31902 |
 | `DEBUG` | Modo debug | false |
 
 ## Dados persistentes

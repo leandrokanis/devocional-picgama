@@ -29,7 +29,7 @@ cp .env.example .env
 Variáveis principais:
 
 - `API_PORT` porta externa da API
-- `UI_PORT` porta externa do painel (padrão: 3002)
+- `UI_PORT` porta externa do painel (padrão: 31902)
 - `AUTH_TOKEN` token Bearer usado pela API e pela UI
 - `DATABASE_URL` conexão SQLite usada pelo Prisma
 - `WHATSAPP_SESSION_NAME` nome da sessão WhatsApp
@@ -67,7 +67,7 @@ docker compose down
 Serviços:
 
 - API: `http://localhost:4000` (ou `API_PORT`)
-- UI: `http://localhost:3002` (ou `UI_PORT`)
+- UI: `http://localhost:31902` (ou `UI_PORT`)
 
 ## API
 
@@ -110,7 +110,7 @@ yarn workspace @devocional/api prisma:migrate
 
 ```mermaid
 graph TB
-  Browser[Browser] -->|:3002| UI[UI Nginx]
+  Browser[Browser] -->|:31902| UI[UI Nginx]
   UI -->|/api/*| API[API Node.js]
   API --> Prisma[Prisma Client]
   Prisma --> SQLite[(SQLite)]
