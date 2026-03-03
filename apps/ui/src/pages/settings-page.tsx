@@ -1,21 +1,13 @@
-import { Alert, Anchor, Card, Stack, Text, TextInput, Title } from '@mantine/core';
-import { useApi } from '../services/api-provider';
+import { Alert, Anchor, Card, Stack, Text, Title } from '@mantine/core';
 
 export function SettingsPage() {
-  const { token, setToken } = useApi();
-
   return (
     <Stack>
       <Title order={2}>Configurações</Title>
       <Card withBorder>
         <Stack>
-          <Text c="dimmed">Token de autenticação da API</Text>
-          <TextInput
-            value={token}
-            onChange={(event) => setToken(event.currentTarget.value)}
-            placeholder="seu_token_secreto_aqui"
-          />
-          <Alert color="blue">O token é salvo no localStorage do navegador.</Alert>
+          <Text c="dimmed">Autenticacao do painel</Text>
+          <Alert color="blue">O token da API e carregado via variavel de ambiente da UI (`VITE_AUTH_TOKEN`).</Alert>
         </Stack>
       </Card>
       <Card withBorder>

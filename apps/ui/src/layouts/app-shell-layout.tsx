@@ -1,7 +1,6 @@
 import { AppShell, Burger, Group, NavLink, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { useApi } from '../services/api-provider';
 
 const links = [
   { label: 'Dashboard', to: '/' },
@@ -15,7 +14,6 @@ const links = [
 export function AppShellLayout() {
   const [opened, { toggle }] = useDisclosure();
   const location = useLocation();
-  const { setToken } = useApi();
 
   return (
     <AppShell
@@ -29,7 +27,7 @@ export function AppShellLayout() {
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             <Text fw={700}>Devocional Admin</Text>
           </Group>
-          <NavLink label="Sair" onClick={() => setToken('')} />
+          <Text size="sm" c="dimmed">Token por ambiente</Text>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">

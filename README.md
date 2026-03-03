@@ -30,7 +30,8 @@ Variáveis principais:
 
 - `API_PORT` porta externa da API
 - `UI_PORT` porta externa do painel (padrão: 3002)
-- `AUTH_TOKEN` token Bearer para endpoints protegidos
+- `AUTH_TOKEN` token Bearer validado pela API
+- `VITE_AUTH_TOKEN` token Bearer enviado pela UI (em Docker, vem do `AUTH_TOKEN`)
 - `DATABASE_URL` conexão SQLite usada pelo Prisma
 - `WHATSAPP_SESSION_NAME` nome da sessão WhatsApp
 
@@ -53,6 +54,8 @@ Rodar apenas UI:
 ```bash
 yarn dev:ui
 ```
+
+O mesmo `.env` da raiz é usado pela API e pela UI em desenvolvimento.
 
 ## Produção com Docker
 

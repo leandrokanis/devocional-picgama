@@ -3,20 +3,14 @@ import axios from 'axios';
 
 type ApiContextValue = {
   token: string;
-  setToken: (token: string) => void;
   api: ReturnType<typeof axios.create>;
 };
 
 const ApiContext = createContext<ApiContextValue | null>(null);
-const tokenKey = 'devocional_admin_token';
+const envToken = (import.meta.env.VITE_AUTH_TOKEN as string | undefined)?.trim() ?? '';
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
-  const [token, setTokenState] = useState<string>(() => localStorage.getItem(tokenKey) || '');
-
-  const setToken = (value: string) => {
-    setTokenState(value);
-    localStorage.setItem(tokenKey, value);
-  };
+  const [token] = useState<string>(envToken);
 
   const api = useMemo(() => {
     const client = axios.create({
@@ -33,7 +27,7 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
   }, [token]);
 
   return (
-    <ApiContext.Provider value={{ token, setToken, api }}>
+    <ApiContext.Provider value={{ token, api }}>
       {children}
     </ApiContext.Provider>
   );

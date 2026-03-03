@@ -34,6 +34,8 @@ services:
     build:
       context: .
       dockerfile: apps/ui/Dockerfile
+      args:
+        VITE_AUTH_TOKEN: ${AUTH_TOKEN:-}
     container_name: devocional-picgama-ui
     ports:
       - "${UI_PORT:-3002}:80"
