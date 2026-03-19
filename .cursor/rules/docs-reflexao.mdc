@@ -1,0 +1,20 @@
+---
+description: Regras para devocionais em docs/devocionais
+globs: docs/devocionais/**/*.md
+alwaysApply: false
+---
+
+# Devocionais
+
+Ao escrever ou editar devocionais em `docs/devocionais/`, siga estritamente as regras em `docs/RULES.md`.
+
+Formato de arquivo: `{YYYY-MM-DD}-{livro}-{capitulos}.md` (ex: `2026-03-16-juizes-1-3.md`).
+
+O agente deve usar o arquivo `docs/RULES.md` como referência completa para:
+- Role e objetivo (teólogo reformado, linguagem popular)
+- Regra de Ouro (NVI)
+- Diretrizes de estilo (zero clichês, transições invisíveis)
+- Estrutura do roteiro (8 parágrafos + descrição Spotify)
+- Formato do título: "[Data]: Quando [título] ([Referência Bíblica])"
+
+Entrada obrigatória: **Data**. A referência bíblica deve ser buscada em `data/readings-2026.json` para a data informada.
