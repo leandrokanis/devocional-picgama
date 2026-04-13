@@ -1,92 +1,97 @@
 ---
 name: write-devotional
 description: >-
-  Write devotional scripts for a reformed theology podcast. Use when the user
-  asks to write a devotional, create a reflection, generate a podcast script,
-  or mentions "devocional", "reflexão", "roteiro", or a Bible reading date.
+  Escreve roteiros devocionais para podcast com teologia reformada (Pactualismo Progressivo + Greidanus).
+  Garante linguagem popular, estrutura de 8 parágrafos, coesão temática e validação rigorosa.
+  Use quando o usuário solicitar um devocional, reflexão, roteiro ou passar uma data de leitura.
 ---
 
 # Write Devotional
 
-Generate a devotional podcast script based on a Bible reading date from the annual plan.
+Gere roteiros de podcast devocional com base em um plano de leitura bíblica anual.
 
-## Workflow
+## 🔄 Fluxo de Execução
 
-### Phase 1: Input
+### Fase 1: Entrada & Normalização
 
-Receive a **date** from the user (e.g. `16/03`, `2026-03-16`, or `março 16`). Normalize to `YYYY-MM-DD`.
+- Receba a data do usuário (ex: `16/03`, `2026-03-16`, `março 16`).
+- Normalize para `DD/MM` (título) e `YYYY-MM-DD` (arquivo).
+- Se ausente, solicite usando a ferramenta AskQuestion.
 
-If no date is provided, ask for one using the AskQuestion tool.
+### Fase 2: Contexto Bíblico
 
-### Phase 2: Lookup
+- Leia `data/readings-2026.json` e localize a entrada da data.
+- Extraia o campo `reading` (ex: `"1 Reis 6-7"`).
+- Se não encontrar, informe e pare.
 
-Read `data/readings-2026.json` and find the entry matching the date. Extract the `reading` field (e.g. `"Juízes 13-16"`).
+### Fase 3: Planejamento Interno (silencioso — não imprima)
 
-If no entry is found, inform the user and stop.
+Antes de escrever, resolva internamente estes eixos. **Nunca os inclua na saída final.**
 
-### Phase 3: Plan (internal — never output this)
+1. **Tom:** Conversa íntima, acessível, zero academicismo.
+2. **Via de Greidanus:** ESCOLHA EXATAMENTE UMA em [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md): Progressão histórico-redentiva, Promessa e cumprimento, Tipologia, Analogia, Temas longitudinais, Referências do Novo Testamento, Contraste.
+3. **Tensão principal:** Qual o conflito, medo ou falha central que o texto expõe?
+4. **Cenário de aplicação:** ESCOLHA APENAS UM → `Família` OU `Escola`.
+5. **Citação NT:** O texto base é citado explicitamente no NT? (Sim/Não. Se sim, anote a referência.)
 
-Before writing, decide internally:
+### Fase 4: Redação (regras rígidas)
 
-1. **Tone** for this episode
-2. **Greidanus pathway** — choose exactly ONE from [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md):
-   - Progressão histórico-redentiva
-   - Promessa e cumprimento
-   - Tipologia
-   - Analogia
-   - Temas longitudinais
-   - Referências do Novo Testamento
-   - Contraste
-3. **Core tension** the text presents
+Siga [docs/RULES.md](docs/RULES.md) para estilo. Restrições obrigatórias:
 
-### Phase 4: Write
+- **Idioma:** Português Brasileiro falado. Substitua jargões teológicos por palavras do cotidiano.
+- **Coesão (ganchos temáticos):** A última frase de cada parágrafo deve conter um gancho conceitual que puxa naturalmente o tema do parágrafo seguinte. NUNCA use conectivos óbvios ("Além disso", "Por outro lado", "Concluindo", "Nesse sentido").
+- **NVI:** Citação opcional. Se usar, use terminologia exata da Nova Versão Internacional.
+- **Zero clichê/adjetivo vazio:** Proibido "Vivemos em uma sociedade", "Nos dias de hoje", "Desafiador", "Impressionante". Corte adjetivos que não agregam informação concreta.
 
-Read and follow **every rule** in [docs/RULES.md](docs/RULES.md). The key constraints are:
+Consulte teologia quando precisar:
 
-- **Role**: Reformed theologian (Progressive Covenantalism + Greidanus) writing as a casual podcast host
-- **Language**: Spoken Brazilian Portuguese, extremely simple and conversational
-- **Bible version**: NVI only — if quoting Scripture, use exact NVI wording; quoting is optional
-- **Style**: Zero clichés, invisible transitions between paragraphs
-
-Consult theological background as needed:
 - [docs/theology/pactualismo-progressivo.md](docs/theology/pactualismo-progressivo.md)
 - [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md)
 
-Consult gold-standard examples:
+Exemplos de calibre:
+
 - [examples.md](examples.md)
 
-**Output structure** (in order):
+**Estrutura de saída (na ordem exata):**
 
-1. **Title**: `DD/MM: Quando [creative short title] ([Bible Reference])`
-2. **Spotify description**: Bold one-liner, factual summary of the passage
-3. **8 paragraphs**:
-   - P1 — Hook + introduce the Bible text
-   - P2 — Story/context of the passage
-   - P3 — Creation (God's good design)
-   - P4 — Fall (sin, pain, brokenness)
-   - P5 — Redemption (grace in the text)
-   - P6 — Christology via the chosen Greidanus pathway
-   - P7 — Practical application (real-life, concrete)
-   - P8 — Hope (encouragement to close)
+1. **Título:** Formato estrito: `DD/MM: Quando [título curto e criativo] ([Referência Bíblica])`
+2. **Descrição Spotify:** Uma ÚNICA frase factual, em **cadência de acontecimentos** (não um resumo vago). Prefira **cadeia de verbos e nomes** na ordem do texto: quem faz o quê, em sequência, separado por vírgulas, até fechar o arco da leitura. Evite voz impessoal ("descreve-se", "o texto mostra"), verbos genéricos ("supervisiona", "acontece") e adjetivos decorativos. Ver padrão completo em [docs/RULES.md](docs/RULES.md) e [examples.md](examples.md).
+3. **Roteiro (8 parágrafos exatos):**
+   - **P1 (Gancho + texto):** Analogia cultural + tensão existencial. OBRIGATÓRIO: a última frase apresenta o texto bíblico.
+   - **P2 (Cenário):** Conte o contexto ou a história de forma narrativa e simples.
+   - **P3 (Criação):** Intenção boa e original de Deus naquela situação.
+   - **P4 (Queda):** A bagunça, o pecado ou a dor que o texto mostra. Faça sentir o peso.
+   - **P5 (Redenção):** Onde a graça, a ajuda ou a promessa de Deus aparece no texto para resolver a bagunça?
+   - **P6 (Cristologia — Greidanus):** Use a via escolhida na Fase 3. Se houver citação NT (Fase 3 item 5), USE-A obrigatoriamente e mostre como interpreta a história. Ligue Jesus à tensão inicial.
+   - **P7 (Aplicação):** EXCLUSIVAMENTE no cenário escolhido na Fase 3 item 4. Um exemplo concreto, pé no chão, zero abstrações.
+   - **P8 (Esperança):** OBRIGATÓRIO começar com `A minha oração é para que...`. Termine com uma palavra de ânimo.
 
-### Phase 5: Validate
+### Fase 5: Validação interna (loop de autocorreção)
 
-Before saving, verify all of these:
+Antes de liberar a saída, execute esta checagem silenciosa. Se falhar, reescreva:
 
-- [ ] Word count of the 8 paragraphs is between **700 and 1000** (count and report)
-- [ ] Exactly 8 body paragraphs (after title and Spotify line)
-- [ ] Title follows format `DD/MM: Quando ... (Reference)`
-- [ ] No clichés ("Vivemos em uma sociedade", "Nos dias de hoje", etc.)
-- [ ] No paragraph starts with an obvious transition marker
-- [ ] Any Scripture quotes match NVI wording
+- [ ] Contagem de palavras nos 8 parágrafos está entre **700 e 900**.
+- [ ] Exatamente 8 parágrafos no corpo do texto.
+- [ ] Título segue `DD/MM: Quando ... (Ref)`.
+- [ ] Descrição Spotify: uma frase só, factual, com **sequência clara de fatos/personagens** (cadência tipo "X faz Y, Z faz W..."); sem voz impessoal nem verbo vazio.
+- [ ] Zero clichês e marcadores de transição óbvios.
+- [ ] P1 termina com a apresentação do texto bíblico.
+- [ ] P6 usa a via de Greidanus escolhida (exclusiva) e conecta a Cristo.
+- [ ] P7 foca APENAS no cenário (Família ou Escola).
+- [ ] P8 começa exatamente com `A minha oração é para que...`.
+- [ ] Transições invisíveis (ganchos temáticos fluem sem quebras).
 
-If validation fails, rewrite the failing parts before saving.
+### Fase 6: Saída e salvamento
 
-### Phase 6: Save
+- Imprima APENAS o texto final formatado. Sem cabeçalhos extras, sem notas de rodapé.
+- Se solicitado a salvar: `docs/devocionais/{YYYY-MM-DD}-{livro-lower}-{capitulos}.md`
+  - Livro: minúsculo, sem acentos (`1-reis`, `genesis`, `juizes`).
+  - Capítulos: separados por hífen (`6-7`, `13-16`).
 
-Save to `docs/devocionais/{YYYY-MM-DD}-{book}-{chapters}.md`
+## 📂 Arquivos de referência
 
-- Book name: lowercase, no accents (genesis, exodo, juizes, rute, etc.)
-- Chapters: hyphen-separated range (1-3, 13-16)
-
-Example: `docs/devocionais/2026-03-23-rute-1-4.md`
+- [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md)
+- [docs/theology/pactualismo-progressivo.md](docs/theology/pactualismo-progressivo.md)
+- [docs/RULES.md](docs/RULES.md)
+- [examples.md](examples.md)
+- `data/readings-2026.json`

@@ -20,6 +20,15 @@ Use these as calibration for tone, structure, and depth. Each example includes a
 > **Descrição para Spotify:** A história de Noemi voltando vazia de Moabe, da lealdade de Rute em acompanhá-la, do cuidado de Boaz e do resgate da família que culmina no nascimento de Obede.
 
 - Factual, no interpretation — just what happens in the text.
+- Segue a **cadência de beats** (quem / o quê / em sequência), alinhada ao padrão de `docs/RULES.md` (mesma lógica do exemplo de 1 Reis 1 com Davi, Adonias, Bate-Seba, Natã e Salomão).
+
+### Referência fixa de cadência (Spotify)
+
+Use como régua auditiva — não copie o conteúdo fora do contexto da leitura do dia; copie o **formato**:
+
+> Davi envelhece, Adonias tenta tomar o trono, Bate-Seba e Natã agem, Salomão é ungido rei, e Davi termina seus dias dando instruções para firmar o reino.
+
+Por que funciona: uma frase só; verbos de ação; personagens nomeados; ordem dos fatos = ordem da narrativa bíblica; zero impessoal e zero verbo genérico de "resumo de capítulo".
 
 ### Paragraph-by-Paragraph Breakdown
 

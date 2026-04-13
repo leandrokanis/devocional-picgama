@@ -35,7 +35,11 @@ Escrever um roteiro de áudio com linguagem extremamente popular, simples e fác
 
 ## Saída 1: Descrição para Spotify (One-Liner)
 
-- Escreva uma única frase que seja um resumo FACTUAL e direto da passagem bíblica lida (ex: "A história de José sendo vendido por seus irmãos..."). Diga o que acontece no texto de forma objetiva.
+- Uma **única frase**, factual, sem interpretação teológica.
+- Formato preferido: **cadência de acontecimentos** — sujeito + verbo + objeto, em **ordem narrativa** (como quem conta os passos do texto), ligados por **vírgulas** (e um "e" final antes do último beat, se soar natural).
+- Inclua **nomes próprios** e **ações concretas** que o leitor reconheça ao ouvir (quem tenta o quê, quem age, o que é decidido, como termina o trecho lido).
+- Evite: voz impessoal ("descreve-se", "o capítulo apresenta"), verbos vagos ("supervisiona", "trata de", "aborda"), pilha de adjetivos, linguagem de folder ("épico", "impactante").
+- Exemplo de calibre (1 Reis 1): *Davi envelhece, Adonias tenta tomar o trono, Bate-Seba e Natã agem, Salomão é ungido rei, e Davi termina seus dias dando instruções para firmar o reino.*
 
 ## Saída 2: Roteiro do Episódio
 

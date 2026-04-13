@@ -32,3 +32,8 @@
 - Dark-first admin interface.
 - API calls go through `/api` path in browser.
 - In production, Nginx proxies `/api/*` to the API container.
+
+## Cursor skills
+
+- `write-devotional`: devotional podcast scripts; see `.cursor/skills/write-devotional/`.
+- `update-skills`: update skills and related docs from feedback; does **not** change `docs/devocionais/`.
