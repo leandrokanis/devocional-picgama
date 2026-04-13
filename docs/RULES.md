@@ -48,8 +48,8 @@ No arquivo, esta linha vem **depois** da introdução de gravação e **antes** 
 Coloque **logo abaixo do título** (`# ...`), **antes** da descrição para Spotify.
 
 - Um **único parágrafo** em tom falado, **sem título de seção** (só o texto que você falaria ao gravar).
-- Formato: `Bom dia, hoje é dia {N} de {mês por extenso} e vamos refletir sobre o texto de {referência em minúsculas, estilo fala}: {apenas o subtítulo criativo, isto é, a parte "Quando ..." que aparece no H1 depois da data, sem repetir `DD/MM` nem a referência entre parênteses}.`
-- **Referência falada:** use o `reading` do plano em minúsculas; intervalo de capítulos vira `X a Y` (ex: `1 Reis 8-9` → `1 reis 8 a 9`); capítulo único, sem ` a `.
+- Formato: `Bom dia, hoje é dia {N} de {mês por extenso} e vamos refletir sobre o texto de {referência em minúsculas, estilo fala}: {apenas o subtítulo criativo, isto é, a parte "Quando ..." que aparece no H1 depois da data, sem repetir` DD/MM `nem a referência entre parênteses}.`
+- **Referência falada:** use o `reading` do plano em minúsculas; intervalo de capítulos vira `X a Y` (ex: `1 Reis 8-9` → `1 reis 8 a 9`); capítulo único, sem `a`.
 - Exemplo (H1 `# 13/04: Quando a glória entra e o coração ainda quer barganhar (1 Reis 8-9)`): *Bom dia, hoje é dia 13 de abril e vamos refletir sobre o texto de 1 reis 8 a 9: Quando a glória entra e o coração ainda quer barganhar.*
 
 ## Saída 2: Roteiro do Episódio
