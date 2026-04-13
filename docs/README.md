@@ -6,11 +6,12 @@ Pasta para devocionais escritos a partir dos textos bíblicos do plano de leitur
 
 ```
 docs/
-├── README.md                    # Este arquivo
-├── RULES.md                     # Regras para escrita dos devocionais (usar com o agente)
-├── pactualismo-progressivo.md   # Base teológica: pactos e revelação progressiva
-├── greidanus-vias-cristologicas.md  # Interpretação histórico-redentora e 7 vias para Cristo
-└── devocionais/                 # Um devocional por texto bíblico
+├── README.md                              # Este arquivo
+├── RULES.md                               # Regras para escrita dos devocionais
+├── theology/                              # Base teológica de referência
+│   ├── greidanus-vias-cristologicas.md    # Interpretação histórico-redentora e 7 vias para Cristo
+│   └── pactualismo-progressivo.md         # Pactos e revelação progressiva
+└── devocionais/                           # Um devocional por texto bíblico
 ```
 
 ## Formato de arquivo (fixo)
@@ -32,15 +33,14 @@ Exemplos:
 
 ## Como gerar um devocional
 
-1. Abra o chat do Cursor.
-2. Referencie as regras e o plano de leitura: `@docs/RULES.md` e `@data/readings-2026.json`
-3. Informe a **Data** (ex: 16/03 ou 2026-03-16).
-4. Peça ao agente para escrever o devocional seguindo as regras.
-
-O agente deve **buscar a referência bíblica** em `data/readings-2026.json` para a data informada. O arquivo contém um array de objetos `{ "date": "YYYY-MM-DD", "reading": "Livro X-Y" }`.
+Basta informar a data no chat do Cursor. A skill `write-devotional` é ativada automaticamente.
 
 Exemplo de prompt:
 
-> Usando @docs/RULES.md e @data/readings-2026.json, escreva o devocional para 16/03.
+> Escreva o devocional para 16/03.
 
-O agente consulta o JSON, encontra a leitura do dia e gera o devocional.
+O agente consulta `data/readings-2026.json`, encontra a leitura do dia, lê as regras em `docs/RULES.md` e a teologia em `docs/theology/`, e gera o devocional.
+
+Também funciona referenciar manualmente caso necessário:
+
+> Usando @docs/RULES.md e @data/readings-2026.json, escreva o devocional para 16/03.

@@ -1,0 +1,19 @@
+---
+description: Guarda-trilhos ao editar devocionais existentes em docs/devocionais
+globs: docs/devocionais/**/*.md
+alwaysApply: false
+---
+
+# Devocionais
+
+Ao editar arquivos em `docs/devocionais/`, siga estritamente as regras em `docs/RULES.md`.
+
+Restrições críticas:
+- **700–1000 palavras** nos 8 parágrafos (menos que 700 invalida)
+- Citações bíblicas somente na **NVI**
+- Zero clichês, transições invisíveis
+- Título: `DD/MM: Quando [título] ([Referência Bíblica])`
+
+Para **criar um novo devocional**, use a skill `write-devotional` (ativada automaticamente ao pedir para escrever um devocional ou informar uma data de leitura).
+
+Referências teológicas: `docs/theology/greidanus-vias-cristologicas.md` e `docs/theology/pactualismo-progressivo.md`.
