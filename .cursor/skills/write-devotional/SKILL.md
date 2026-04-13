@@ -15,7 +15,7 @@ Gere roteiros de podcast devocional com base em um plano de leitura bíblica anu
 ### Fase 1: Entrada & Normalização
 
 - Receba a data do usuário (ex: `16/03`, `2026-03-16`, `março 16`).
-- Normalize para `DD/MM` (título) e `YYYY-MM-DD` (arquivo).
+- Normalize para `DD/MM` (título), `YYYY-MM-DD` (arquivo) e **dia + mês por extenso** (intro de gravação, ex: `13 de abril`).
 - Se ausente, solicite usando a ferramenta AskQuestion.
 
 ### Fase 2: Contexto Bíblico
@@ -55,8 +55,12 @@ Exemplos de calibre:
 **Estrutura de saída (na ordem exata):**
 
 1. **Título:** Formato estrito: `DD/MM: Quando [título curto e criativo] ([Referência Bíblica])`
-2. **Descrição Spotify:** Uma ÚNICA frase factual, em **cadência de acontecimentos** (não um resumo vago). Prefira **cadeia de verbos e nomes** na ordem do texto: quem faz o quê, em sequência, separado por vírgulas, até fechar o arco da leitura. Evite voz impessoal ("descreve-se", "o texto mostra"), verbos genéricos ("supervisiona", "acontece") e adjetivos decorativos. Ver padrão completo em [docs/RULES.md](docs/RULES.md) e [examples.md](examples.md).
-3. **Roteiro (8 parágrafos exatos):**
+2. **Introdução de gravação (obrigatória):** Imediatamente após o título, **antes** da descrição Spotify, inclua **um parágrafo corrido** (texto falado ao microfone), **sem rótulo de seção**. Formato fixo:
+   `Bom dia, hoje é dia {N} de {mês por extenso} e vamos refletir sobre o texto de {referência falada em minúsculas}: {só a parte criativa "Quando ..." do título, sem repetir a data `DD/MM` nem a referência entre parênteses}.`
+   - **Referência falada:** a partir do `reading` do JSON (ex: `1 Reis 8-9` → `1 reis 8 a 9`; capítulo único → `1 reis 8` sem "a").
+   - **Parte "Quando ...":** copie exatamente o trecho do H1 depois de `DD/MM: ` até antes de ` (` da referência.
+3. **Descrição Spotify:** Uma ÚNICA frase factual, em **cadência de acontecimentos** (não um resumo vago). Prefira **cadeia de verbos e nomes** na ordem do texto: quem faz o quê, em sequência, separado por vírgulas, até fechar o arco da leitura. Evite voz impessoal ("descreve-se", "o texto mostra"), verbos genéricos ("supervisiona", "acontece") e adjetivos decorativos. Ver padrão completo em [docs/RULES.md](docs/RULES.md) e [examples.md](examples.md).
+4. **Roteiro (8 parágrafos exatos):**
    - **P1 (Gancho + texto):** Analogia cultural + tensão existencial. OBRIGATÓRIO: a última frase apresenta o texto bíblico.
    - **P2 (Cenário):** Conte o contexto ou a história de forma narrativa e simples.
    - **P3 (Criação):** Intenção boa e original de Deus naquela situação.
@@ -70,9 +74,10 @@ Exemplos de calibre:
 
 Antes de liberar a saída, execute esta checagem silenciosa. Se falhar, reescreva:
 
-- [ ] Contagem de palavras nos 8 parágrafos está entre **700 e 900**.
-- [ ] Exatamente 8 parágrafos no corpo do texto.
+- [ ] Contagem de palavras nos **8 parágrafos do roteiro** (após Spotify) está entre **700 e 900** — não conte título, introdução de gravação nem descrição Spotify.
+- [ ] Exatamente 8 parágrafos no corpo do texto (após Spotify).
 - [ ] Título segue `DD/MM: Quando ... (Ref)`.
+- [ ] Introdução de gravação: logo após o título; começa com `Bom dia,`; inclui `hoje é dia {N} de {mês}`; `vamos refletir sobre o texto de ...`; referência falada minúscula com ` a ` entre capítulos se intervalo; dois-pontos e a parte `Quando ...` igual ao título.
 - [ ] Descrição Spotify: uma frase só, factual, com **sequência clara de fatos/personagens** (cadência tipo "X faz Y, Z faz W..."); sem voz impessoal nem verbo vazio.
 - [ ] Zero clichês e marcadores de transição óbvios.
 - [ ] P1 termina com a apresentação do texto bíblico.

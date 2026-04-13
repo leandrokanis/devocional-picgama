@@ -2,6 +2,8 @@
 
 Use these as calibration for tone, structure, and depth. Each example includes annotations explaining why it works.
 
+**Ordem no arquivo (roteiros novos):** `# título` → **introdução de gravação** (um parágrafo, `Bom dia, hoje é dia ...`) → linha **Descrição para Spotify** → oito parágrafos. Ver `docs/RULES.md`. Exemplos antigos ligados a arquivos em `docs/devocionais/` podem não incluir a intro; use as regras atuais ao gerar conteúdo novo.
+
 ---
 
 ## Example 1: Rute 1-4 (Via: Tipologia — resgatador)

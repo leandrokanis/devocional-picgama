@@ -21,14 +21,16 @@ O Pactualismo Progressivo afirma **mais continuidade que descontinuidade** entre
 
 Os pactos se relacionam organicamente e constroem uns sobre os outros:
 
-| Pacto | Referência | Foco |
-|-------|------------|------|
-| Criação/Eden | Gn 1–3 | Adão como cabeça da humanidade; vice-reinado |
-| Noaico | Gn 6–9 | Estabilidade da criação; preservação |
-| Abraâmico | Gn 12–22 | Descendência; terra; bênção para as nações |
-| Mosaico (antigo) | Êx 19–24 | Lei; Israel como povo do pacto |
-| Davídico | 2Sm 7 | Dinastia real; reino eterno |
-| Novo | Jr 31; Hb 8 | Cumprimento em Cristo; lei no coração |
+
+| Pacto            | Referência  | Foco                                         |
+| ---------------- | ----------- | -------------------------------------------- |
+| Criação/Eden     | Gn 1–3      | Adão como cabeça da humanidade; vice-reinado |
+| Noaico           | Gn 6–9      | Estabilidade da criação; preservação         |
+| Abraâmico        | Gn 12–22    | Descendência; terra; bênção para as nações   |
+| Mosaico (antigo) | Êx 19–24    | Lei; Israel como povo do pacto               |
+| Davídico         | 2Sm 7       | Dinastia real; reino eterno                  |
+| Novo             | Jr 31; Hb 8 | Cumprimento em Cristo; lei no coração        |
+
 
 ## Relação com outras tradições
 

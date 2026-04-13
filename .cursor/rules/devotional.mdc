@@ -13,7 +13,7 @@ Restrições críticas:
 - Citações bíblicas somente na **NVI**
 - Zero clichês, transições invisíveis
 - Título: `DD/MM: Quando [título] ([Referência Bíblica])`
-- Descrição Spotify: uma frase factual em cadência de acontecimentos (ver `docs/RULES.md`)
+- Introdução de gravação e descrição Spotify: ver `docs/RULES.md` (intro logo após o título, antes do Spotify)
 
 Para **criar um novo devocional**, use a skill `write-devotional` (ativada automaticamente ao pedir para escrever um devocional ou informar uma data de leitura).
 
