@@ -1,0 +1,21 @@
+# 28/04: Quando você ora contra o nome que a dor te deu (1 Crônicas 3-5)
+
+**Descrição para Spotify:** O Cronista lista os descendentes de Davi e os clãs de Judá, uma mãe nomeia seu filho Jabez — que significa dor — e ele ora pedindo a Deus uma história maior do que o nome que recebeu.
+
+Bom dia, hoje é dia 28 de abril e vamos refletir sobre o texto de 1 crônicas 3 a 5: Quando você ora contra o nome que a dor te deu.
+
+Tem gente que sabe, antes de abrir a boca, que o histórico dela já entrou na sala. A última demissão, a última reprovação, o projeto que foi pro espaço. O que ficou marcado não foi o que ela fez de bom — foi o que deu errado. E esse registro passa a ser o nome dela nos ambientes por onde circula. A leitura de hoje, 1 Crônicas 3 ao 5, é uma lista enorme de genealogias. Mas no meio dessa lista tem dois versículos que param tudo.
+
+No capítulo 4, versículo 9, o Cronista interrompe a lista de nomes para contar uma história que cabe em duas frases. "Jabez era mais honrado que seus irmãos. Sua mãe lhe dera o nome Jabez, dizendo: dei à luz este filho com muita dor." Jabez em hebraico soa como "dor." Ele carregava no próprio nome a memória do pior dia da vida da mãe — não como punição, mas como circunstância. E o versículo 10 diz que ele clamou ao Deus de Israel: "Ah, se me abençoasses e alargasses o meu território, se a tua mão estivesse comigo e me guardasses do mal para que eu não tivesse dor." E Deus lhe concedeu o que pediu.
+
+O nome que Jabez recebeu não era o nome que a criação previa. Desde o começo, o projeto de Deus para a humanidade era bênção e expansão — foi com essas palavras que Ele abençoou Adão e Eva, foi com essa promessa que falou com Abraão. A criação não foi feita para nomear as pessoas pelo sofrimento que as cercou. Cada pessoa foi feita para uma identidade de propósito, para ter lugar e nome dentro de uma história que Deus conduz.
+
+A queda mudou isso. O mundo aprendeu a nomear as pessoas pelo pior que elas viveram. A menina que cresceu sem pai. O estudante que reprovava sempre. A pessoa que saiu de um relacionamento destruído e virou sinônimo disso. A queda não trouxe só pecado — trouxe rótulos. E esses rótulos têm um jeito de grudar, de virar a primeira coisa que os outros pensam quando seu nome aparece, de entrar dentro de você e começar a soar como verdade. Jabez sabia disso. O nome dele era a prova viva.
+
+Mas o Cronista não deixou o nome ser a última palavra. Jabez orou. Não pediu desculpa pela própria existência, não fingiu que a dor não existia — foi direto: quero bênção, quero espaço, quero a tua mão comigo, não quero que a dor continue me definindo. E o texto diz simplesmente: Deus lhe concedeu o que pediu. A redenção que aparece aqui não é mágica — é a porta que se abre quando alguém tem coragem de pedir a Deus uma história maior do que o nome que recebeu.
+
+Esse tema não fica parado em Jabez. Isaías 53 descreve o Servo do Senhor como "homem de dores, familiarizado com o sofrimento" — e o Novo Testamento reconhece ali Jesus. Só que Jesus virou "homem de dores" para que a dor não fosse a nossa definição permanente. O clamor de Jabez — guarda-me do mal para que eu não tenha dor — encontra sua resposta definitiva em Apocalipse 21, onde Deus promete enxugar toda lágrima e declarar que não haverá mais luto, nem choro, nem dor. Jabez orou ao Deus que um dia cumpriria isso por completo.
+
+Talvez você carregue um rótulo no trabalho ou na escola. Não o nome no crachá — o outro. "Aquele que já foi mandado embora antes." "A que nunca termina o que começa." Esse rótulo chegou antes de você em algumas salas, e talvez você mesmo já tenha começado a acreditar nele. Jabez não apagou o nome que tinha. Ele orou. A oração não foi elaborada, não foi longa — foi direta: Deus, eu quero que minha história seja maior do que isso. Às vezes é exatamente assim que começa.
+
+A minha oração é para que, se você foi nomeado pela dor que alguém sentiu, pelo erro que ficou registrado, pelo fracasso que todo mundo lembra — você consiga hoje levar isso a Deus com a mesma franqueza de Jabez. Sem enfeitar, sem esconder o peso. Só pedir que a mão de Deus esteja com você e que o mal não seja a sua definição. Jesus se tornou homem de dores para que você não precise ser apenas isso. Você pode pedir uma história maior do que o nome que te deram.
