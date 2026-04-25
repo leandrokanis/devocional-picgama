@@ -1,8 +1,8 @@
 # Gold-Standard Examples
 
-Use these as calibration for tone, structure, and depth. Each example includes annotations explaining why it works.
+Use these as calibration for tone, structure, and depth. Each example includes annotations explaining why it works. Novos roteiros também passam pela **revisão de estilo** anti-IA (Fase 5 da skill e seção **Revisão de estilo** em `docs/RULES.md`), com foco em frase curta, palavra simples e tom de conversa.
 
-**Ordem no arquivo (roteiros novos):** `# título` → **introdução de gravação** (um parágrafo, `Bom dia, hoje é dia ...`) → linha **Descrição para Spotify** → oito parágrafos. Ver `docs/RULES.md`. Exemplos antigos ligados a arquivos em `docs/devocionais/` podem não incluir a intro; use as regras atuais ao gerar conteúdo novo.
+**Ordem no arquivo (roteiros novos):** `# título` → linha **Descrição para Spotify** (frase curta com até 3 afirmações) → **introdução de gravação** (um parágrafo, `Bom dia, hoje é dia ...`) → oito parágrafos. Ver `docs/RULES.md`. Exemplos antigos ligados a arquivos em `docs/devocionais/` podem não incluir a intro; use as regras atuais ao gerar conteúdo novo.
 
 ---
 
@@ -19,7 +19,7 @@ Use these as calibration for tone, structure, and depth. Each example includes a
 
 ### Spotify Description
 
-> **Descrição para Spotify:** A história de Noemi voltando vazia de Moabe, da lealdade de Rute em acompanhá-la, do cuidado de Boaz e do resgate da família que culmina no nascimento de Obede.
+> **Descrição para Spotify:** Noemi volta de Moabe sem rumo, Rute permanece com ela em fidelidade, e Boaz promove o resgate da família.
 
 - Factual, no interpretation — just what happens in the text.
 - Segue a **cadência de beats** (quem / o quê / em sequência), alinhada ao padrão de `docs/RULES.md` (mesma lógica do exemplo de 1 Reis 1 com Davi, Adonias, Bate-Seba, Natã e Salomão).
@@ -30,7 +30,7 @@ Use como régua auditiva — não copie o conteúdo fora do contexto da leitura 
 
 > Davi envelhece, Adonias tenta tomar o trono, Bate-Seba e Natã agem, Salomão é ungido rei, e Davi termina seus dias dando instruções para firmar o reino.
 
-Por que funciona: uma frase só; verbos de ação; personagens nomeados; ordem dos fatos = ordem da narrativa bíblica; zero impessoal e zero verbo genérico de "resumo de capítulo".
+Por que funciona: uma frase só; até 3 afirmações objetivas; verbos de ação; personagens nomeados; ordem dos fatos = ordem da narrativa bíblica; zero impessoal e zero verbo genérico de "resumo de capítulo".
 
 ### Paragraph-by-Paragraph Breakdown
 
@@ -53,7 +53,7 @@ Why it works:
 - Facts are clear and ordered chronologically.
 - No theological jargon — "sem estrutura, sem renda garantida".
 
-**P3 — Creation (God's good design):**
+**P3 — Creation (God's good design):** *(Roteiros novos: incluir a palavra **criação** ou **Criação** no texto falado do P3.)*
 
 > Mesmo nesse cenário apertado, o texto deixa claro o desenho bom de Deus para a vida. Desde o começo, a intenção do Senhor era que seu povo cuidasse de quem estava fraco, especialmente viúvas, estrangeiros e pobres. A colheita não deveria ser feita de modo egoísta; havia espaço para o necessitado recolher alimento. Família não era só laço de sangue, era responsabilidade. Terra não era só patrimônio, era também sinal de pertencimento e dignidade.
 
@@ -61,7 +61,7 @@ Why it works:
 - Shows what God intended *before* the fall, grounding the story in creation order.
 - Connects the gleaning laws to God's character without lecturing.
 
-**P4 — Fall:**
+**P4 — Fall:** *(Roteiros novos: incluir a palavra **queda** no P4.)*
 
 > A queda aparece no peso que Noemi carrega por dentro. Ela volta com o coração amargo, convencida de que só restou vazio. A dor é tão grande que ela sente a própria identidade esmagada pela perda. E essa bagunça não é só individual. O mundo ao redor de Rute e Noemi é um mundo de insegurança para mulheres sem proteção econômica e social.
 
@@ -69,7 +69,7 @@ Why it works:
 - Makes the listener *feel* the weight rather than explaining it abstractly.
 - "mesa sem comida, noite sem perspectiva" — concrete images.
 
-**P5 — Redemption:**
+**P5 — Redemption:** *(Roteiros novos: incluir a palavra **redenção** no P5.)*
 
 > A redenção começa a aparecer em passos pequenos, mas firmes. Rute vai trabalhar recolhendo espigas atrás dos ceifeiros, e justamente cai no campo de Boaz, parente da família. Boaz enxerga Rute, a acolhe, garante segurança, manda sobrar alimento e honra sua dignidade.
 
@@ -87,6 +87,8 @@ Why it works:
 - No theological jargon — "sombra de algo maior" replaces "tipo/antitipo".
 
 **P7 — Practical Application:**
+
+Roteiros novos: o P7 fica **inteiro** em um só cenário planejado — `Casa`, `Igreja`, `Trabalho` ou `Escola` (ver skill, Fase 3). Em **Trabalho**, evite só escritório corporativo; pense também em bico, comércio, roça, estudo cansativo. Público: idades e rendas mistas.
 
 > No chão da vida, isso conversa com situações bem comuns. Tem gente tentando recomeçar depois de um luto, de uma demissão, de uma dívida, de uma conversa que quebrou a confiança dentro de casa. Nessas horas, a tentação é se isolar e concluir que não há mais caminho. Rute lembra que fidelidade diária tem força: levantar cedo, trabalhar com honestidade, pedir ajuda sem vergonha, acolher conselho sábio e continuar mesmo sem enxergar tudo.
 

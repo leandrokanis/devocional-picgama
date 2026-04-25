@@ -33,7 +33,12 @@
 - API calls go through `/api` path in browser.
 - In production, Nginx proxies `/api/*` to the API container.
 
-## Cursor skills
+## Claude Code commands (`.claude/commands/`)
 
-- `write-devotional`: devotional podcast scripts; see `.cursor/skills/write-devotional/`.
-- `update-skills`: update skills and related docs from feedback; does **not** change `docs/devocionais/`.
+- `/write-devotional`: devotional podcast scripts. **Mandatory Notion** publish/sync to database Devocional at the end of the flow — Fase 8 in the command.
+- `/update-skills`: update skills and related docs from feedback; does **not** change `docs/devocionais/`. Keeps `.claude/commands/` and `.cursor/skills/` in sync.
+
+## Cursor skills (`.cursor/skills/`)
+
+- `write-devotional`: same as the Claude command above; see `.cursor/skills/write-devotional/`.
+- `update-skills`: same as the Claude command above.
