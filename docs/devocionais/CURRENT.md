@@ -4,6 +4,6 @@
 > Arquivo de estado. Atualizado automaticamente pela skill `/study`.
 > Lido por todas as skills como fonte de contexto do devocional atual.
 
-- **Data:** 2026-04-30
-- **Leitura:** 1 Crônicas 7-8
-- **Pasta:** docs/devocionais/2026-04-30-1-cronicas-7-8/
+- **Data:** 2026-05-02
+- **Leitura:** 1 Crônicas 12-15
+- **Pasta:** docs/devocionais/2026-05-02-1-cronicas-12-15/
