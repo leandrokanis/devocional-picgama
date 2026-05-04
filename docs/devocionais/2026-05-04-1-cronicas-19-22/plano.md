@@ -1,88 +1,88 @@
-# Plano — 1 Crônicas 19-22 (04/05/2026)
+# Plano — 1 Crônicas 19-22
+
+## 1. Ideia central
+
+- **Frase:** Em Deus, nenhuma obra começada em fé morre na metade — Ele sempre levanta quem continue, até Cristo terminar.
+- **Por que esta e não outra:** O texto tem muitos polos (censo, eira, sangue, gigantes), mas o coração teológico de cap. 22 é Davi preparando o que não construirá. A leitura mais rasa disso seria "aceite seu limite"; a leitura mais funda é continuidade: a obra de Deus não acaba quando o operário cai, porque Deus levanta o próximo — e o último é Cristo. Essa frase abraça a tensão sem virar conformismo.
+- **Aterrissa em:** P6 (cristologia). É lá que a continuidade — Davi → Salomão → … → Cristo — fica nítida; mas a frase ecoa em P5 (redenção do trabalho que parece inacabado) e P8 (oração).
 
 ---
 
-### 1. Ideia central
+## 2. Tensão existencial
 
-- **Frase:** O orgulho que conta o próprio exército sempre tem custo além de quem contou.
-- **Por que esta e não outra:** O Cronista poderia ter registrado o censo de Davi como erro administrativo. Em vez disso, o texto torna explícito que Davi sabia que estava errado (Joabe protestou), insistiu mesmo assim, e depois teve que encarar que setenta mil pessoas morreram por uma decisão de orgulho. O peso coletivo do pecado individual é o que torna esse texto distinto.
-- **Aterrissa em:** P6 (cristologia) — o contraste com Jesus que não contou sua força como vantagem mas a esvaziou.
-
----
-
-### 2. Tensão existencial
-
-- **Tensão:** Precisar saber com o que pode contar — quantas pessoas, quanto dinheiro, quanto apoio — antes de se sentir seguro para agir.
-- **Como o ouvinte vive isso hoje:** O trabalhador autônomo que passa a noite calculando quantos clientes tem, quanto pode cobrar, quanto sobra se um sumir — não para planejar, mas para tranquilizar a ansiedade de não saber com o que conta. A planilha não resolve nada, mas pelo menos ele sente que está no controle. Isso não é gestão — é contagem de exército.
+- **Tensão:** A frustração de não ver o resultado do que a gente está construindo. A sensação de que o trabalho da nossa vida pode terminar pela metade.
+- **Como o ouvinte vive isso hoje:** A mãe que ora dez anos pelo filho e morre antes de vê-lo voltar. O pai que junta dinheiro a vida inteira pra terminar uma casa que só os filhos vão morar. O irmão que serve numa igreja pequena por décadas sem ver avivamento.
 
 ---
 
-### 3. Imagem ou palavra-âncora do texto
+## 3. Imagem ou palavra-âncora do texto
 
-- **Elemento:** O anjo com a espada levantada sobre Jerusalém (21:16).
-- **Por que este e não outro:** É o momento onde o juízo está suspenso — visível, iminente, ainda não caído. Davi o vê. Os anciãos o veem. Todos se prostram. É a imagem mais dramática do capítulo e a que ancora tanto a gravidade do pecado quanto a possibilidade de misericórdia.
-- **Como aparece no devocional:** P2 para apresentar a cena do censo, P4 para nomear a espada levantada como consequência do orgulho, P6 para o contraste com Jesus em quem a espada finalmente caiu, P8 para fechar.
-
----
-
-### 4. Foco narrativo para P2
-
-- **Cena ou episódio:** 1 Crônicas 21:1-17 — Davi ordena o censo, Joabe resiste, Davi insiste, a praga começa, setenta mil morrem, o anjo aparece sobre Jerusalém com a espada, Davi intercede.
-- **Ângulo narrativo:** Pelo olhar de Davi quando ele vê o anjo e percebe o tamanho do que aconteceu. Não é a contagem nem a praga — é o momento em que ele enxerga a espada e entende que o orgulho de uma noite tem peso de setenta mil vidas.
-- **O que não contar:** As guerras dos capítulos 19-20, os detalhes administrativos do capítulo 22, a identidade do anjo. O foco é o ciclo: orgulho → praga → intercessão → altar → misericórdia.
+- **Elemento:** O monte de material acumulado por Davi — "ferro em abundância para os pregos... bronze em tanta abundância que não se podia pesar... cedro sem conta" (22.3-4). As pedras cortadas pra uma casa que ele não vai erguer.
+- **Por que este e não outro:** É a imagem mais palpável do texto: a pilha de material num canteiro vazio. Diz, sem precisar explicar, o que é servir um sonho que outro vai concluir.
+- **Como aparece no devocional:** P2 (a cena do velho rei juntando material), P5 (a redenção do trabalho que parece inacabado), P8 (a oração que entrega a obra ao Filho).
 
 ---
 
-### 5. Via cristológica de Greidanus
+## 4. Foco narrativo para P2
 
-- **Referência NT explícita:** Não há citação direta de 1 Cr 21 no NT, mas Filipenses 2:6-7 ("não considerou o ser igual a Deus algo a ser explorado, mas esvaziou a si mesmo") e Isaías 53:12 ("foi contado entre os transgressores") formam o arcabouço do contraste.
-- **Via escolhida:** Contraste.
-- **Justificativa:** O movimento do texto é poder → orgulho → juízo → misericórdia. O contraste com Jesus é preciso: onde Davi contou seu exército para medir sua força (orgulho), Jesus não contou ser igual a Deus como vantagem (esvaziamento). Onde o juízo por causa de Davi recaiu sobre setenta mil, o juízo por causa da humanidade recaiu sobre um — e esse um não era culpado. A espada levantada sobre Jerusalém em 21:16 e o "acorda, ó espada, contra meu pastor" de Zacarias 13:7 formam a mesma imagem, com destinos opostos: em Davi, o juízo é detido pela misericórdia de Deus; em Jesus, a espada cai — e é ele que a recebe.
-- **Conexão a Jesus:** Onde Davi contou seu povo para medir sua força, Jesus se esvaziou de toda força para ser contado entre os que precisavam de misericórdia — e a espada que ficou suspensa sobre Jerusalém caiu sobre ele no Calvário.
-
----
-
-### 6. Eixo Criação–Queda–Redenção
-
-- **Criação:** Deus criou Israel para encontrar segurança nele, não em números de exército — o rei forte era aquele que governava dependendo de Deus.
-- **Queda:** Davi contou o povo para medir sua própria força, e o orgulho de um arrastou setenta mil que não haviam escolhido aquilo.
-- **Redenção:** Deus detém a espada, aceita o sacrifício de Davi, e o lugar do juízo se torna o lugar da adoração — preparando o terreno para o sacrifício que um dia deteria o juízo de vez.
+- **Cena ou episódio:** 1Cr 22.1-13 — Davi, já velho, juntando ferro, bronze, cedro e pedra; chamando Salomão e dizendo: "Filho meu, quanto a mim, tive em meu coração edificar casa ao nome do Senhor meu Deus; porém o Senhor me disse: derramaste sangue em abundância... não edificarás casa ao meu nome".
+- **Ângulo narrativo:** Pelo olhar de Davi entregando o sonho ao filho. Um velho rei que aceita não ser o construtor, mas é o provedor.
+- **O que não contar:** Pular a guerra contra os amonitas e os gigantes (caps. 19-20). Tocar o censo (cap. 21) só de raspão, como pano de fundo do "muito sangue" — não desenvolver. O foco é cap. 22.
 
 ---
 
-### 7. Cenário de aplicação
+## 5. Via cristológica de Greidanus
 
-- **Cenário:** Trabalho
-- **Esboço concreto:** Um trabalhador autônomo — pedreiro, costureira, entregador, cabeleireiro — que passou a noite no celular calculando quantos clientes têm agendados, quanto entra, quanto sobra. Não é planejamento; é ansiedade com planilha. Ele está contando o exército. E enquanto conta, não consegue dormir, não consegue confiar, e começa a tomar decisões movidas pelo medo do que não controla — cortando qualidade, cobrando menos, aceitando trabalho ruim para não ficar sem número.
-- **Por que este cenário:** O orgulho do censo de Davi não era arrogância de quem tem muito — era a insegurança de quem precisa saber o que tem para se sentir seguro. Isso vive com mais peso nas camadas mais vulneráveis do trabalho, onde não há seguro-desemprego nem salário fixo.
-
----
-
-### 8. Gancho cultural para abertura (P1)
-
-- **Cena:** Existe um jeito de calcular que não é planejar — é só tentar se tranquilizar. Você não está vendo o número para tomar uma decisão; está vendo o número para saber se pode respirar. E o problema é que o número nunca é suficiente para isso. Sempre pode mudar. Sempre pode cair. O que você estava tentando controlar continua fora do controle, e agora você perdeu uma hora de sono além.
-- **Como conecta ao texto:** Davi não precisava do censo para governar — precisava para se sentir seguro. E Joabe percebeu isso antes dele. "Por que o rei quer fazer isso? Para que isso seja motivo de culpa em Israel?"
-- **Eco em P8:** Retomar a pergunta: o que você está contando para se sentir seguro? E o que acontece se você parar de contar e confiar no que Deus tem dito?
+- **Referência NT explícita:** Não há citação direta de 1Cr 22 no NT. A promessa pactual ecoada em 22.10 ("eu lhe serei por pai, e ele me será por filho") é citada em Hb 1.5, mas a partir de 2Sm 7 / 1Cr 17, não desta passagem.
+- **Via escolhida:** **Promessa e Cumprimento.**
+- **Justificativa:** Não escolho "Referências do NT" porque não há citação direta deste trecho. Não escolho "Progressão histórico-redentiva" porque o texto não é apenas um passo na linha — ele explicita uma promessa concreta ("um filho... ele edificará casa ao meu nome", 22.9-10) que pede cumprimento. Cristo é o Filho-Rei que edifica a verdadeira casa de Deus (Jo 2.19-21; Hb 3.3-6; Mt 12.6) — promessa cumprida cabalmente.
+- **Conexão a Jesus:** Davi sonhou com a casa e juntou o material; Salomão construiu a casa de pedra; mas o Filho definitivo, Jesus, ergueu a casa que não desaba — e nos fez pedras vivas dela.
 
 ---
 
-### 9. Temas de oração (P8)
+## 6. Eixo Criação–Queda–Redenção
 
-- Por quem está contando o exército — clientes, contas, seguidores, aprovações — antes de conseguir confiar: que a ansiedade do número ceda lugar à confiança no Deus que governa o que não está na planilha.
-- Por quem sabe que uma decisão sua teve custo em outras pessoas — que o arrependimento de Davi ("fui eu quem pecou; essas ovelhas, o que fizeram?") seja o começo de algo, não o fim.
-- Que Jesus, que recebeu a espada do juízo que nenhum de nós aguentaria, seja a razão concreta para largar a contagem e descansar.
-
----
-
-### 10. Observações pastorais
-
-- **Observação:** O peso coletivo do pecado de Davi (setenta mil mortes) pode soar desproporcional para o ouvinte moderno. É importante não minimizar nem explicar em excesso. O texto quer que isso doa — e que a intercessão de Davi ("o que essas ovelhas fizeram?") ressoe como solidariedade e responsabilidade ao mesmo tempo.
-- **Afeta qual parágrafo:** P4 — deixar o peso pousar sem justificar. O texto não justifica; o pastor também não precisa.
+- **Criação:** Deus desenha um povo onde gerações trabalham juntas pela mesma obra — a casa do Seu Nome.
+- **Queda:** A mão de Davi derramou sangue demais; o sonho dele não cabe nas suas mãos. Há limites que o pecado impõe ao serviço.
+- **Redenção:** Deus não descarta Davi — dá a ele o privilégio de preparar e a promessa de um Filho que vai erguer. E esse Filho, no fim, é Cristo.
 
 ---
 
-### 11. Título provisório
+## 7. Cenário de aplicação
 
-- **Alternativa 1:** `04/05: Quando Davi contou o exército (1 Crônicas 19-22)` ← favorito
-- **Alternativa 2:** `04/05: Quando o orgulho de um teve custo em setenta mil (1 Crônicas 19-22)`
-- **Alternativa 3:** `04/05: Quando a espada ficou suspensa sobre Jerusalém (1 Crônicas 19-22)`
+- **Cenário:** Casa
+- **Esboço concreto:** Uma mulher de uns 60 anos, no fim da tarde, sentada na varanda. Junto à parede do fundo do quintal, há tijolos empilhados, cobertos com lona velha. Faz três anos que ela compra um saco de cimento a cada salário — pra um cômodo que o filho vai construir quando casar. Ela talvez não veja a parede de pé.
+- **Por que este cenário:** A congregação tem muita gente que serve sem ver fruto: pais orando por filhos longe, esposas crendo por maridos, avós que ensinaram a fé pros netos sem saber se germinou. A imagem fala direto.
+
+---
+
+## 8. Gancho cultural para abertura (P1)
+
+- **Cena:** Em 1813, um americano chamado Adoniram Judson desembarcou na Birmânia — a Mianmar de hoje. Levou anos só pra aprender a língua. Pregou seis anos antes de batizar o primeiro convertido. Seis anos. Enterrou a esposa, perdeu filhos, foi preso e torturado. Quando morreu, deixou uma tradução da Bíblia que muita gente achou que ia parar ali. Hoje, dois séculos depois, há milhões de cristãos em Mianmar lendo a Bíblia que ele começou a traduzir.
+- **Como conecta ao texto:** Judson é Davi: alguém que começou uma obra grande pra Deus e não viu terminar. E o texto vai mostrar que isso, longe de ser fracasso, é exatamente como Deus trabalha — Ele levanta quem continue.
+- **Eco em P8:** A oração final pode pedir coragem pra começar obra que talvez a gente não veja terminar, com fé de que o Filho que termina tudo é Cristo.
+
+---
+
+## 9. Temas de oração (P8)
+
+- Que Deus nos dê fé pra começar obra que a gente talvez não veja terminar — sem desanimar com o tempo curto da nossa vida.
+- Que nos livre da vaidade de querer ser o construtor visível, e nos ensine a alegria de ser parte de uma obra maior que nós.
+- Que firme nossos olhos em Cristo, o Filho que continua e termina tudo o que foi começado em fé — pra que nada do que fizermos n'Ele caia no chão.
+
+---
+
+## 10. Observações pastorais
+
+- **Observação:** Tem gente na congregação cansada de servir sem ver fruto. Tem gente também (talvez no mesmo banco) que se acha indispensável demais — que não sabe passar bastão. O texto fala com os dois, mas o tom não pode soar como consolação preguiçosa pro primeiro nem como puxão de orelha pro segundo. Tem que ser uma fala de respeito: Davi foi grande, e mesmo grande teve limite. E mesmo limitado, teve papel.
+- **Afeta qual parágrafo:** Tom geral; especialmente P4 (não suavizar o "não edificarás") e P7 (cuidado pra aplicação não virar moralismo de "saiba se contentar").
+
+---
+
+## 11. Título provisório
+
+- **Formato:** `04/05: Quando [título curto e criativo] (1 Crônicas 19-22)`
+- **Alternativas:**
+  - `04/05: Quando o sonho não termina em você (1 Crônicas 19-22)`
+  - `04/05: Quando você junta o tijolo e outro ergue a casa (1 Crônicas 19-22)`
+  - `04/05: Quando Deus diz "esse filho não é seu" (1 Crônicas 19-22)`
