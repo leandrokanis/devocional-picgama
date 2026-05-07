@@ -1,88 +1,102 @@
-# Plano — 2 Crônicas 1-4 (07/05/2026)
+# Plano: 2 Crônicas 1–4 — 07/05/2026
 
 ---
 
 ### 1. Ideia central
 
-- **Frase:** O que você pede quando pode pedir qualquer coisa revela quem você quer ser.
-- **Por que esta e não outra:** Deus não fez uma pergunta retórica — fez uma oferta real. E Salomão poderia ter pedido qualquer coisa: riqueza, longevidade, destruição dos inimigos. Pediu sabedoria para servir ao povo. Esse pedido é o espelho do coração — e é exatamente o espelho que todo líder, pai, pastor e estudante precisa ver antes de qualquer outra decisão.
-- **Aterrissa em:** P5 (redenção) — quando Deus concede a sabedoria e acrescenta o que Salomão não pediu, o ouvinte entende que pedir certo libera a generosidade de Deus de um jeito que o pedido errado nunca alcançaria.
+- **Frase:** Quando Deus te der espaço para pedir qualquer coisa, peça sabedoria para servir — porque é isso que Ele quer te dar, e é isso que Cristo já te garantiu.
+- **Por que esta e não outra:** O texto cobre quatro capítulos densos (sabedoria, templo, Moriá, mobiliário), mas o coração teológico está em 1:7-12 — o pedido de Salomão. Tudo o que vem depois (templo, mar de bronze, querubins) é Deus respondendo de mãos cheias a um coração que pediu pouco e certo. Outras opções (templo como sombra, Moriá como Calvário) são verdadeiras, mas mais distantes do ouvinte comum.
+- **Aterrissa em:** P5 (redenção), com eco forte em P8 (oração).
 
 ---
 
 ### 2. Tensão existencial
 
-- **Tensão:** Não saber o que pedir — ou saber que está pedindo as coisas erradas.
-- **Como o ouvinte vive isso hoje:** O líder de grupo de jovens, o líder de célula, o coordenador de ministério que está na função mas não se sente capaz. Ele ora pedindo que as coisas deem certo, que o evento lotei, que os membros apareçam — mas raramente para e pede o que Salomão pediu: discernimento para entender quem está sob seu cuidado e como servi-los bem.
+- **Tensão:** Quando a vida abre uma janela rara — uma chance, um convite, uma oração ouvida — a gente quase sempre pede a coisa errada. Pede o atalho. Pede o conforto. Pede o que parece resolver hoje, mas não sustenta amanhã.
+- **Como o ouvinte vive isso hoje:** A pessoa que finalmente conseguiu uma promoção, um cliente, uma vaga, e percebe que não sabe como conduzir aquilo. Ou o pai/mãe que ganhou um filho e descobre que orar por dinheiro é fácil — orar por sabedoria pra criar é que dá medo.
 
 ---
 
 ### 3. Imagem ou palavra-âncora do texto
 
-- **Elemento:** A pergunta de Deus: "Pede o que queres que eu te dê" (2 Cr 1:7).
-- **Por que este e não outro:** É uma das frases mais abertas da Bíblia inteira — sem limite, sem condição aparente, sem direção. O texto fica suspenso nessa abertura por um momento. E então o que Salomão faz com ela define tudo.
-- **Como aparece no devocional:** P2 para apresentar a cena de Gibeão, P4 para nomear o que Salomão poderia ter pedido e não pediu, P6 para conectar com Jesus como a sabedoria de Deus encarnada, P8 para fechar com a oferta que continua aberta.
+- **Elemento:** "Pede o que queres que eu te dê" — o cheque em branco que Deus oferece a Salomão na noite de Gibeom (1:7).
+- **Por que este e não outro:** É o gesto mais íntimo do texto. Concentra a graça (Deus quem oferece primeiro), a liberdade (Salomão escolhe) e a revelação do coração (o que se pede mostra quem se é). Templo e Moriá são grandiosos, mas o cheque em branco é portátil — cabe na vida do ouvinte.
+- **Como aparece no devocional:** P2 para introduzir a cena de Gibeom; P4 retomar a pergunta como espelho do nosso coração; P6 mostrar que em Cristo o cheque já foi assinado a nosso favor; P8 como ponte da oração ("se Deus te perguntasse hoje...").
 
 ---
 
 ### 4. Foco narrativo para P2
 
-- **Cena ou episódio:** 2 Crônicas 1:1-12 — Salomão vai a Gibeão para oferecer sacrifícios, Deus aparece de noite e faz a oferta, Salomão responde com o pedido de sabedoria, Deus concede e acrescenta.
-- **Ângulo narrativo:** Pelo olhar de Salomão na noite de Gibeão — o peso da herança, o novo trono, os inimigos em potencial, a tarefa impossível de governar o povo de Deus. Nessa noite, com tudo isso na cabeça, ele recebe uma pergunta.
-- **O que não contar:** Os detalhes da construção do templo nos capítulos 2-4, as negociações com Hirão de Tiro, as dimensões e materiais do templo. O foco é a noite de Gibeão — o pedido e a resposta.
+- **Cena ou episódio:** Salomão em Gibeom, à noite, diante do tabernáculo antigo, depois de oferecer mil holocaustos. Deus aparece e diz: "pede o que queres que eu te dê." Salomão responde pedindo sabedoria e conhecimento para governar.
+- **Ângulo narrativo:** O ponto de vista de Salomão — um rei jovem, recém-empossado, que sabe que o trono é grande demais pra ele. A vulnerabilidade, não a grandeza.
+- **O que não contar:** Detalhes da construção do templo, mobiliário, números de operários, acordo com Hirão. Nada de mar de bronze, nada de medidas. Tudo isso é cenário — o foco é o pedido.
+
+---
+
+### 4b. Aprofundamento conceitual (P3–P4): que sabedoria é essa?
+
+> Antes de aterrissar a aplicação, o devocional precisa fazer o ouvinte sentir que a "sabedoria" de Salomão não é o que ele pensa que é. Para isso, contrastar três conceitos com linguagem acessível, sem citar Aristóteles em tom acadêmico — apresentá-lo como "os gregos pensavam assim, os hebreus pensavam diferente."
+
+- **Sophia (σοφία) — sabedoria grega contemplativa:** Para Aristóteles, é o saber das coisas mais altas e eternas — entender o universo, as causas primeiras, as verdades imutáveis. É o sábio na torre, contemplando. Acessível a poucos, distante da vida comum.
+- **Phronesis (φρόνησις) — sabedoria prática grega:** A virtude de quem sabe agir bem nas situações concretas. Quem sabe a hora de falar, a medida certa, a decisão prudente. Aristóteles separa as duas: uma para os filósofos, outra para os governantes.
+- **Chokhmah (חָכְמָה) — sabedoria hebraica:** Não separa contemplação e ação. É *habilidade de viver bem diante de Deus*. O artesão do tabernáculo é "cheio de chokhmah" (Êx 31), o juiz que discerne é "cheio de chokhmah", o rei que governa pede chokhmah. Tudo começa em "o temor do Senhor é o princípio da sabedoria" (Pv 9:10) — não é técnica, é relação.
+- **O que isso muda em Salomão:** Quando Salomão pede "sabedoria e conhecimento para julgar este teu povo", ele não está pedindo nem só sophia (entender o mundo) nem só phronesis (decidir bem). Está pedindo *chokhmah pactual* — habilidade de conduzir o povo de Deus diante de Deus. É uma sabedoria que só faz sentido em aliança.
+- **Onde aterrissar no devocional:** P1 já abre com o contraste sophia/phronesis/chokhmah como gancho — é o próprio gatilho que faz o ouvinte querer ouvir a história de Salomão. P3 retoma o conceito de chokhmah ligado à pequenez de Salomão (não é técnica, é relação); P4 aprofunda mostrando que pedir chokhmah é pedir aliança, não só competência; P6 fecha mostrando que Cristo é a chokhmah encarnada — sabedoria que é vida vivida em comunhão, não conceito abstrato.
+- **Tom:** Não falar "Aristóteles" com pompa — não é necessário nomeá-lo. Falar "os gregos antigos", "os filósofos antigos". Pode dizer "os gregos tinham duas palavras pra sabedoria: uma pra entender o mundo, outra pra decidir bem. Mas a Bíblia trabalha com uma terceira coisa, que não cabe nessas caixas." As palavras *sophia*, *phronesis* e *chokhmah* podem aparecer — soam bem na boca, criam textura — mas com tradução imediata.
 
 ---
 
 ### 5. Via cristológica de Greidanus
 
-- **Referência NT explícita:** Sim — Mateus 12:42 ("aqui está quem é maior do que Salomão"), 1 Coríntios 1:30 ("Cristo Jesus, que para nós se tornou sabedoria da parte de Deus"), João 2:19-21 (Jesus usa o templo como imagem do próprio corpo), Tiago 1:5 ("se algum de vós tem falta de sabedoria, peça-a a Deus").
-- **Via escolhida:** Referências do NT.
-- **Justificativa:** É a via hierarquicamente mais alta e a mais robustamente sustentada. Jesus se compara diretamente a Salomão (Mt 12:42), Paulo declara Cristo como sabedoria de Deus (1 Co 1:30), e João registra Jesus usando a linguagem do templo para o próprio corpo. Não há via mais segura disponível para este texto.
-- **Conexão a Jesus:** Salomão pediu sabedoria e construiu um templo onde Deus habitaria — Jesus é a sabedoria de Deus encarnada e o templo vivo que foi destruído e reconstruído em três dias.
+- **Referência NT explícita:** Sim. Mt 12:42 / Lc 11:31 — "alguém maior do que Salomão está aqui." Tg 1:5 ecoa o pedido de sabedoria.
+- **Via escolhida:** Referências do Novo Testamento.
+- **Justificativa:** É a via de maior prioridade na hierarquia e está disponível com clareza. Jesus se autodeclara "maior que Salomão" exatamente no contexto da sabedoria — o paralelo é direto, não especulativo.
+- **Conexão a Jesus:** Em Cristo, o cheque em branco que Salomão recebeu uma noite virou aliança permanente: "se a algum de vós falta sabedoria, peça-a a Deus" (Tg 1:5) — porque Aquele que é maior que Salomão já assinou nosso acesso ao Pai.
 
 ---
 
 ### 6. Eixo Criação–Queda–Redenção
 
-- **Criação:** Deus criou líderes para governar com sabedoria dependente d'Ele — e a sabedoria está disponível para quem pede com coração certo.
-- **Queda:** A tentação natural do líder é pedir o que protege e engrandece a si mesmo — Salomão reconheceu essa tentação e a recusou explicitamente.
-- **Redenção:** Deus concede a sabedoria e acrescenta o que não foi pedido — e o templo que Salomão constrói aponta para o lugar onde Deus habitará sem limite: o próprio Cristo.
+- **Criação:** Deus quer reis (e pessoas comuns) que peçam sabedoria para servir o povo, não poder para servir a si.
+- **Queda:** Quando a vida nos dá um espaço de escolha, nosso coração corre primeiro para riqueza, status, vingança ou alívio — e nem percebe.
+- **Redenção:** Cristo, o maior que Salomão, é Ele mesmo a sabedoria de Deus (1Co 1:30); pedir a Ele é receber não só resposta, mas a própria vida d'Ele.
 
 ---
 
 ### 7. Cenário de aplicação
 
-- **Cenário:** Igreja
-- **Esboço concreto:** Um líder de célula ou grupo de jovens que está na função há alguns meses e começa a sentir o peso de não saber o que está fazendo. Ele prepara a reunião, lidera a oração, tenta manter as pessoas engajadas — mas no fundo não tem certeza se está servindo as pessoas ou só administrando um evento. A pergunta de Gibeão chega: se Deus oferecesse livre escolha agora, o que você pediria? Lotação? Crescimento do grupo? Ou discernimento para entender quem está ali e o que eles precisam?
-- **Por que este cenário:** A liderança dentro da comunidade de fé é onde a diferença entre pedir para si mesmo e pedir pelo rebanho é mais visível. E a maioria dos líderes jovens nunca parou para formular o pedido de Salomão — porque ninguém ensinou que era possível pedir assim.
+- **Cenário:** Trabalho.
+- **Esboço concreto:** A dona de um pequeno comércio que finalmente conseguiu abrir o segundo ponto. Ela está sozinha à noite fazendo as contas, sentindo que Deus abriu uma porta que ela nem pediu. E percebe que tem orado por mais venda, por mais lucro — mas nunca orou pra saber conduzir gente, pra tratar bem o funcionário novo, pra não perder a alma na expansão.
+- **Por que este cenário:** A congregação tem muita gente que trabalha por conta, em comércio, em bico, em cuidar de outros. A tentação de pedir resultado e esquecer caráter é universal entre eles. E é exatamente onde o texto morde.
 
 ---
 
 ### 8. Gancho cultural para abertura (P1)
 
-- **Cena:** Se alguém chegasse até você hoje e dissesse "pode pedir qualquer coisa e eu dou" — o que viria primeiro na sua cabeça? Dinheiro, saúde, relacionamento, aprovação, reconhecimento? A maioria das pessoas teria uma lista na ponta da língua. Mas a lista revela algo sobre quem a pessoa quer ser — ou quem ela ainda não virou.
-- **Como conecta ao texto:** Deus chegou até Salomão com exatamente essa oferta. E o que Salomão pediu não estava na lista que a maioria esperaria.
-- **Eco em P8:** Retomar a oferta como aberta — Tiago 1:5 diz que quem pede sabedoria a Deus recebe. A pergunta de Gibeão não foi só para Salomão.
+- **Cena:** Abrir direto com a pergunta: "o que é ser sábio?" Pra um grego antigo, ser sábio era uma de duas coisas: ou você era o filósofo na torre, entendendo as estrelas e as causas do universo — eles chamavam isso de *sophia*. Ou você era o homem prudente, que sabia a hora de falar, a medida certa, a decisão difícil — eles chamavam isso de *phronesis*. Uma sabedoria pra contemplar, outra pra agir. Até hoje a gente carrega isso: ou imagina o sábio como o cara que sabe muito, ou como o cara que decide bem. Mas aí você abre 2 Crônicas 1 e encontra um rei jovem pedindo *outra coisa* — uma palavra que não cabe direito em nenhuma dessas duas caixas. Os hebreus chamavam de *chokhmah*. E é uma palavra que muda o jogo.
+- **Como conecta ao texto:** Salomão, em Gibeom, recebe de Deus um cheque em branco — "pede o que quiseres" — e o que ele pede revela uma sabedoria que não é grega, é pactual. Não é entender o mundo nem só decidir bem: é habilidade de viver e governar diante de Deus.
+- **Eco em P8:** Na oração, retomar: "Senhor, livra-nos da sabedoria que só contempla e da sabedoria que só calcula. Dá-nos chokhmah — a habilidade de viver diante de Ti em cada decisão pequena."
 
 ---
 
 ### 9. Temas de oração (P8)
 
-- Por líderes — de célula, de grupo, de família — que estão na função mas não pararam para pedir sabedoria de verdade: que a noite de Gibeão seja hoje.
-- Por quem não sabe o que pedir — que o Espírito interceda com gemidos que não conseguem ser expressos em palavras, e que o coração aprenda a pedir pelo rebanho antes de pedir por si mesmo.
-- Que Jesus, sabedoria de Deus encarnada, seja reconhecido como a resposta final para quem chega a Deus sem saber o que pedir — porque nele está tudo que precisamos antes de saber que precisamos.
+- Que Deus nos dê coragem de pedir sabedoria antes de pedir resultado, especialmente nos lugares onde já estamos colhendo.
+- Que Cristo, a sabedoria de Deus, governe nossas decisões pequenas — as do trabalho, da casa, do dinheiro — não só as grandes.
+- Que sejamos pessoas que servem com o que Deus nos confia, em vez de acumular pra nós mesmos.
 
 ---
 
 ### 10. Observações pastorais
 
-- **Observação:** O texto pode soar como "peça sabedoria e você vai ter tudo" — uma teologia da prosperidade disfarçada de intelectualismo. É importante deixar claro que o ponto não é a técnica do pedido certo para receber mais; é o coração orientado para o outro, não para si mesmo. Salomão pediu sabedoria para servir — não para ter mais que os outros.
-- **Afeta qual parágrafo:** P5 e P7 — a redenção e a aplicação devem enfatizar o serviço, não a recompensa.
+- **Observação 1:** Tem uma armadilha de leitura fácil aqui: ouvir o texto e sair pensando "vou pedir sabedoria" como se fosse mais um item da lista. O pedido de Salomão nasce de quem se *sentiu pequeno demais pra função*. Sem o reconhecimento da pequenez, "pedir sabedoria" vira mais uma forma de orgulho disfarçado.
+- **Observação 2:** A palavra "sabedoria" foi tão domesticada na cultura cristã quanto fora dela — virou sinônimo de "boa decisão" ou de "experiência de vida". O contraste com sophia/phronesis serve justamente pra reabrir a palavra: chokhmah é mais densa, mais relacional, mais corporal. Sem essa abertura conceitual, o devocional vira autoajuda piedosa.
+- **Afeta qual parágrafo:** Tom geral, com peso especial em P3 e P4 — onde a vulnerabilidade de Salomão e o reenquadramento do conceito de sabedoria precisam virar espelho para o ouvinte antes da aplicação.
 
 ---
 
 ### 11. Título provisório
 
-- **Alternativa 1:** `07/05: Quando Salomão podia pedir qualquer coisa (2 Crônicas 1-4)` ← favorito
-- **Alternativa 2:** `07/05: Quando a pergunta de Deus revelou o coração de Salomão (2 Crônicas 1-4)`
-- **Alternativa 3:** `07/05: Quando pedir certo mudou um reinado (2 Crônicas 1-4)`
+- **Formato:** `DD/MM: Quando [título curto e criativo] (Referência Bíblica)`
+- **Alternativas:**
+  3. `07/05: Quando sabedoria custa mais que pedir riqueza (2 Crônicas 1-4)`
