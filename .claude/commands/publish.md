@@ -28,7 +28,12 @@ A página do dia já existe no database Devocional. Não crie uma nova.
 
 ## Fase 3: Limpar estado
 
-Reponha `docs/devocionais/CURRENT.md` ao estado vazio:
+1. Confirme que a página do Notion foi atualizada com sucesso na Fase 2. Só prossiga se sim.
+2. Apague a pasta local do devocional gerada no processo (`estudo.md`, `plano.md`, `devocional.md` e a pasta `{Pasta}`):
+   ```
+   rm -rf {Pasta}
+   ```
+3. Reponha `docs/devocionais/CURRENT.md` ao estado vazio:
 
 ```
 ---
