@@ -1,10 +1,12 @@
 ---
-description: Publica o devocional finalizado: commit e push do arquivo e envio para a página já existente no database Devocional do Notion. Execute somente após revisão e aprovação do texto.
+description: Publica o devocional finalizado no Notion (página já existente no database Devocional). Os arquivos do devocional são locais e não vão para o git. Execute somente após revisão e aprovação do texto.
 ---
 
 # Publish
 
-Publica o devocional do dia. Execute somente quando o texto estiver aprovado — não há volta fácil depois do push.
+Publica o devocional do dia no Notion. Execute somente quando o texto estiver aprovado.
+
+Os arquivos do devocional (`docs/devocionais/{Pasta}`) são **apenas locais** — não são commitados nem enviados ao git. Esta skill não faz commit nem push.
 
 ## Fase 1: Leitura do contexto
 
@@ -12,20 +14,7 @@ Publica o devocional do dia. Execute somente quando o texto estiver aprovado —
 - Extraia **Data** (`YYYY-MM-DD`), **Leitura** e **Pasta**.
 - Verifique que `devocional.md` existe na pasta. Se não existir, informe e pare.
 
-## Fase 2: Git — commit e push
-
-1. Stage todos os arquivos da pasta do devocional que estejam não rastreados ou modificados:
-   ```
-   git add {Pasta}
-   ```
-2. Commit com mensagem no formato:
-   ```
-   docs: devocional {YYYY-MM-DD} - {Leitura}
-   ```
-3. Push para o remote.
-4. Confirme que o push foi bem-sucedido antes de continuar.
-
-## Fase 3: Notion — atualizar página existente
+## Fase 2: Notion — atualizar página existente
 
 A página do dia já existe no database Devocional. Não crie uma nova.
 
@@ -37,7 +26,7 @@ A página do dia já existe no database Devocional. Não crie uma nova.
    - `new_str`: conteúdo completo de `devocional.md` (título H1, descrição Spotify, introdução de gravação, oito parágrafos)
 4. Se a página não for encontrada para aquela data, informe o usuário e não crie uma nova sem autorização explícita.
 
-## Fase 4: Limpar estado
+## Fase 3: Limpar estado
 
 Reponha `docs/devocionais/CURRENT.md` ao estado vazio:
 
@@ -53,8 +42,7 @@ Reponha `docs/devocionais/CURRENT.md` ao estado vazio:
 - **Pasta:** —
 ```
 
-## Fase 5: Confirmação
+## Fase 4: Confirmação
 
 Devolva ao usuário:
-- Confirmação do commit (hash curto)
 - Link da página Notion atualizada
