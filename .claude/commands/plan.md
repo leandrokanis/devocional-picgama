@@ -43,7 +43,7 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 > O que o texto expõe que o ouvinte já sente, mesmo sem nomear.
 
 - **Tensão:** [O conflito, medo, vergonha ou falha central que o texto coloca na mesa. Nomeado com linguagem do cotidiano, não da teologia.]
-- **Como o ouvinte vive isso hoje:** [Uma situação concreta da vida ordinária onde essa tensão aparece.]
+- **Como aparece na cultura:** [Em uma frase, nomeie o padrão cultural ou o tipo de pressão — não uma cena, não um personagem. Ex: "a pressão de performar fé que toda semana parece mais intensa", "a fadiga de quem tenta provar valor no trabalho".]
 
 ---
 
@@ -90,13 +90,15 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 ---
 
-### 7. Cenário de aplicação
+### 7. Diagnóstico cultural
 
-> Onde o devocional vai pousar. Escolha exatamente um.
+> O que a cultura ao redor do ouvinte ensina sobre o tema do texto, e onde o evangelho corta essa história. Estilo Tim Keller: cultura → ídolo → evangelho. **NÃO invente personagens nem cenas — fale de padrões, narrativas, pressões que o ouvinte respira.** Nada de "imagine uma pessoa que…", nada de protagonista com biografia.
 
-- **Cenário:** [ `Casa` | `Igreja` | `Trabalho` | `Escola` ]
-- **Esboço concreto:** [Descreva em 2-3 frases a cena específica. Quem é a pessoa, o que está fazendo, o que sente. Evite cenas de escritório corporativo em Trabalho — pense em bico, roça, comércio, cuidado de alguém, estudo pesado.]
-- **Por que este cenário:** [Uma frase de justificativa pastoral — o que na vida da congregação torna este cenário o mais fértil para este texto?]
+- **O que a cultura promete:** [A história/narrativa dominante sobre este tema — sucesso, identidade, segurança, controle, pertencimento. Uma frase curta nomeando a promessa.]
+- **O que ela entrega na prática:** [O custo real, o vazio, a versão distorcida que aparece quando a promessa é cobrada. Uma frase.]
+- **O ídolo de fundo:** [O bem legítimo que virou último — o "deus-substituto" que o texto desmascara. Uma palavra ou expressão curta. Ex: "controle", "reputação na igreja", "meritocracia espiritual".]
+- **Onde o evangelho corta:** [Em uma frase: como Cristo (via P6) expõe e cura essa idolatria sem virar moralismo nem irreligião.]
+- **Onde isso aparece no cotidiano:** [Liste 2-3 *padrões* curtos e reconhecíveis — não cenas, não personagens. Ex: "trocar oração por agenda", "medir vida espiritual por consistência de hábitos", "confiar mais no time da igreja do que em Deus". Cada item ≤ 1 linha.]
 
 ---
 
@@ -104,7 +106,7 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 > A analogia ou cena do cotidiano que abre o devocional e cria tensão antes de o texto aparecer.
 
-- **Cena:** [Descreva a analogia ou situação em 2-4 frases. Deve ser reconhecível, não explicada demais, e gerar uma pergunta ou desconforto que o texto vai responder.]
+- **Gancho:** [Uma observação cultural, pergunta provocativa ou cena coletiva reconhecível em 2-4 frases. Pode ser uma frase que todo mundo já ouviu, um padrão de comportamento, uma tensão da época. **NÃO um personagem fictício com nome ou biografia.** Deve gerar pergunta ou desconforto que o texto vai responder.]
 - **Como conecta ao texto:** [Uma frase mostrando a ponte entre a cena e a tensão bíblica.]
 - **Eco em P8:** [Como esta cena ou imagem pode ser retomada na oração final para criar fechamento? Uma frase.]
 
@@ -144,7 +146,7 @@ Antes de liberar, verifique silenciosamente:
 - [ ] Foco narrativo (P2): cena específica, ângulo definido, cortes indicados.
 - [ ] Via de Greidanus: uma só via, hierarquia justificada, nome exato do arquivo de referência.
 - [ ] CQR: três frases distintas, sem colapsar queda e redenção.
-- [ ] Cenário de aplicação: um só, com cena concreta e compatível com público diverso.
+- [ ] Diagnóstico cultural: promessa, entrega, ídolo, corte do evangelho e 2-3 padrões cotidianos — sem personagem inventado.
 - [ ] Gancho cultural: reconhecível, cria tensão sem explicar demais; eco em P8 indicado.
 - [ ] Temas de oração: pelo menos 2 itens concretos.
 - [ ] Observações pastorais (se preenchidas): parágrafo de destino indicado.

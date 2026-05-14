@@ -43,7 +43,7 @@ O arco do texto segue este movimento. Use o plano como fonte de conteúdo para c
 - **P4 — O que deu errado:** O peso do pecado, da falha ou da dor. Faça sentir. Use a palavra **queda** pelo menos uma vez. (plano, seção 6 — eixo Queda)
 - **P5 — Onde Deus aparece:** A graça, a promessa ou a intervenção. Use a palavra **redenção** pelo menos uma vez. (plano, seção 6 — eixo Redenção)
 - **P6 — Jesus no texto:** Use a via de Greidanus escolhida no plano (seção 5). P5 e P6 podem fluir como um único movimento narrativo quando a redenção do texto já é cristológica por natureza — mas devem ser parágrafos distintos. Use a "conexão a Jesus" do plano como fio condutor. Amarre Jesus à tensão aberta em P1.
-- **P7 — Aplicação:** Exclusivamente no cenário do plano (seção 7). A cena concreta esboçada no plano. Pé no chão, sem abstração.
+- **P7 — Aplicação:** Exegese cultural a partir do diagnóstico do plano (seção 7). Nomeie a promessa cultural, o ídolo, o corte do evangelho e os 2-3 padrões cotidianos. Fale com o ouvinte sobre o ar que ele respira — **sem inventar uma pessoa específica nem contar uma microhistória.** Modelo: P7 de Rute em `write-examples.md` (situações reconhecíveis no plural, sem protagonista fictícia).
 - **P8 — Oração:** Começa obrigatoriamente com `A minha oração é para que...`. Use os temas de oração do plano (seção 9). Se houver eco do gancho indicado (plano, seção 8), retome a imagem aqui. Termina com ânimo, não com slogan.
 
 **Sobre a imagem-âncora:** o elemento concreto indicado no plano (seção 3) deve aparecer nos parágrafos apontados lá. Não repita mecanicamente — evoque.
@@ -75,7 +75,7 @@ Confira silenciosamente se os elementos do plano estão presentes no texto. Se a
 - [ ] Cena e ângulo do plano estão em P2.
 - [ ] Tríade criação/queda/redenção: palavras presentes em P3, P4, P5.
 - [ ] Via de Greidanus e conexão a Jesus do plano estão em P6.
-- [ ] Cenário e cena do plano estão em P7.
+- [ ] Diagnóstico cultural do plano (promessa/ídolo/corte/padrões) está em P7.
 - [ ] Temas de oração do plano estão em P8.
 - [ ] Imagem-âncora aparece nos parágrafos indicados.
 - [ ] Ideia central está claramente presente ou implicada no parágrafo indicado.
