@@ -54,7 +54,7 @@ O arco do texto segue este movimento. Use o plano como fonte de conteúdo para c
 
 Leia o rascunho como se fosse falar ao microfone agora. A cada trecho que travar, que soar ensaiado ou didático demais — reescreva. Procure e elimine:
 
-1. **Contraste escolar:** *"não é sobre X, é sobre Y"* / *"não está..., está..."* / dois pontos e vírgula separando "correções". Prefira frase direta.
+1. **Contraste escolar:** toda construção do tipo `não é X — é Y`, `não foi X. Foi Y.`, `não por X, mas por Y`, `não em X, mas em Y`, `não está X, está Y`. Aparecem como frases de definição, correção ou conclusão e soam a sermão escrito ou post de pastor. Prefira frase que afirme diretamente: em vez de *"não é acidente; é movimentação de Deus"* → *"Deus moveu isso"*; em vez de *"não por rigidez, mas por fidelidade"* → *"era fidelidade"* (corte o qualificador se o contexto já o implica). **P6 e P7 são zonas de risco máximo.**
 2. **Adjetivo duplo ornamental:** dois adjetivos onde nenhum muda o fato para o ouvinte. Corte um ou os dois.
 3. **Sequência de perguntas retóricas:** três ou mais seguidas. Corte até sobrar no máximo uma.
 4. **Fechamento-slogan:** última frase do parágrafo ou do texto que soa como post de Instagram. Reescreva como fala, não como headline.
