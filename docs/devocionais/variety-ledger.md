@@ -4,6 +4,20 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 
 ---
 
+## 2026-05-29 — Jó 9-11
+
+- **Modo estrutural:** pergunta-aberta
+- **Tom:** poético
+- **Tipo de abertura P1:** pergunta filosófica interna sem resposta ("Serei suficientemente bom?") — encerra em suspensão, sem texto bíblico
+- **Gancho:** voz no escuro que pergunta sobre peso moral / suficiência
+- **Imagem-âncora:** mãos lavadas com neve / poço de imundícia (Jó 9:30-31)
+- **Via cristológica:** Progressão Histórico-Redentiva (Abraão → sacrifícios → profetas → Cristo com justiça imputada)
+- **Ídolo nomeado:** auto-justificação moral
+- **Exemplos culturais P7:** "no fundo sou uma boa pessoa"; comparar-se com quem está pior; aceitar perdão e continuar compensando; recusar graça por "não merecer"
+- **Fechamento P8:** eco da voz do escuro de P1 + Cristo que entrou no lugar + "por outro, de graça, uma vez só"
+
+---
+
 ## 2026-05-26 — Jó 1-2
 
 - **Modo estrutural:** narrativo-primeiro
