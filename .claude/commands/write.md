@@ -11,6 +11,61 @@ Você é um **comunicador falando para uma pessoa**. Não um pregador no púlpit
 - Leia `docs/devocionais/CURRENT.md` para identificar a pasta do devocional.
 - Leia `plano.md` na pasta indicada. Este é seu único briefing — todas as decisões já foram tomadas.
 - Se `plano.md` não existir, informe o usuário e pare. Esta skill não decide — ela escreve.
+- Identifique **modo estrutural** e **tom** na seção 12 do plano. Se ausentes, use `narrativo-primeiro` e `pastoral`.
+- Leia `docs/devocionais/variety-ledger.md` se existir. Os itens listados em **Evitar** e nos últimos 3 devocionais são restrições ativas: não repita ganchos, exemplos culturais ou imagens listados.
+
+## Fase 1b: Modo e tom
+
+O modo estrutural e o tom moldam **como** o plano se torna texto. Aplique antes de escrever:
+
+### Modos estruturais
+
+**`narrativo-primeiro`** (default)
+- P1 abre com cena ou fenômeno cultural; texto bíblico aparece na última frase de P1.
+- Estrutura padrão P1–P8.
+
+**`diagnóstico-primeiro`**
+- P1 abre diretamente pelo problema cultural ou ídolo — sem gancho narrativo antes.
+- P2 apresenta o texto bíblico como resposta a esse problema.
+- P7 mais cirúrgico: menos descrição, mais confronto.
+
+**`pergunta-aberta`**
+- P1 lança uma pergunta e explicitamente não a responde — encerra com suspensão, não com o texto.
+- O texto bíblico entra em P2 como quem também carrega a pergunta, não como quem responde.
+- P6 é o ponto de virada onde a resposta aparece.
+- P7 e P8 fluem como consequência da resposta revelada.
+
+**`cena-silenciosa`**
+- P1 descreve uma imagem concreta sem explicar, sem perguntar, sem anunciar o tema — apenas a cena.
+- P2 entra na cena bíblica com o mesmo registro: concreto, sem exposição.
+- CQR (P3–P5) é mais implícito, tecido na descrição, não declarado.
+- P7 chega como observação ("quem vive assim reconhece..."), não como prescrição.
+- P8 é quieto, breve, íntimo.
+
+### Tons
+
+**`pastoral`**
+- Quente, validador. "A gente" e "você" frequentes.
+- Valida a dor antes de desafiar. Não resolve rápido.
+- P8 terno, sem urgência.
+
+**`profético`**
+- Diagnóstico direto, sem amortecimento. P1 e P7 confrontam.
+- Menos hedging, menos qualificadores ("talvez", "às vezes").
+- P8 urgente — convida à ação, não ao conforto.
+- Cuidado: profético não é agressivo. É claro onde o pastoral seria difuso.
+
+**`poético`**
+- Ritmo mais lento. Frases curtas e imagens densas.
+- P1 planta uma imagem sem explicá-la imediatamente.
+- P6 e P8 são contemplativos: mostram em vez de declarar.
+- Evite sequências argumentativas longas — prefira imagem sobre argumento.
+
+**`narrativo`**
+- Fica na história mais tempo. P2 pode ser o parágrafo mais longo.
+- A voz do comunicador some às vezes atrás da história.
+- P7 é observação emergente do texto, não análise cultural separada.
+- P8 quieto, quase sussurrado.
 
 ## Fase 2: Rascunho
 
@@ -86,4 +141,6 @@ Confira silenciosamente se os elementos do plano estão presentes no texto. Se a
 
 - Imprima o texto final. Sem cabeçalhos extras, sem notas.
 - Salve como `devocional.md` na pasta indicada em `CURRENT.md`.
+- Atualize `docs/devocionais/variety-ledger.md` — acrescente uma entrada no topo (após o cabeçalho) com o formato das entradas existentes:
+  - Data, texto bíblico, modo, tom, tipo de abertura P1, gancho, imagem-âncora, via cristológica, ídolo nomeado, exemplos culturais P7, fechamento P8.
 - Informe ao usuário que o próximo passo é revisar e, quando aprovado, executar `/publish`.

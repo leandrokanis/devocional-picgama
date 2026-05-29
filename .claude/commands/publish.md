@@ -6,7 +6,7 @@ description: Publica o devocional finalizado no Notion (página já existente no
 
 Publica o devocional do dia no Notion. Execute somente quando o texto estiver aprovado.
 
-Os arquivos do devocional (`docs/devocionais/{Pasta}`) são **apenas locais** — não são commitados nem enviados ao git. Esta skill não faz commit nem push.
+Os arquivos do devocional (`docs/devocionais/{Pasta}`) são **apenas locais** — não são commitados nem enviados ao git. **Exceção: `docs/devocionais/variety-ledger.md` é commitado e enviado ao git a cada publicação.**
 
 ## Fase 1: Leitura do contexto
 
@@ -26,14 +26,24 @@ A página do dia já existe no database Devocional. Não crie uma nova.
    - `new_str`: conteúdo completo de `devocional.md` (título H1, descrição Spotify, introdução de gravação, oito parágrafos)
 4. Se a página não for encontrada para aquela data, informe o usuário e não crie uma nova sem autorização explícita.
 
-## Fase 3: Limpar estado
+## Fase 3: Commitar variety-ledger
 
 1. Confirme que a página do Notion foi atualizada com sucesso na Fase 2. Só prossiga se sim.
-2. Apague a pasta local do devocional gerada no processo (`estudo.md`, `plano.md`, `devocional.md` e a pasta `{Pasta}`):
+2. Commite e envie o `variety-ledger.md` atualizado:
+   ```
+   git add docs/devocionais/variety-ledger.md
+   git commit -m "chore: update variety ledger — {Leitura}"
+   git push origin HEAD:main
+   ```
+   O `variety-ledger.md` **não é apagado** — persiste entre devocionais.
+
+## Fase 4: Limpar estado
+
+1. Apague a pasta local do devocional gerada no processo (`estudo.md`, `plano.md`, `devocional.md` e a pasta `{Pasta}`):
    ```
    rm -rf {Pasta}
    ```
-3. Reponha `docs/devocionais/CURRENT.md` ao estado vazio:
+2. Reponha `docs/devocionais/CURRENT.md` ao estado vazio:
 
 ```
 ---
@@ -47,7 +57,7 @@ A página do dia já existe no database Devocional. Não crie uma nova.
 - **Pasta:** —
 ```
 
-## Fase 4: Confirmação
+## Fase 5: Confirmação
 
 Devolva ao usuário:
 - Link da página Notion atualizada

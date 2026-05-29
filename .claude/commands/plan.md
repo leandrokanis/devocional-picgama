@@ -14,6 +14,7 @@ Assuma a persona de um **pastor local** que opera segundo o conceito de **pastor
 - Verifique se existe `estudo.md` na pasta indicada em **Pasta**.
   - Se existir, leia-o integralmente. Ele é a base exegética do plano.
   - Se não existir, prossiga apenas com o texto bíblico e as referências teológicas.
+- Leia `docs/devocionais/variety-ledger.md` se existir. Identifique os últimos 3 devocionais: modos, tons, tipos de abertura, ídolos e exemplos culturais usados. Use como restrição na seção 12.
 
 ## Fase 2: Leitura de referências
 
@@ -136,6 +137,29 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 ---
 
+### 12. Variação
+
+> Decisões de forma para este devocional — tomadas com base no variety-ledger e no caráter do texto bíblico do dia.
+
+- **Modo estrutural:** [escolha um: `narrativo-primeiro` | `diagnóstico-primeiro` | `pergunta-aberta` | `cena-silenciosa`]
+- **Tom:** [escolha um: `pastoral` | `profético` | `poético` | `narrativo`]
+- **Justificativa:** [Por que esta combinação serve a este texto e a esta congregação hoje? Uma frase.]
+- **Evitar neste texto:** [Liste itens do ledger que seriam repetição — tipo de abertura, exemplos culturais, imagem, ídolo. Se ledger vazio, escreva "n/a".]
+
+**Referência rápida de modos:**
+- `narrativo-primeiro` — P1 abre com cena ou fenômeno cultural; texto bíblico entra no fim de P1. (default)
+- `diagnóstico-primeiro` — P1 abre pelo problema cultural/ídolo diretamente; P2 a Bíblia como resposta; P7 mais cirúrgico.
+- `pergunta-aberta` — P1 lança uma pergunta e não responde; tensão sustentada até P6; P7-P8 fluem da resposta revelada.
+- `cena-silenciosa` — P1 é uma imagem concreta sem explicação nem pergunta; P2 igualmente concreto; aplicação chega como observação; P8 quieto.
+
+**Referência rápida de tons:**
+- `pastoral` — quente, validador, "a gente" e "você" frequentes; validação antes do desafio; P8 terno.
+- `profético` — mais duro; P1 e P7 confrontam sem suavizar; menos hedging; P8 urgente.
+- `poético` — ritmo mais lento; frases curtas; P1 uma imagem sem explicação imediata; P6 e P8 contemplativos.
+- `narrativo` — fica na história mais tempo; P2 mais longo; P7 chega como observação, não como prescrição; P8 quieto.
+
+---
+
 ## Fase 4: Validação interna
 
 Antes de liberar, verifique silenciosamente:
@@ -151,6 +175,7 @@ Antes de liberar, verifique silenciosamente:
 - [ ] Temas de oração: pelo menos 2 itens concretos.
 - [ ] Observações pastorais (se preenchidas): parágrafo de destino indicado.
 - [ ] Título provisório: segue o formato exato; pelo menos 2 alternativas.
+- [ ] Variação: modo e tom escolhidos, justificados, distintos dos últimos 2-3 devocionais no ledger; itens a evitar listados.
 
 ## Fase 5: Saída
 
