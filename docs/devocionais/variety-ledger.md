@@ -13,7 +13,7 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Imagem-âncora:** distância entre Jó 19:20 ("só me restou a pele dos dentes") e Jó 19:25 ("eu sei que o meu Redentor vive") — nada mudou entre os dois versículos (P2, P6, P8)
 - **Via cristológica:** Promessa e Cumprimento (Jó 19:25 como proto-promessa; Cristo ressuscitado como primícias dos que dormem em 1Co 15:20)
 - **Ídolo nomeado:** pertencimento como evidência (precisar de presença relacional visível como condição para declarar esperança)
-- **Exemplos culturais P7:** medir a presença de Deus pela qualidade emocional da semana; interpretar distância de amigo/parceiro como sinal de falha espiritual; só conseguir confiar quando as relações principais estão bem
+- **Exemplos culturais P7:** espiritualidade no compasso das relações — quando a turma some a fé parece menor; medir amor de Deus pelo que as pessoas fazem (quando ficam = ele está, quando vão = confirma o pior); estrutura: pergunta coloquial de abertura + inversão via Jó + Cristo na cruz
 - **Fechamento P8:** eco do silêncio da abertura + declaração "de dentro do silêncio" + "Depois da ressurreição de Cristo, Jó sabe o nome dele"
 
 ---
