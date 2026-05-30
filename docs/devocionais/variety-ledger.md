@@ -4,6 +4,20 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 
 ---
 
+## 2026-05-30 — Jó 12-15
+
+- **Modo estrutural:** diagnóstico-primeiro
+- **Tom:** narrativo
+- **Tipo de abertura P1:** diagnóstico cultural direto — crença de que Deus responde em proporção à sinceridade/esforço devocional; sem gancho narrativo
+- **Gancho:** ciclo de autodivulgação espiritual como tentativa de garantir audiência com Deus
+- **Imagem-âncora:** pergunta de Jó 14:14 — "Se o homem morrer, tornará a viver?" (P2, P6, P8)
+- **Via cristológica:** Contraste (Jó clama por mediador que não existe; Cristo é exatamente esse mediador; pergunta de Jó 14:14 respondida em 1Co 15:20)
+- **Ídolo nomeado:** sinceridade como acesso (intensidade devocional como garantia da presença de Deus)
+- **Exemplos culturais P7:** avaliar relação com Deus pela consistência da oração matinal; interpretar silêncio divino como punição; dobrar esforço devocional quando Deus parece sumido
+- **Fechamento P8:** eco de Jó 14:14 transformado em declaração + mediador que chegou e vive para falar por você
+
+---
+
 ## 2026-05-29 — Jó 9-11
 
 - **Modo estrutural:** pergunta-aberta
