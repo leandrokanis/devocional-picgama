@@ -4,6 +4,20 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 
 ---
 
+## 2026-05-31 — Jó 16-20
+
+- **Modo estrutural:** cena-silenciosa
+- **Tom:** profético
+- **Tipo de abertura P1:** imagem concreta de ausência relacional sem explicação — silêncio onde havia gente; sem gancho narrativo explícito, sem pergunta
+- **Gancho:** sete círculos de abandono de Jó 19 — o inventário de ausências nomeadas uma por uma
+- **Imagem-âncora:** distância entre Jó 19:20 ("só me restou a pele dos dentes") e Jó 19:25 ("eu sei que o meu Redentor vive") — nada mudou entre os dois versículos (P2, P6, P8)
+- **Via cristológica:** Promessa e Cumprimento (Jó 19:25 como proto-promessa; Cristo ressuscitado como primícias dos que dormem em 1Co 15:20)
+- **Ídolo nomeado:** pertencimento como evidência (precisar de presença relacional visível como condição para declarar esperança)
+- **Exemplos culturais P7:** medir a presença de Deus pela qualidade emocional da semana; interpretar distância de amigo/parceiro como sinal de falha espiritual; só conseguir confiar quando as relações principais estão bem
+- **Fechamento P8:** eco do silêncio da abertura + declaração "de dentro do silêncio" + "Depois da ressurreição de Cristo, Jó sabe o nome dele"
+
+---
+
 ## 2026-05-30 — Jó 12-15
 
 - **Modo estrutural:** diagnóstico-primeiro
