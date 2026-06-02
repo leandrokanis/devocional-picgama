@@ -4,6 +4,20 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 
 ---
 
+## 2026-06-02 — Jó 26-28
+
+- **Modo estrutural:** narrativo-primeiro
+- **Tom:** pastoral
+- **Tipo de abertura P1:** fenômeno cultural da era da informação — geração com toda resposta na palma da mão e mesmo assim sem direção; gancho narrativo coletivo, texto bíblico no fim de P1
+- **Gancho:** "acesso a tudo, direção a quase nada" — o paradoxo de saber muito e não saber o essencial
+- **Imagem-âncora:** o minerador de Jó 28 — homem que cava poços, vira montanhas pela raiz, traz à luz o oculto, mas não consegue cavar a sabedoria (P2, P4, P6, P8)
+- **Via cristológica:** Contraste (Jó 28:13,21 "não se acha na terra dos viventes / encoberta aos olhos de todo vivente" vs. a Sabedoria de Deus que desceu à terra dos viventes — 1Co 1:30; Cl 2:3)
+- **Ídolo nomeado:** autossuficiência epistêmica (ser a própria fonte de sabedoria; confundir informação com saber viver; dispensar o temor do Senhor)
+- **Exemplos culturais P7:** tratar busca rápida/IA como oráculo de decisões de vida; apostar que o próximo curso/livro destrava a direção que falta; confundir estar bem-informado com saber andar
+- **Fechamento P8:** eco do gancho — "mãos cheias de respostas e peito vazio de direção" invertido em descanso; "a sabedoria que você não conseguiu cavar foi a que desceu até você"
+
+---
+
 ## 2026-05-31 — Jó 16-20
 
 - **Modo estrutural:** cena-silenciosa
