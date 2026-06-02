@@ -4,6 +4,20 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 
 ---
 
+## 2026-06-03 — Jó 29-31
+
+- **Modo estrutural:** pergunta-aberta
+- **Tom:** poético
+- **Tipo de abertura P1:** pergunta existencial sem resposta ("quem é você quando ninguém mais precisa de você?") — encerra em suspensão, sem texto bíblico; imagem da casa quieta e do telefone que emudece
+- **Gancho:** a casa que fica quieta quando os papéis acabam (filhos crescem, cargo passa, telefone para) — o nome que a gente constrói e não leva pra cama
+- **Imagem-âncora:** a lâmpada de Deus sobre a cabeça de Jó (29:3) — acesa nos dias bons, apagada no escuro do cap. 30 (P2, P6, P8)
+- **Via cristológica:** Contraste (Jó chora a glória perdida vs. Cristo que tinha glória real e a esvaziou — Fp 2:6-11; virou "canção de escárnio" como Jó 30, vindicado na ressurreição)
+- **Ídolo nomeado:** reconhecimento / reputação (identidade pendurada em ser visto, útil e lembrado — "quem eu era")
+- **Exemplos culturais P7:** identidade alugada que "vence" na aposentadoria/doença/idade; medir o próprio valor pela relevância que ainda se tem; cuidar mais de como se aparece servindo do que de servir
+- **Fechamento P8:** eco da casa quieta e do telefone + lâmpada que continua acesa por fora de você; "Você pode ser esquecido por todo mundo e ainda assim não estar sozinho. Tem Alguém que lembra."
+
+---
+
 ## 2026-06-02 — Jó 26-28
 
 - **Modo estrutural:** narrativo-primeiro
