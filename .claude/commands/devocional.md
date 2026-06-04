@@ -1,31 +1,44 @@
 ---
-description: Executa o fluxo completo de criação do devocional: estudo → plano → escrita → publicação. Pausa para revisão humana após o plano e após a escrita. Use com uma data ou referência bíblica.
+description: Executa o fluxo completo de criação do devocional: estudo → plano → escrita → publicação. Roda até o final sem pausas. Se nenhuma data for passada, usa o dia seguinte ao último devocional registrado no variety-ledger.
+model: claude-opus-4-7
 ---
 
 # Devocional
 
-Orquestra o fluxo completo em quatro etapas, com duas pausas para revisão humana.
+Orquestra o fluxo completo em quatro etapas, sem pausas para revisão.
 
 ```
-/study  →  [revisão opcional]  →  /plan  →  [revisão obrigatória]  →  /write  →  [revisão obrigatória]  →  /publish
+git pull  →  /study  →  /plan  →  /write  →  /publish
 ```
+
+## Fase 0: Atualização do repositório
+
+Antes de qualquer coisa, execute:
+
+```
+git pull origin main
+```
+
+Se houver conflitos, informe o usuário e pare.
+
+---
 
 ## Fase 1: Entrada
 
-- Receba a data ou referência bíblica do usuário (ex: `25/04`, `2026-04-25`, `2 Reis 18-19`).
-- Se não fornecida, leia `docs/devocionais/CURRENT.md`. Se vazio, peça ao usuário.
+- Se uma data ou referência bíblica foi passada como argumento (ex: `25/04`, `2026-04-25`, `2 Reis 18-19`), use-a.
+- Se **nenhuma data** foi passada:
+  - Leia `docs/devocionais/variety-ledger.md`.
+  - Identifique a data mais recente listada (formato `YYYY-MM-DD` nos cabeçalhos `## YYYY-MM-DD — ...`).
+  - Some um dia a essa data. Essa é a data do devocional a ser criado.
+  - Confirme ao usuário: `Nenhuma data informada. Usando YYYY-MM-DD (dia seguinte ao último registrado).`
 
 ---
 
 ## Fase 2: Estudo
 
-Execute integralmente o comando `/study` para a data ou referência recebida.
+Execute integralmente o comando `/study` para a data determinada na Fase 1.
 
-Ao concluir, pergunte ao usuário:
-> **Estudo concluído. Deseja revisar antes de continuar para o plano, ou posso prosseguir?**
-
-- Se o usuário quiser revisar: aguarde confirmação explícita para continuar.
-- Se o usuário mandar prosseguir: siga imediatamente.
+Prossiga imediatamente para a Fase 3 ao concluir. **Não faça perguntas.**
 
 ---
 
@@ -33,10 +46,7 @@ Ao concluir, pergunte ao usuário:
 
 Execute integralmente o comando `/plan`.
 
-Ao concluir, **pause obrigatoriamente** e pergunte:
-> **Plano pronto. Revise as decisões acima — via cristológica, cenário, gancho e ideia central — e me diga se aprova ou quer ajustar algo antes de escrever.**
-
-Aguarde resposta explícita do usuário. Só prossiga quando ele aprovar. Se houver ajustes, aplique-os no `plano.md` e mostre o trecho corrigido antes de continuar.
+Prossiga imediatamente para a Fase 4 ao concluir. **Não faça perguntas.**
 
 ---
 
@@ -44,10 +54,7 @@ Aguarde resposta explícita do usuário. Só prossiga quando ele aprovar. Se hou
 
 Execute integralmente o comando `/write`.
 
-Ao concluir, **pause obrigatoriamente** e pergunte:
-> **Devocional escrito. Leia o texto acima e me diga se aprova ou quer ajustar algo antes de publicar.**
-
-Aguarde resposta explícita do usuário. Só prossiga quando ele aprovar. Se houver ajustes, aplique-os no `devocional.md` e mostre o trecho corrigido antes de continuar.
+Prossiga imediatamente para a Fase 5 ao concluir. **Não faça perguntas.**
 
 ---
 
