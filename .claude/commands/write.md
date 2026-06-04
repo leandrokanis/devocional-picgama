@@ -141,6 +141,6 @@ Confira silenciosamente se os elementos do plano estão presentes no texto. Se a
 
 - Imprima o texto final. Sem cabeçalhos extras, sem notas.
 - Salve como `devocional.md` na pasta indicada em `CURRENT.md`.
-- Atualize `docs/devocionais/variety-ledger.md` — acrescente uma entrada no topo (após o cabeçalho) com o formato das entradas existentes:
+- Atualize `docs/devocionais/variety-ledger.md` — acrescente uma entrada no fim do arquivo (após a última entrada existente) com o formato das entradas existentes:
   - Data, texto bíblico, modo, tom, tipo de abertura P1, gancho, imagem-âncora, via cristológica, ídolo nomeado, exemplos culturais P7, fechamento P8.
 - Informe ao usuário que o próximo passo é revisar e, quando aprovado, executar `/publish`.

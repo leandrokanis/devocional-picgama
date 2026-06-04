@@ -28,7 +28,7 @@ Se houver conflitos, informe o usuário e pare.
 - Se uma data ou referência bíblica foi passada como argumento (ex: `25/04`, `2026-04-25`, `2 Reis 18-19`), use-a.
 - Se **nenhuma data** foi passada:
   - Leia `docs/devocionais/variety-ledger.md`.
-  - Identifique a data mais recente listada (formato `YYYY-MM-DD` nos cabeçalhos `## YYYY-MM-DD — ...`).
+  - Identifique a data mais recente listada (formato `YYYY-MM-DD` nos cabeçalhos `## YYYY-MM-DD — ...`). O arquivo está em ordem cronológica crescente — a última entrada é a mais recente.
   - Some um dia a essa data. Essa é a data do devocional a ser criado.
   - Confirme ao usuário: `Nenhuma data informada. Usando YYYY-MM-DD (dia seguinte ao último registrado).`
 
