@@ -4,6 +4,20 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 
 ---
 
+## 2026-06-04 — Jó 32-34
+
+- **Modo estrutural:** diagnóstico-primeiro
+- **Tom:** profético
+- **Tipo de abertura P1:** diagnóstico cultural direto sem gancho narrativo — a "virada muda" da oração que vira depoimento; cena interna do crente que abre a boca para orar e o que sai é currículo
+- **Gancho:** a oração que parou de ser oração e virou defesa — tribunal interno com o crente nos dois polos, advogado e cliente
+- **Imagem-âncora:** o intérprete "um entre mil" que diz "achei resgate" (Jó 33:23-24) — promessa embrionária que ganha rosto em Cristo (P3, P6, P8 + ecoa em P2)
+- **Via cristológica:** Promessa e Cumprimento (Jó 33:23-24 → 1Tm 2:5-6; Mediador que dá a si mesmo em resgate)
+- **Ídolo nomeado:** autojustificação (intensidade da defesa pessoal como substituto da comunhão; explicar-se bem como tentativa de vencer o tribunal)
+- **Exemplos culturais P7:** revisar histórico devocional antes de pedir alguma coisa; apresentar a Deus os esforços antes de apresentar a dor; abrir oração com "mas eu fiz tudo certo" quando algo dá errado
+- **Fechamento P8:** eco do "tribunal" e do "microfone do depoimento" + entrega — "tira o microfone da minha mão, Senhor, e fala você por mim"; Cristo vivo para sempre interceder
+
+---
+
 ## 2026-06-03 — Jó 29-31
 
 - **Modo estrutural:** pergunta-aberta
