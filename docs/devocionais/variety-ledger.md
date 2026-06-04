@@ -127,3 +127,17 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Ídolo nomeado:** autojustificação (intensidade da defesa pessoal como substituto da comunhão; explicar-se bem como tentativa de vencer o tribunal)
 - **Exemplos culturais P7:** revisar histórico devocional antes de pedir alguma coisa; apresentar a Deus os esforços antes de apresentar a dor; abrir oração com "mas eu fiz tudo certo" quando algo dá errado
 - **Fechamento P8:** eco do "tribunal" e do "microfone do depoimento" + entrega — "tira o microfone da minha mão, Senhor, e fala você por mim"; Cristo vivo para sempre interceder
+
+---
+
+## 2026-06-05 — Jó 35-37
+
+- **Modo estrutural:** narrativo-primeiro
+- **Tom:** narrativo
+- **Tipo de abertura P1:** gancho sensorial coletivo — a tempestade real que faz a gente parar e se sentir pequeno; texto bíblico no fim de P1
+- **Gancho:** o alívio estranho de se sentir pequeno diante de uma tempestade — cansa ser quem precisa entender e segurar tudo
+- **Imagem-âncora:** a voz no meio da tempestade — Eliú aponta o trovão que se forma (Jó 37 "para, e considera", 37:14) até Deus falar do meio dela (38:1); reaparece em Jesus no barco (P1, P2, P6, P8)
+- **Via cristológica:** Tipologia (a voz de Deus na tempestade que ninguém comanda, Jó 37:2-5 → Jesus que cala vento e mar, Mc 4:39-41; correspondência + escalada + design divino)
+- **Ídolo nomeado:** compreensão como condição da confiança (entender primeiro, confiar depois)
+- **Exemplos culturais P7:** só voltar a confiar depois que a situação "fizer sentido"; travar a oração até descobrir o porquê; trocar a adoração pelo modo resolver e controlar quando bate o medo
+- **Fechamento P8:** eco da tempestade — não a do céu, a de dentro — pedindo que a mesma voz que a formou mande calar; "ela chegou perto o suficiente pra dizer o seu nome"
