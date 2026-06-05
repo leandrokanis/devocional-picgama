@@ -91,15 +91,22 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 ---
 
-### 7. Diagnóstico cultural
+### 7. Exegese cultural (P7)
 
-> O que a cultura ao redor do ouvinte ensina sobre o tema do texto, e onde o evangelho corta essa história. Estilo Tim Keller: cultura → ídolo → evangelho. **NÃO invente personagens nem cenas — fale de padrões, narrativas, pressões que o ouvinte respira.** Nada de "imagine uma pessoa que…", nada de protagonista com biografia.
+> Como o texto lê o mundo ao redor do ouvinte. A forma de P7 varia a cada devocional — escolha o modo que melhor serve ao texto e que ecoa o gancho de P1. **Nunca invente personagens nem microhistórias.** Fale de padrões, objetos, comportamentos que o ouvinte reconhece no ar que respira.
 
-- **O que a cultura promete:** [A história/narrativa dominante sobre este tema — sucesso, identidade, segurança, controle, pertencimento. Uma frase curta nomeando a promessa.]
-- **O que ela entrega na prática:** [O custo real, o vazio, a versão distorcida que aparece quando a promessa é cobrada. Uma frase.]
-- **O ídolo de fundo:** [O bem legítimo que virou último — o "deus-substituto" que o texto desmascara. Uma palavra ou expressão curta. Ex: "controle", "reputação na igreja", "meritocracia espiritual".]
-- **Onde o evangelho corta:** [Em uma frase: como Cristo (via P6) expõe e cura essa idolatria sem virar moralismo nem irreligião.]
-- **Onde isso aparece no cotidiano:** [Liste 2-3 *padrões* curtos e reconhecíveis — não cenas, não personagens. Ex: "trocar oração por agenda", "medir vida espiritual por consistência de hábitos", "confiar mais no time da igreja do que em Deus". Cada item ≤ 1 linha.]
+**Modos disponíveis:**
+- `campo-de-observação` — narra um padrão de comportamento sem nomear o ídolo explicitamente. O ouvinte chega ao diagnóstico sozinho.
+- `confissão` — o comunicador fala de dentro, primeira pessoa. Uma admissão honesta que o ouvinte herda.
+- `objeto-cultural` — ancora P7 num produto, frase, tendência ou mercado específico. A análise nasce do objeto, não de uma lista.
+- `inversão-de-P1` — retorna ao gancho de P1 e o relê à luz do que o texto disse. Cria coesão sem parecer calculado.
+- `tensão-aberta` — planta a tensão cultural sem resolvê-la ali; a resolução já veio em P6. Mais curto, mais denso.
+
+**Campos:**
+- **Modo escolhido:** [nome exato acima — um só]
+- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão que P7 vai usar. Uma frase concreta — sem lista.]
+- **Conexão com P1:** [Como o modo escolhido ecoa o gancho de abertura. Uma frase.]
+- **Evitar:** [Modo de P7 já usado recentemente no ledger; padrões culturais ou objetos já explorados.]
 
 ---
 
@@ -144,7 +151,7 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 - **Modo estrutural:** [escolha um: `narrativo-primeiro` | `diagnóstico-primeiro` | `pergunta-aberta` | `cena-silenciosa`]
 - **Tom:** [escolha um: `pastoral` | `profético` | `poético` | `narrativo`]
 - **Justificativa:** [Por que esta combinação serve a este texto e a esta congregação hoje? Uma frase.]
-- **Evitar neste texto:** [Liste itens do ledger que seriam repetição — tipo de abertura, exemplos culturais, imagem, ídolo. Se ledger vazio, escreva "n/a".]
+- **Evitar neste texto:** [Liste itens do ledger que seriam repetição — tipo de abertura, modo de P7, exemplos culturais, imagem, ídolo. Se ledger vazio, escreva "n/a".]
 
 **Referência rápida de modos:**
 - `narrativo-primeiro` — P1 abre com cena ou fenômeno cultural; texto bíblico entra no fim de P1. (default)
@@ -170,7 +177,7 @@ Antes de liberar, verifique silenciosamente:
 - [ ] Foco narrativo (P2): cena específica, ângulo definido, cortes indicados.
 - [ ] Via de Greidanus: uma só via, hierarquia justificada, nome exato do arquivo de referência.
 - [ ] CQR: três frases distintas, sem colapsar queda e redenção.
-- [ ] Diagnóstico cultural: promessa, entrega, ídolo, corte do evangelho e 2-3 padrões cotidianos — sem personagem inventado.
+- [ ] Exegese cultural (P7): modo escolhido (nome exato), matéria cultural concreta, conexão com P1 — sem personagem inventado, sem lista de padrões.
 - [ ] Gancho cultural: reconhecível, cria tensão sem explicar demais; eco em P8 indicado.
 - [ ] Temas de oração: pelo menos 2 itens concretos.
 - [ ] Observações pastorais (se preenchidas): parágrafo de destino indicado.

@@ -98,7 +98,14 @@ O arco do texto segue este movimento. Use o plano como fonte de conteúdo para c
 - **P4 — O que deu errado:** O peso do pecado, da falha ou da dor. Faça sentir. Use a palavra **queda** pelo menos uma vez. (plano, seção 6 — eixo Queda)
 - **P5 — Onde Deus aparece:** A graça, a promessa ou a intervenção. Use a palavra **redenção** pelo menos uma vez. (plano, seção 6 — eixo Redenção)
 - **P6 — Jesus no texto:** Use a via de Greidanus escolhida no plano (seção 5). P5 e P6 podem fluir como um único movimento narrativo quando a redenção do texto já é cristológica por natureza — mas devem ser parágrafos distintos. Use a "conexão a Jesus" do plano como fio condutor. Amarre Jesus à tensão aberta em P1.
-- **P7 — Aplicação:** Exegese cultural a partir do diagnóstico do plano (seção 7). Nomeie a promessa cultural, o ídolo, o corte do evangelho e os 2-3 padrões cotidianos. Fale com o ouvinte sobre o ar que ele respira — **sem inventar uma pessoa específica nem contar uma microhistória.** Modelo: P7 de Rute em `write-examples.md` (situações reconhecíveis no plural, sem protagonista fictícia).
+- **P7 — Aplicação:** Use o **modo de P7** indicado no plano (seção 7) e a matéria cultural escolhida lá. A exegese cultural emerge do modo — sem estrutura fixa de promessa/ídolo/corte/padrões. Cada modo tem entrada própria:
+  - `campo-de-observação`: narre um padrão de comportamento sem nomear o ídolo — o ouvinte chega ao diagnóstico sozinho.
+  - `confissão`: fale de dentro, primeira pessoa, uma admissão honesta que o ouvinte herda.
+  - `objeto-cultural`: ancora P7 num produto, tendência ou mercado concreto; a análise nasce do objeto.
+  - `inversão-de-P1`: retorne ao gancho de P1 e releia-o à luz do que o texto disse.
+  - `tensão-aberta`: plante a tensão cultural sem resolver — a resolução já veio em P6. Curto, denso.
+
+  Em qualquer modo: **sem lista de padrões numerados, sem personagem inventado, sem sequência explícita promessa → ídolo → corte.** A conexão com P1 deve estar presente.
 - **P8 — Oração:** Começa obrigatoriamente com `A minha oração é para que...`. Use os temas de oração do plano (seção 9). Se houver eco do gancho indicado (plano, seção 8), retome a imagem aqui. Termina com ânimo, não com slogan.
 
 **Sobre a imagem-âncora:** o elemento concreto indicado no plano (seção 3) deve aparecer nos parágrafos apontados lá. Não repita mecanicamente — evoque.
@@ -130,7 +137,7 @@ Confira silenciosamente se os elementos do plano estão presentes no texto. Se a
 - [ ] Cena e ângulo do plano estão em P2.
 - [ ] Tríade criação/queda/redenção: palavras presentes em P3, P4, P5.
 - [ ] Via de Greidanus e conexão a Jesus do plano estão em P6.
-- [ ] Diagnóstico cultural do plano (promessa/ídolo/corte/padrões) está em P7.
+- [ ] P7 usa o modo indicado no plano; matéria cultural presente; conexão com P1 presente; sem lista de padrões nem personagem inventado.
 - [ ] Temas de oração do plano estão em P8.
 - [ ] Imagem-âncora aparece nos parágrafos indicados.
 - [ ] Ideia central está claramente presente ou implicada no parágrafo indicado.
@@ -142,5 +149,5 @@ Confira silenciosamente se os elementos do plano estão presentes no texto. Se a
 - Imprima o texto final. Sem cabeçalhos extras, sem notas.
 - Salve como `devocional.md` na pasta indicada em `CURRENT.md`.
 - Atualize `docs/devocionais/variety-ledger.md` — acrescente uma entrada no fim do arquivo (após a última entrada existente) com o formato das entradas existentes:
-  - Data, texto bíblico, modo, tom, tipo de abertura P1, gancho, imagem-âncora, via cristológica, ídolo nomeado, exemplos culturais P7, fechamento P8.
+  - Data, texto bíblico, modo estrutural, tom, tipo de abertura P1, gancho, imagem-âncora, via cristológica, **modo de P7**, matéria cultural de P7, fechamento P8.
 - Informe ao usuário que o próximo passo é revisar e, quando aprovado, executar `/publish`.
