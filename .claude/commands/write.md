@@ -69,9 +69,13 @@ O modo estrutural e o tom moldam **como** o plano se torna texto. Aplique antes 
 
 ## Fase 2: Rascunho
 
-Antes de escrever, leia [.claude/commands/write-examples.md](.claude/commands/write-examples.md) para calibrar o tom e a densidade esperada.
+Antes de escrever, leia dois arquivos:
+- [.claude/commands/write-examples.md](.claude/commands/write-examples.md) — calibra tom e densidade.
+- [docs/estilo/linguagem-falada.md](docs/estilo/linguagem-falada.md) — ensina a usar marcas de oralidade (marcadores conversacionais, deíticos, atenuadores) para soar conversa, não texto recitado. **Aplique este guia já no rascunho, não só na revisão.**
 
 Escreva o texto inteiro de uma vez, como se estivesse contando para alguém. Não construa parágrafo por parágrafo com pausas analíticas — deixe o texto fluir. Você vai revisar depois.
+
+**Oralidade (resumo operacional — detalhes no guia):** escreva fala planejada popular, como uma pessoa instruída conversando na cozinha. Por parágrafo, mire mais ou menos em: 1 marcador fático que chama o ouvinte (`olha`, `repara`, `sabe?`, `né?`, `pensa comigo`) — não obrigatório em todos; sequenciadores que empurram a narrativa (`aí`, `daí`, `só que`, `então`) à vontade dentro do parágrafo; deíticos que apontam (`esse`, `essa`, `isso`, `aqui`) livres; 1 atenuador quando a afirmação for forte (`meio que`, `mais ou menos`, `digamos`, `no fundo`). Use frase curta e fragmento; presente narrativo na cena. **Sem gíria, sem hesitação de muleta (`é...`, `tipo...`), sem encher de `né?`.**
 
 ### Formato obrigatório (nesta ordem):
 
@@ -110,7 +114,7 @@ O arco do texto segue este movimento. Use o plano como fonte de conteúdo para c
 
 **Sobre a imagem-âncora:** o elemento concreto indicado no plano (seção 3) deve aparecer nos parágrafos apontados lá. Não repita mecanicamente — evoque.
 
-**Sobre as transições:** a última frase de cada parágrafo deve puxar naturalmente o próximo. Sem conectivos óbvios ("Além disso", "Por outro lado", "Nesse sentido").
+**Sobre as transições:** a última frase de cada parágrafo deve puxar naturalmente o próximo. Sem conectivos de redação ("Além disso", "Por outro lado", "Nesse sentido", "Por conseguinte"). **Isso não proíbe marcadores falados** (`aí`, `daí`, `só que`, `olha`, `agora`) — esses são oralidade legítima e bem-vindos *dentro* do parágrafo e, com parcimônia, no início de um. O que se proíbe é o conectivo formal que anuncia estrutura e o início mecânico de vários parágrafos com a mesma palavra.
 
 ## Fase 3: Revisão anti-IA (fase dedicada)
 
@@ -129,6 +133,18 @@ Leia o rascunho como se fosse falar ao microfone agora. A cada trecho que travar
 
 **Atenção:** não remova as palavras **criação**, **queda** e **redenção** de P3–P5. São escolha didática do projeto.
 
+### Passo de oralidade (faça depois de cortar os vícios acima)
+
+Releia procurando **formalidade que sobrou** e corrija com o guia `docs/estilo/linguagem-falada.md`:
+
+11. **Período longo de redação:** frase com três ou mais orações encaixadas. Quebre em frases curtas faladas.
+12. **Vocabulário de aula:** troque por palavra cotidiana ("posicionar-se como julgador" → "sentar no banco do juiz"; "desprovido de" → "sem").
+13. **Abstração sem deítico:** conceito solto sem apontar. Ancore com demonstrativo concreto ("a presença de Deus" → "esse Deus, aqui, do seu lado").
+14. **Parágrafo sem nenhuma marca de oralidade:** se um parágrafo inteiro soa recitado, injete 1 fático (`olha`, `repara`, `sabe?`) ou reaterrisse com reformulação (`quer dizer`, `é o seguinte`).
+15. **Afirmação ríspida/professoral:** suavize com 1 atenuador (`meio que`, `mais ou menos`, `no fundo`) — sem virar tique.
+
+Teste final: leia em voz alta. Se em algum ponto a língua tropeça ou soa "lido", está formal demais. Reescreva como você falaria para um amigo na cozinha — instruído, simples, quente. **Sem gíria, sem hesitação de muleta, sem `né?` em excesso.**
+
 ## Fase 4: Verificação de conteúdo
 
 Confira silenciosamente se os elementos do plano estão presentes no texto. Se algo estiver faltando, integre — mas sem comprometer o fluxo da fala.
@@ -142,6 +158,7 @@ Confira silenciosamente se os elementos do plano estão presentes no texto. Se a
 - [ ] Imagem-âncora aparece nos parágrafos indicados.
 - [ ] Ideia central está claramente presente ou implicada no parágrafo indicado.
 - [ ] P8 começa com `A minha oração é para que...`.
+- [ ] Oralidade: o texto usa marcas de fala (fáticos, sequenciadores, deíticos, atenuadores) sem cair em gíria, hesitação de muleta ou excesso de `né?`/`sabe?`. Nenhum parágrafo soa recitado quando lido em voz alta.
 - [ ] Contagem de palavras dos 8 parágrafos: entre **700 e 900**.
 
 ## Fase 5: Saída
