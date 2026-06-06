@@ -141,3 +141,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Ídolo nomeado:** compreensão como condição da confiança (entender primeiro, confiar depois)
 - **Exemplos culturais P7:** só voltar a confiar depois que a situação "fizer sentido"; travar a oração até descobrir o porquê; trocar a adoração pelo modo resolver e controlar quando bate o medo
 - **Fechamento P8:** eco da tempestade — não a do céu, a de dentro — pedindo que a mesma voz que a formou mande calar; "ela chegou perto o suficiente pra dizer o seu nome"
+
+---
+
+## 2026-06-06 — Jó 38-40
+
+- **Modo estrutural:** cena-silenciosa
+- **Tom:** pastoral
+- **Tipo de abertura P1:** cena concreta e quieta sem pergunta — o céu estrelado longe da cidade que faz todo mundo calar de boca aberta; texto bíblico no fim de P1
+- **Gancho:** o silêncio involuntário diante do vasto (céu cheio de estrelas onde a conversa morre) — espelha a mão na boca de Jó
+- **Imagem-âncora:** a pergunta de Deus "Onde estavas tu?" (38:4) + o gesto de Jó pondo a mão na boca (40:4); invertida em P6 (onde Deus esteve: na cruz) (P2, P6, P8)
+- **Via cristológica:** Contraste (o Interrogador soberano de Jó 38-40 → Cristo que vira o interrogado em silêncio diante de Pilatos, Mc 15:4-5, e responde o sofrimento entrando nele)
+- **Modo de P7:** campo-de-observação
+- **Matéria cultural de P7:** a postura de consumidor que cobra satisfação de tudo — reflexo de "falar com o gerente", exigir o porquê na hora — virada contra Deus, tratado como atendente que demora a responder
+- **Ídolo (implícito):** "Deus me deve uma explicação" — postura jurídica/consumidor (distinto de "compreensão como condição da confiança" de 06-05)
+- **Fechamento P8:** eco do céu estrelado e da boca que se cala — "pode pôr a mão na boca. Dessa vez, de descanso"
