@@ -156,3 +156,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** a postura de consumidor que cobra satisfação de tudo — reflexo de "falar com o gerente", exigir o porquê na hora — virada contra Deus, tratado como atendente que demora a responder
 - **Ídolo (implícito):** "Deus me deve uma explicação" — postura jurídica/consumidor (distinto de "compreensão como condição da confiança" de 06-05)
 - **Fechamento P8:** eco do céu estrelado e da boca que se cala — "pode pôr a mão na boca. Dessa vez, de descanso"
+
+---
+
+## 2026-06-07 — Jó 41-42
+
+- **Modo estrutural:** narrativo-primeiro
+- **Tom:** poético
+- **Tipo de abertura P1:** observação coletiva sobre as feridas que vêm de gente próxima/bem-intencionada; texto bíblico no fim de P1 (encerramento da série Jó)
+- **Gancho:** as feridas que mais demoram a sarar vêm de perto — de quem devia consolar e veio acusar (os amigos de Jó)
+- **Imagem-âncora:** Jó ajoelhado orando pelos três amigos que o feriram (42:8-10); fio secundário "agora os meus olhos te veem" (42:5) (P2, P5, P6, P8)
+- **Via cristológica:** Tipologia (Jó justo vindicado que intercede pelos culpados → Cristo na cruz "Pai, perdoa-lhes" e Hb 7:25; conteúdo distinto da tipologia mar→Mc 4 de 06-05)
+- **Modo de P7:** objeto-cultural
+- **Matéria cultural de P7:** o roteiro pronto do "corta quem é tóxico / bloqueia / segue sua vida" — bloquear não corta a mágoa; a cura de Jó foi na direção contrária (soltar em oração), com ressalva de não confundir perdão com voltar ao abuso
+- **Ídolo (implícito):** a mágoa como justiça / exigir que quem feriu pague antes de soltar (distinto de "explicação/compreensão" de 06-05 e 06-06)
+- **Fechamento P8:** eco da ferida de gente próxima + inversão do gesto de bloquear — "a cura também chega perto... quando a sua mão, em vez de bloquear, se abre pra orar"
