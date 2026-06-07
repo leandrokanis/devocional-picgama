@@ -171,3 +171,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** o roteiro pronto do "corta quem é tóxico / bloqueia / segue sua vida" — bloquear não corta a mágoa; a cura de Jó foi na direção contrária (soltar em oração), com ressalva de não confundir perdão com voltar ao abuso
 - **Ídolo (implícito):** a mágoa como justiça / exigir que quem feriu pague antes de soltar (distinto de "explicação/compreensão" de 06-05 e 06-06)
 - **Fechamento P8:** eco da ferida de gente próxima + inversão do gesto de bloquear — "a cura também chega perto... quando a sua mão, em vez de bloquear, se abre pra orar"
+
+---
+
+## 2026-06-08 — Salmos 1-7
+
+- **Modo estrutural:** pergunta-aberta
+- **Tom:** profético
+- **Tipo de abertura P1:** pergunta existencial sustentada — "o que é ser livre?" — sem resolver, sem texto bíblico no fim (início da série Salmos)
+- **Gancho:** a definição cultural de liberdade (não ter ninguém acima de você) e o cansaço de quem chega perto desse "sonho" e não sabe nomear o vazio
+- **Imagem-âncora:** as cordas/amarras que as nações querem romper (Sl 2:3 "rompamos as suas ataduras") invertidas em refúgio (2:12); flip coleira→raiz (Sl 1, árvore) (P1, P2, P3, P5, P8)
+- **Via cristológica:** Referências do NT (Sl 2:7 "tu és meu Filho" → At 13:33, Hb 1:5/5:5; Sl 2:1-2 as nações contra o Ungido → At 4:25-27, cumprido em Herodes/Pilatos contra Jesus)
+- **Modo de P7:** confissão
+- **Matéria cultural de P7:** a própria resistência a ter alguém acima de si — irritação com limites, crença de que maturidade é não prestar contas; "muito do que eu chamava de liberdade era só eu querendo ficar no comando, exausto"
+- **Ídolo (implícito):** autonomia / autogoverno ("ninguém manda em mim") — distinto de explicação (06-06), mágoa (06-07), compreensão (06-05)
+- **Fechamento P8:** eco da pergunta da liberdade + corda como raiz — "a liberdade que você procura tem nome e tem trono... achar o Rei certo e poder enfim descansar debaixo dele"
