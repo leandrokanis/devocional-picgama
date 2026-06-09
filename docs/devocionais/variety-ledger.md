@@ -186,3 +186,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** a própria resistência a ter alguém acima de si — irritação com limites, crença de que maturidade é não prestar contas; "muito do que eu chamava de liberdade era só eu querendo ficar no comando, exausto"
 - **Ídolo (implícito):** autonomia / autogoverno ("ninguém manda em mim") — distinto de explicação (06-06), mágoa (06-07), compreensão (06-05)
 - **Fechamento P8:** eco da pergunta da liberdade + corda como raiz — "a liberdade que você procura tem nome e tem trono... achar o Rei certo e poder enfim descansar debaixo dele"
+
+---
+
+## 2026-06-09 — Salmos 8-14
+
+- **Modo estrutural:** diagnóstico-primeiro
+- **Tom:** pastoral
+- **Tipo de abertura P1:** diagnóstico direto do problema cultural (sem cena, sem pergunta sustentada) — o cansaço de provar valor todo dia; texto bíblico no fim de P1
+- **Gancho:** o placar que zera toda manhã — o valor tratado como nota que vence à meia-noite e precisa ser renovada no esforço diário
+- **Imagem-âncora:** a coroa — "de glória e honra o coroaste" (Sl 8:5); coroa posta na criação, caída na queda (Sl 14), vestida por Cristo via cruz e devolvida (P2, P3, P5, P6, P8)
+- **Via cristológica:** Referências do NT (Sl 8:4-6 → Hb 2:6-9; o Filho do Homem coroado de glória e honra pelo sofrimento da morte, devolvendo a coroa ao homem que a perdeu)
+- **Modo de P7:** tensão-aberta
+- **Matéria cultural de P7:** a régua de valor medida por produtividade/desempenho — parar de entregar é parar de valer; o placar que zera à meia-noite, com a resolução (coroa devolvida) já vinda em P6
+- **Ídolo (implícito):** o valor terceirizado para o desempenho / dignidade conquistada na entrega (distinto de autonomia 06-08, mágoa 06-07, explicação 06-06)
+- **Fechamento P8:** eco do placar que zera + coroa que não vence — "o seu placar pode zerar de manhã. A sua coroa, não"
