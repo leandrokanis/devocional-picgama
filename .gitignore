@@ -39,3 +39,4 @@ apps/api/data/*.db
 
 # devocionais (apenas locais)
 docs/devocionais/20*/
+docs/devocionais/CURRENT.md
