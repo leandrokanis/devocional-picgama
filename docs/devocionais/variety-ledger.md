@@ -231,3 +231,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** a indústria da "vibe boa" — frase de efeito na caneca, "só pensamento positivo", "tudo é aprendizado" no post de segunda — que treina a engolir o lamento e chegar a Deus já com a frase ensaiada
 - **Ídolo (implícito):** a positividade obrigatória / performance de "tá tudo bem" como recusa de levar o lamento cru a Deus (distinto de satisfação terceirizada 06-10, valor-por-desempenho 06-09, autonomia 06-08)
 - **Fechamento P8:** eco do grito tirado da garganta — "o seu grito não vai cair no vazio. Tem Alguém que já gritou ele antes de você... Pode gritar"
+
+---
+
+## 2026-06-12 — Salmos 24-29
+
+- **Modo estrutural:** pergunta-aberta
+- **Tom:** profético
+- **Tipo de abertura P1:** pergunta sustentada sem resposta — "se você pudesse pedir uma coisa só, o que pediria?"; encerra em suspensão, sem texto bíblico ("fica com a pergunta")
+- **Gancho:** a fila de desejos pequenos que aparece quando a pergunta cai — querer tudo ao mesmo tempo e por isso não querer nada
+- **Imagem-âncora:** o pedido único — "uma coisa pedi ao Senhor... contemplar a formosura do Senhor" (Sl 27:4); a conta que dá um no meio da guerra (P2, P3, P6, P8)
+- **Via cristológica:** Tipologia (Rei da Glória entrando pelas portas, Sl 24:7-10 — arca subindo a Sião → Cristo entrando em Jerusalém, mãos limpas únicas que sobem o monte de 24:3-4; 1Co 10:26 preterida por uso não-cristológico)
+- **Modo de P7:** campo-de-observação
+- **Matéria cultural de P7:** **(temas-criticos.md, tema 6 — tecnologia e atenção)** o celular em todo intervalo — elevador, fila, sinal fechado; silêncio como incômodo a preencher; "quatrocentas coisas por dia e nenhuma por mais de oito segundos" vs. a formosura contemplada todos os dias
+- **Ídolo (implícito):** atenção fatiada / adoração desviada pra tela — incapacidade de desejo central (distinto de positividade 06-11, satisfação 06-10, valor 06-09)
+- **Fechamento P8:** eco da pergunta de P1 respondida — "a pergunta do começo agora tem resposta — e ela cabe numa palavra: Ele. Pede isso. O resto encontra o lugar"
