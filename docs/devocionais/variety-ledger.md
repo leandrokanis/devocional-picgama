@@ -201,3 +201,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** a régua de valor medida por produtividade/desempenho — parar de entregar é parar de valer; o placar que zera à meia-noite, com a resolução (coroa devolvida) já vinda em P6
 - **Ídolo (implícito):** o valor terceirizado para o desempenho / dignidade conquistada na entrega (distinto de autonomia 06-08, mágoa 06-07, explicação 06-06)
 - **Fechamento P8:** eco do placar que zera + coroa que não vence — "o seu placar pode zerar de manhã. A sua coroa, não"
+
+---
+
+## 2026-06-10 — Salmos 15-18
+
+- **Modo estrutural:** cena-silenciosa
+- **Tom:** narrativo
+- **Tipo de abertura P1:** cena concreta e doméstica sem pergunta — o copo na pia que se enche e esvazia; texto bíblico no fim de P1
+- **Gancho:** o copo que nunca fica cheio — a vida com a mão no jarro enchendo de conquista/elogio/coisa nova e sempre sobrando um dedo de vazio no fundo
+- **Imagem-âncora:** o cálice/a taça (Sl 16:5 "o Senhor é a porção da minha herança e do meu cálice"); dois copos na mesa (P1, P2, P6, P8)
+- **Via cristológica:** Referências do NT (Sl 16:8-11 → At 2:25-31 Pedro no Pentecostes; o Santo que não viu corrupção é Cristo, não Davi; herança garantida na ressurreição)
+- **Modo de P7:** inversão-de-P1
+- **Matéria cultural de P7:** o reflexo de encher a taça no "próximo" (próxima compra, marco, "dessa vez vai") — fonte errada; releitura como alívio, não cobrança (afeta tom: descanso, não repreensão)
+- **Ídolo (implícito):** terceirizar a satisfação/herança — buscar a "porção" que basta em posses/conquistas/experiências (distinto de valor-por-desempenho de 06-09, autonomia de 06-08, mágoa de 06-07)
+- **Fechamento P8:** eco do copo/jarro em descanso + "o seu copo pode estar pela metade hoje. A sua taça, em Cristo, não. Pode descansar"
