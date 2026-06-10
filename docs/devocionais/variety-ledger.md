@@ -216,3 +216,18 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** o reflexo de encher a taça no "próximo" (próxima compra, marco, "dessa vez vai") — fonte errada; releitura como alívio, não cobrança (afeta tom: descanso, não repreensão)
 - **Ídolo (implícito):** terceirizar a satisfação/herança — buscar a "porção" que basta em posses/conquistas/experiências (distinto de valor-por-desempenho de 06-09, autonomia de 06-08, mágoa de 06-07)
 - **Fechamento P8:** eco do copo/jarro em descanso + "o seu copo pode estar pela metade hoje. A sua taça, em Cristo, não. Pode descansar"
+
+---
+
+## 2026-06-11 — Salmos 19-23
+
+- **Modo estrutural:** narrativo-primeiro
+- **Tom:** poético
+- **Tipo de abertura P1:** fenômeno cultural/comportamental em 1ª pessoa coletiva — o grito que a gente aprende a engolir; texto bíblico (Sl 22) no fim de P1
+- **Gancho:** o grito do desamparo travado na garganta — vontade de perguntar "cadê você?" abafada por "isso é falta de fé", maquiada com frase bonita e "tá tudo bem"
+- **Imagem-âncora:** o grito "Deus meu, Deus meu, por que me desamparaste?" (Sl 22:1) pendurado no hinário do culto; repetido por Jesus na cruz (P1, P2, P6, P8)
+- **Via cristológica:** Referências do NT (Sl 22:1 → Mt 27:46 / Mc 15:34, Jesus na cruz; Sl 22:18 → Jo 19:24; Sl 22:7-8 → Mt 27:39-43)
+- **Modo de P7:** objeto-cultural
+- **Matéria cultural de P7:** a indústria da "vibe boa" — frase de efeito na caneca, "só pensamento positivo", "tudo é aprendizado" no post de segunda — que treina a engolir o lamento e chegar a Deus já com a frase ensaiada
+- **Ídolo (implícito):** a positividade obrigatória / performance de "tá tudo bem" como recusa de levar o lamento cru a Deus (distinto de satisfação terceirizada 06-10, valor-por-desempenho 06-09, autonomia 06-08)
+- **Fechamento P8:** eco do grito tirado da garganta — "o seu grito não vai cair no vazio. Tem Alguém que já gritou ele antes de você... Pode gritar"
