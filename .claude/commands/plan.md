@@ -22,6 +22,7 @@ Antes de decidir, leia:
 
 - [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md)
 - [docs/theology/pactualismo-progressivo.md](docs/theology/pactualismo-progressivo.md)
+- [docs/devocionais/temas-criticos.md](docs/devocionais/temas-criticos.md) — arsenal de temas críticos do autor para a exegese cultural (seção 7). Use **quando o texto pedir**: se a exegese do dia conectar naturalmente com um dos temas, prefira-o como matéria cultural de P7 e adote a voz crítica e as regras de tom descritas lá. Se nenhum tema conectar, ignore o arquivo.
 
 ## Fase 3: Decisões pastorais
 
@@ -102,9 +103,11 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 - `inversão-de-P1` — retorna ao gancho de P1 e o relê à luz do que o texto disse. Cria coesão sem parecer calculado.
 - `tensão-aberta` — planta a tensão cultural sem resolvê-la ali; a resolução já veio em P6. Mais curto, mais denso.
 
+**Temas críticos do autor:** consulte `docs/devocionais/temas-criticos.md`. Se um tema de lá conectar naturalmente com a exegese do dia, use-o como matéria cultural — com a opinião e a incisividade do autor (respeitando as regras de tom do arquivo: fenômenos sim, pessoas não; ironia pontual; sem partidarismo). Não force tema em texto que não o sustenta.
+
 **Campos:**
 - **Modo escolhido:** [nome exato acima — um só]
-- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão que P7 vai usar. Uma frase concreta — sem lista.]
+- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão que P7 vai usar. Uma frase concreta — sem lista. Indique se veio de `temas-criticos.md` e qual tema.]
 - **Conexão com P1:** [Como o modo escolhido ecoa o gancho de abertura. Uma frase.]
 - **Evitar:** [Modo de P7 já usado recentemente no ledger; padrões culturais ou objetos já explorados.]
 

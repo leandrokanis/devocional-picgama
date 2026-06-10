@@ -73,6 +73,8 @@ Antes de escrever, leia dois arquivos:
 - [.claude/commands/write-examples.md](.claude/commands/write-examples.md) — calibra tom e densidade.
 - [docs/estilo/linguagem-falada.md](docs/estilo/linguagem-falada.md) — ensina a usar marcas de oralidade (marcadores conversacionais, deíticos, atenuadores) para soar conversa, não texto recitado. **Aplique este guia já no rascunho, não só na revisão.**
 
+Se o plano indicar que a matéria cultural de P7 veio de `docs/devocionais/temas-criticos.md`, leia também esse arquivo: ele carrega a opinião do autor e as regras de tom (fenômenos sim, pessoas não; ironia pontual permitida; sem partidarismo; política partidária proibida). Nesses textos o P7 pode ser mais incisivo e opinativo — corte limpo, menos hedging — e não precisa resolver: o evangelho já veio em P5-P6.
+
 Escreva o texto inteiro de uma vez, como se estivesse contando para alguém. Não construa parágrafo por parágrafo com pausas analíticas — deixe o texto fluir. Você vai revisar depois.
 
 **Oralidade (resumo operacional — detalhes no guia):** escreva fala planejada popular, como uma pessoa instruída conversando na cozinha. Por parágrafo, mire mais ou menos em: 1 marcador fático que chama o ouvinte (`olha`, `repara`, `sabe?`, `né?`, `pensa comigo`) — não obrigatório em todos; sequenciadores que empurram a narrativa (`aí`, `daí`, `só que`, `então`) à vontade dentro do parágrafo; deíticos que apontam (`esse`, `essa`, `isso`, `aqui`) livres; 1 atenuador quando a afirmação for forte (`meio que`, `mais ou menos`, `digamos`, `no fundo`). Use frase curta e fragmento; presente narrativo na cena. **Sem gíria, sem hesitação de muleta (`é...`, `tipo...`), sem encher de `né?`.**
