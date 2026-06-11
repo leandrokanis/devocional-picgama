@@ -11,6 +11,8 @@ Orquestra o fluxo completo, sem pausas para revisão.
 git pull  →  /study  →  /cosmovisão  →  /plan  →  /write  →  /publish
 ```
 
+> Mapa rápido do pipeline (entradas/saídas/refs de cada passo, diagrama mermaid e invariantes): [docs/fluxo.md](../../docs/fluxo.md). Leia-o quando precisar do fluxo sem abrir cada skill.
+
 ## Fase 0: Atualização do repositório
 
 Antes de qualquer coisa, execute:
