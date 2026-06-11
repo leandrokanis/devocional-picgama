@@ -262,3 +262,17 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural / ângulo crítico:** a vida-vitrine / feed editado — "ninguém posta a terça-feira chorando na garagem"; aceitação por parecer inteiro (leve toque de temas-criticos tema 4, triunfo do self)
 - **Ídolo (implícito):** imagem gerenciada / performance de inteireza — parecer perdoado em vez de ser perdoado (distinto de atenção fatiada 06-12, positividade 06-11, satisfação 06-10)
 - **Fecho:** oração — eco da gaveta aberta; "do outro lado do esconderijo não tem um juiz de cara fechada... Pode abrir. Pode descansar"
+
+---
+
+## 2026-06-14 — Salmos 35-37
+
+- **Voz/tom:** narrativa-sábia (voz do banco da varanda, humor seco, auto-ironia leve); narrativo
+- **Tipo de gancho:** cena/padrão cultural reconhecível
+- **Gancho:** o fogo que sobe na hora — o carro pelo acostamento, a promoção do puxa-saco, o esquema com o sujeito solto sorrindo; "fazer certo está saindo caro demais"
+- **Imagem-âncora:** "não te esquentes" (Sl 37:1,8 — o fogo da indignação) + o capim que seca vs. a árvore verde que some (37:2,35-36)
+- **Via cristológica:** Tipologia (Davi que jejua pelos inimigos e entrega a contenda → Cristo odiado sem causa que ora pelos algozes; 1Pe 2:23 ecoando Sl 37:5; Mt 5:5 e Jo 15:25 como confirmação interna; Referências do NT preterida por uso em 3 dos últimos 4)
+- **Abordagem da exegese cultural:** campo-de-observação com corte
+- **Matéria cultural / ângulo crítico:** a economia da indignação — feed como esteira de injustiças, raiva que engaja e lucra com o estômago azedo; indignação vendida como prova de decência; "o malandro sempre se dá bem" / honesto = otário
+- **Ídolo (implícito):** a indignação como virtude / o tribunal próprio — manter o fogo aceso como dever moral (distinto de imagem 06-13, atenção 06-12, positividade 06-11)
+- **Fecho:** eco-de-imagem (alternância; sem oração) — volta ao acostamento e ao fogo; "o capim de hoje você não rega nem arranca; deixa com o Dono do campo... A terra, no fim, é dos mansos"
