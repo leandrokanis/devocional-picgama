@@ -2,6 +2,7 @@
 
 > Visão geral do pipeline para leitura rápida (não precisa abrir cada skill). Detalhe de cada passo está no `.claude/commands/<skill>.md` correspondente.
 
+
 ```mermaid
 flowchart TD
     A["/devocional<br/>(orquestra tudo, model: fable-5)"] --> B
@@ -18,10 +19,12 @@ flowchart TD
     G --> G3["git: commit + push variety-ledger.md"]
     G --> G4["limpa pasta local + zera CURRENT.md"]
 
-    C -.estudo.md.-> P[("pasta local<br/>docs/devocionais/{data}-{livro}-{cap}/")]
-    D -.cosmovisao.md.-> P
-    E -.plano.md.-> P
-    F -.devocional.md.-> P
+    %% FIX 1: -.->|label| em vez de -. label .-> (ponto do .md quebrava o parser)
+    C -.->|estudo.md| P[("pasta local<br/>docs/devocionais/data-livro-cap/")]
+    D -.->|cosmovisao.md| P
+    E -.->|plano.md| P
+    F -.->|devocional.md| P
+    %% FIX 2: {data}-{livro}-{cap} → data-livro-cap (chaves são reservadas = losango)
 
     classDef step fill:#1f2937,stroke:#60a5fa,color:#fff;
     classDef out fill:#064e3b,stroke:#34d399,color:#fff;
