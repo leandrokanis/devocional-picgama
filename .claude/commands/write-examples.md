@@ -1,8 +1,10 @@
 # Gold-Standard Examples
 
+> **APOSENTADO (jun/2026).** Estes exemplos seguem o molde antigo de **8 parágrafos fixos**, abandonado na migração para **forma livre**. O `/write` **não lê mais este arquivo** como molde — guia-se por `docs/estilo/linguagem-falada.md` e `docs/estilo/voz-autoral.md`. Mantido só como referência histórica de **densidade e tom**; **ignore a estrutura de parágrafos**. Novos gold standards em forma livre serão criados a partir dos primeiros textos bons.
+
 Use these as calibration for tone, structure, and depth. Each example includes annotations explaining why it works. Novos roteiros também passam pela **revisão de estilo** anti-IA (Fase 5 da skill e seção **Revisão de estilo** em `docs/RULES.md`), com foco em frase curta, palavra simples e tom de conversa.
 
-**Ordem no arquivo (roteiros novos):** `# título` → linha **Descrição para Spotify** (frase curta com até 3 afirmações) → **introdução de gravação** (um parágrafo, `Bom dia, hoje é dia ...`) → oito parágrafos. Ver `docs/RULES.md`. Exemplos antigos ligados a arquivos em `docs/devocionais/` podem não incluir a intro; use as regras atuais ao gerar conteúdo novo.
+**Ordem das bordas (ainda válida):** `# título` → linha **Descrição para Spotify** → **introdução de gravação** (`Bom dia, hoje é dia ...`) → roteiro. A diferença na forma livre: o roteiro **não** é mais oito parágrafos fixos — é texto corrido, do tamanho/ordem que a história pedir (ver `/write`).
 
 ---
 

@@ -12,21 +12,27 @@ Assuma a persona de um **pastor local** que opera segundo o conceito de **pastor
   - Se os campos **Data** e **Leitura** estiverem preenchidos, use-os.
   - Se estiverem vazios, peça a data ou referência ao usuário e atualize `CURRENT.md`.
 - Verifique se existe `estudo.md` na pasta indicada em **Pasta**.
-  - Se existir, leia-o integralmente. Ele é a base exegética do plano.
+  - Se existir, leia-o integralmente. É a base exegética (método Zabatiero) — em especial o **percurso temático**, o **tema principal**, as **figuras** (Ciclo 2) e a **dimensão missional** (Ciclo 5, matéria-prima de aplicação).
   - Se não existir, prossiga apenas com o texto bíblico e as referências teológicas.
-- Leia `docs/devocionais/variety-ledger.md` se existir. Identifique os últimos 3 devocionais: modos, tons, tipos de abertura, ídolos e exemplos culturais usados. Use como restrição na seção 12.
+- Verifique se existe `cosmovisao.md` na pasta indicada em **Pasta**.
+  - Se existir, leia-o integralmente. Ele **já decidiu** a leitura Criação-Queda-Redenção e o **par estrutura × direção**, e **lista as vias cristológicas possíveis** (com prioridade da hierarquia). O plano **herda** o CQR e a estrutura×direção, e **escolhe uma** das vias listadas.
+  - Se não existir, levante o CQR e as vias você mesmo a partir do estudo e das referências teológicas.
+- Leia `docs/devocionais/variety-ledger.md` se existir. Identifique os últimos 3 devocionais: ganchos, imagens-âncora, ídolos, vias e ângulos críticos usados. Use como restrição na seção 12.
 
 ## Fase 2: Leitura de referências
 
 Antes de decidir, leia:
 
-- [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md)
-- [docs/theology/pactualismo-progressivo.md](docs/theology/pactualismo-progressivo.md)
-- [docs/devocionais/temas-criticos.md](docs/devocionais/temas-criticos.md) — arsenal de temas críticos do autor para a exegese cultural (seção 7). Use **quando o texto pedir**: se a exegese do dia conectar naturalmente com um dos temas, prefira-o como matéria cultural de P7 e adote a voz crítica e as regras de tom descritas lá. Se nenhum tema conectar, ignore o arquivo.
+- [docs/theology/greidanus-vias-cristologicas.md](docs/theology/greidanus-vias-cristologicas.md) — para **escolher** entre as vias listadas no `cosmovisao.md`.
+- [docs/estilo/temas-criticos.md](docs/estilo/temas-criticos.md) — arsenal de temas críticos do autor para a exegese cultural (seção 7). Use **quando o texto pedir**: se a matéria do dia (Ciclo 5 do estudo + estrutura×direção da cosmovisão) conectar naturalmente com um dos temas, prefira-o como matéria cultural e adote a voz crítica e as regras de tom descritas lá. Se nenhum tema conectar, ignore o arquivo.
+
+> A moldura teológica pesada (Wolters/Goheen, pactualismo) já foi lida e aplicada no passo `/cosmovisão`. Aqui o foco é **pastoral**: escolher a via, nomear o ídolo, achar o gancho, decidir a voz.
 
 ## Fase 3: Decisões pastorais
 
 Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva como um pastor que pensa em voz alta para si mesmo — direto, sem academicismo, mas com precisão.
+
+> **A escrita downstream é em forma livre** (sem molde de 8 parágrafos). Por isso, as decisões abaixo são escolhas de **conteúdo e voz**, não de posição em parágrafo. Onde o plano menciona "P1", "P7" etc., leia como *momento/função* (abertura, exegese cultural), não como parágrafo numerado fixo.
 
 ---
 
@@ -69,74 +75,78 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 ---
 
-### 5. Via cristológica de Greidanus
+### 5. Via cristológica de Greidanus — **escolha**
 
-> Como este texto aponta para Jesus. Escolha exatamente uma via, seguindo a hierarquia de prioridade.
+> A `cosmovisao.md` **listou** as vias possíveis. Aqui você **escolhe uma** para conduzir o texto. Hierarquia é referência, não amarra rígida — pode preferir a via que rende melhor narrativamente.
 
 **Hierarquia:** Referências do NT > Progressão histórico-redentiva > Promessa e cumprimento > Tipologia > Contraste > Analogia > Temas longitudinais.
 
-- **Referência NT explícita:** [Este texto é citado ou claramente aludido no NT? Sim/Não. Se sim, indique a referência.]
+- **Vias disponíveis (da cosmovisão):** [Liste as que vieram do `cosmovisao.md`.]
 - **Via escolhida:** [Nome exato conforme `greidanus-vias-cristologicas.md`.]
-- **Justificativa:** [Por que esta via? O que no texto a sustenta? Por que não a via hierarquicamente superior, se não foi ela a escolhida?]
-- **Conexão a Jesus:** [Em uma frase: como Jesus resolve, cumpre, contrasta ou amplifica o que o texto apresenta. Esta frase é o fio condutor de P6.]
+- **Justificativa:** [Por que esta entre as listadas — fidelidade ao texto e/ou rendimento narrativo. Se não foi a de maior prioridade na hierarquia, diga por quê.]
+- **Conexão a Jesus:** [Em uma frase: como Jesus resolve, cumpre, contrasta ou amplifica o que o texto apresenta. É o fio condutor do momento cristológico.]
 
 ---
 
-### 6. Eixo Criação–Queda–Redenção
+### 6. Eixo Criação–Queda–Redenção — **herdado da cosmovisão**
 
-> Como os três movimentos aparecem neste texto e no devocional.
+> Já decidido no `cosmovisao.md`. Restate aqui em três frases para o plano ficar auto-suficiente para a escrita. **As palavras "criação/queda/redenção" não precisam aparecer no texto final** — o arco fica no pensamento.
 
-- **Criação:** [O que o texto mostra sobre como Deus quer que as coisas sejam. Uma frase.]
-- **Queda:** [O que deu errado. Uma frase concreta, sem eufemismos.]
-- **Redenção:** [Como Deus intervém ou aponta para intervenção. Uma frase que não resolva tudo antes da hora.]
+- **Criação:** [como deveria ser — uma frase, da cosmovisão.]
+- **Queda:** [o que deu errado / a estrutura boa distorcida — uma frase.]
+- **Redenção:** [como Deus reordena — uma frase que não resolva cedo demais.]
+- **Estrutura × direção:** [o bem criacional em jogo e a torção — base para nomear o ídolo na seção 7.]
 
 ---
 
-### 7. Exegese cultural (P7)
+### 7. Exegese cultural
 
-> Como o texto lê o mundo ao redor do ouvinte. A forma de P7 varia a cada devocional — escolha o modo que melhor serve ao texto e que ecoa o gancho de P1. **Nunca invente personagens nem microhistórias.** Fale de padrões, objetos, comportamentos que o ouvinte reconhece no ar que respira.
+> Como o texto lê o mundo ao redor do ouvinte. Nasce da matéria-prima do Ciclo 5 do estudo + estrutura×direção da cosmovisão. **Nunca invente personagens nem microhistórias.** Fale de padrões, objetos, comportamentos que o ouvinte reconhece no ar que respira.
 
-**Modos disponíveis:**
-- `campo-de-observação` — narra um padrão de comportamento sem nomear o ídolo explicitamente. O ouvinte chega ao diagnóstico sozinho.
-- `confissão` — o comunicador fala de dentro, primeira pessoa. Uma admissão honesta que o ouvinte herda.
-- `objeto-cultural` — ancora P7 num produto, frase, tendência ou mercado específico. A análise nasce do objeto, não de uma lista.
-- `inversão-de-P1` — retorna ao gancho de P1 e o relê à luz do que o texto disse. Cria coesão sem parecer calculado.
-- `tensão-aberta` — planta a tensão cultural sem resolvê-la ali; a resolução já veio em P6. Mais curto, mais denso.
+**Menu inspiracional de modos** (não é rótulo obrigatório — escolha um, misture, ou ignore se outra abordagem servir melhor):
+- `campo-de-observação` — narra um padrão de comportamento sem nomear o ídolo. O ouvinte chega ao diagnóstico sozinho.
+- `confissão` — o comunicador fala de dentro, primeira pessoa (só experiência humana universal, nunca biografia inventada). Uma admissão honesta que o ouvinte herda.
+- `objeto-cultural` — ancora num produto, frase, tendência ou mercado concreto. A análise nasce do objeto.
+- `inversão-do-gancho` — retorna à abertura e a relê à luz do que o texto disse.
+- `tensão-aberta` — planta a tensão sem resolver; a resolução já veio no momento cristológico. Curto, denso.
 
-**Temas críticos do autor:** consulte `docs/devocionais/temas-criticos.md`. Se um tema de lá conectar naturalmente com a exegese do dia, use-o como matéria cultural — com a opinião e a incisividade do autor (respeitando as regras de tom do arquivo: fenômenos sim, pessoas não; ironia pontual; sem partidarismo). Não force tema em texto que não o sustenta.
+**Temas críticos do autor:** consulte `docs/estilo/temas-criticos.md`. Se um tema de lá conectar naturalmente com a exegese do dia, use-o como matéria cultural — com a opinião e a incisividade do autor (respeitando as regras de tom do arquivo: fenômenos sim, pessoas não; ironia pontual; sem partidarismo). Não force tema em texto que não o sustenta.
 
 **Campos:**
-- **Modo escolhido:** [nome exato acima — um só]
-- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão que P7 vai usar. Uma frase concreta — sem lista. Indique se veio de `temas-criticos.md` e qual tema.]
-- **Conexão com P1:** [Como o modo escolhido ecoa o gancho de abertura. Uma frase.]
-- **Evitar:** [Modo de P7 já usado recentemente no ledger; padrões culturais ou objetos já explorados.]
+- **Abordagem:** [modo do menu, mistura, ou descrição própria]
+- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão. Uma frase concreta — sem lista. Indique se veio de `temas-criticos.md` e qual tema, e/ou do Ciclo 5 do estudo.]
+- **Ídolo nomeado:** [A estrutura boa torta (da seção 6) dita como ídolo concreto.]
+- **Conexão com a abertura:** [Como a exegese cultural ecoa o gancho. Uma frase.]
+- **Evitar:** [Ângulos, ídolos, objetos culturais já usados no ledger recente.]
 
 ---
 
-### 8. Gancho cultural para abertura (P1)
+### 8. Gancho de abertura
 
-> A analogia ou cena do cotidiano que abre o devocional e cria tensão antes de o texto aparecer.
+> A entrada que cria tensão antes (ou no instante) de o texto aparecer. A Escritura entra **cedo** — o gancho é curto.
 
-- **Gancho:** [Uma observação cultural, pergunta provocativa ou cena coletiva reconhecível em 2-4 frases. Pode ser uma frase que todo mundo já ouviu, um padrão de comportamento, uma tensão da época. **NÃO um personagem fictício com nome ou biografia.** Deve gerar pergunta ou desconforto que o texto vai responder.]
-- **Como conecta ao texto:** [Uma frase mostrando a ponte entre a cena e a tensão bíblica.]
-- **Eco em P8:** [Como esta cena ou imagem pode ser retomada na oração final para criar fechamento? Uma frase.]
+- **Tipo de gancho:** [escolha: `cena/padrão cultural` reconhecível | `pergunta provocativa` | `causo-do-mundo` (fato real e interessante) | `imagem concreta`]
+- **Gancho:** [2-4 frases. **NÃO um personagem fictício com nome ou biografia.** Se for `causo-do-mundo`: só **fato seguro** de conhecimento comum, **sem número/data específicos** que possam estar errados.]
+- **Como conecta ao texto:** [Uma frase — a ponte entre o gancho e a tensão bíblica.]
+- **Eco no fecho:** [Como a imagem pode voltar no fim para fechar o arco. Uma frase.]
 
 ---
 
-### 9. Temas de oração (P8)
+### 9. Fecho
 
-> O que o pastor quer pedir a Deus em nome da congregação ao final.
+> O fecho **alterna**: às vezes oração, às vezes eco de imagem, desafio ou declaração. Decida aqui qual serve a este texto.
 
-- [Liste 2-3 intenções de oração concretas, nascidas do texto e da aplicação escolhida. Não generalizações — pedidos específicos que alguém poderia orar de joelhos agora.]
+- **Tipo de fecho:** [escolha: `oração` | `eco-de-imagem` | `desafio` | `declaração`]
+- **Conteúdo:** [Se `oração`: 2-3 intenções concretas nascidas do texto, que alguém oraria de joelhos agora; o texto escrito começa com "A minha oração é para que...". Se outro tipo: descreva o gesto de fechamento e o eco do gancho. Termina com ânimo, não com slogan.]
 
 ---
 
 ### 10. Observações pastorais
 
-> O que o pastor percebe da congregação que deve informar o tom ou a ênfase do devocional. Opcional, mas valioso.
+> O que o pastor percebe da congregação que deve informar o tom ou a ênfase. Opcional, mas valioso.
 
 - **Observação:** [O que esta congregação precisa ouvir neste texto? Há um perigo de leitura fácil? Uma dor não nomeada? Um endurecimento que precisa ser desafiado com gentileza?]
-- **Afeta qual parágrafo:** [Indique onde esta observação deve aterrissar: tom geral, P4, P6, P7 etc.]
+- **Onde aterrissa:** [tom geral, momento da queda, da cristologia, da exegese cultural etc.]
 
 ---
 
@@ -147,26 +157,15 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 ---
 
-### 12. Variação
+### 12. Variação e voz
 
-> Decisões de forma para este devocional — tomadas com base no variety-ledger e no caráter do texto bíblico do dia.
+> Decisões de **voz** para este devocional, e o anti-repetição com base no ledger. A escrita é em forma livre — não há "modo estrutural" obrigatório.
 
-- **Modo estrutural:** [escolha um: `narrativo-primeiro` | `diagnóstico-primeiro` | `pergunta-aberta` | `cena-silenciosa`]
-- **Tom:** [escolha um: `pastoral` | `profético` | `poético` | `narrativo`]
-- **Justificativa:** [Por que esta combinação serve a este texto e a esta congregação hoje? Uma frase.]
-- **Evitar neste texto:** [Liste itens do ledger que seriam repetição — tipo de abertura, modo de P7, exemplos culturais, imagem, ídolo. Se ledger vazio, escreva "n/a".]
-
-**Referência rápida de modos:**
-- `narrativo-primeiro` — P1 abre com cena ou fenômeno cultural; texto bíblico entra no fim de P1. (default)
-- `diagnóstico-primeiro` — P1 abre pelo problema cultural/ídolo diretamente; P2 a Bíblia como resposta; P7 mais cirúrgico.
-- `pergunta-aberta` — P1 lança uma pergunta e não responde; tensão sustentada até P6; P7-P8 fluem da resposta revelada.
-- `cena-silenciosa` — P1 é uma imagem concreta sem explicação nem pergunta; P2 igualmente concreto; aplicação chega como observação; P8 quieto.
-
-**Referência rápida de tons:**
-- `pastoral` — quente, validador, "a gente" e "você" frequentes; validação antes do desafio; P8 terno.
-- `profético` — mais duro; P1 e P7 confrontam sem suavizar; menos hedging; P8 urgente.
-- `poético` — ritmo mais lento; frases curtas; P1 uma imagem sem explicação imediata; P6 e P8 contemplativos.
-- `narrativo` — fica na história mais tempo; P2 mais longo; P7 chega como observação, não como prescrição; P8 quieto.
+- **Voz do dia:** [Como soa este texto — ex: confessional, profético-incisivo, contemplativo, narrativo quente. Pode incluir **auto-ironia leve** quando servir. Sempre solto, sem baixaria.]
+- **Tom dominante:** [pastoral | profético | poético | narrativo — como inclinação, não molde fixo.]
+- **Forma sugerida (menu, não obrigatório):** [se ajudar, indique um sabor de abertura — `narrativo`, `diagnóstico`, `pergunta-aberta`, `cena-silenciosa`, `causo-do-mundo` — mas a escrita decide a costura.]
+- **Justificativa:** [Por que essa voz serve a este texto e a esta congregação hoje? Uma frase.]
+- **Evitar neste texto (do ledger):** [Ganchos, imagens-âncora, ídolos, vias e ângulos críticos já usados nos últimos 3. Se ledger vazio, "n/a".]
 
 ---
 
@@ -174,18 +173,18 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 Antes de liberar, verifique silenciosamente:
 
-- [ ] Ideia central: uma frase afirmativa, não um tema abstrato; parágrafo de aterrissagem indicado.
+- [ ] Ideia central: uma frase afirmativa, não um tema abstrato; momento de aterrissagem indicado.
 - [ ] Tensão existencial: nomeada com linguagem do cotidiano.
-- [ ] Imagem-âncora: um elemento concreto do texto; parágrafos de aparição indicados.
-- [ ] Foco narrativo (P2): cena específica, ângulo definido, cortes indicados.
-- [ ] Via de Greidanus: uma só via, hierarquia justificada, nome exato do arquivo de referência.
-- [ ] CQR: três frases distintas, sem colapsar queda e redenção.
-- [ ] Exegese cultural (P7): modo escolhido (nome exato), matéria cultural concreta, conexão com P1 — sem personagem inventado, sem lista de padrões.
-- [ ] Gancho cultural: reconhecível, cria tensão sem explicar demais; eco em P8 indicado.
-- [ ] Temas de oração: pelo menos 2 itens concretos.
-- [ ] Observações pastorais (se preenchidas): parágrafo de destino indicado.
-- [ ] Título provisório: segue o formato exato; pelo menos 2 alternativas.
-- [ ] Variação: modo e tom escolhidos, justificados, distintos dos últimos 2-3 devocionais no ledger; itens a evitar listados.
+- [ ] Imagem-âncora: um elemento concreto do texto (vinda das figuras do estudo).
+- [ ] Foco narrativo: fatia específica, ângulo definido, cortes indicados.
+- [ ] Via de Greidanus: **uma escolhida** entre as listadas na cosmovisão, com justificativa; nome exato do arquivo.
+- [ ] CQR + estrutura×direção: herdados da cosmovisão; três frases distintas, sem colapsar queda e redenção.
+- [ ] Exegese cultural: matéria concreta, ídolo nomeado, conexão com o gancho — sem personagem inventado, sem lista de padrões.
+- [ ] Gancho: reconhecível, cria tensão; se `causo-do-mundo`, fato seguro sem número arriscado; eco no fecho indicado.
+- [ ] Fecho: tipo definido (oração ou outro); se oração, ao menos 2 intenções concretas.
+- [ ] Observações pastorais (se preenchidas): destino indicado.
+- [ ] Título provisório: formato exato; pelo menos 2 alternativas.
+- [ ] Variação e voz: voz definida e distinta dos últimos 2-3 do ledger; itens a evitar listados.
 
 ## Fase 5: Saída
 

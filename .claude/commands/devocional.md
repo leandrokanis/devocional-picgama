@@ -1,14 +1,14 @@
 ---
-description: Executa o fluxo completo de criação do devocional: estudo → plano → escrita → publicação. Roda até o final sem pausas. Se nenhuma data for passada, usa o dia seguinte ao último devocional registrado no variety-ledger.
+description: Executa o fluxo completo de criação do devocional: estudo → cosmovisão → plano → escrita → publicação. Roda até o final sem pausas. Se nenhuma data for passada, usa o dia seguinte ao último devocional registrado no variety-ledger.
 model: claude-fable-5
 ---
 
 # Devocional
 
-Orquestra o fluxo completo em quatro etapas, sem pausas para revisão.
+Orquestra o fluxo completo, sem pausas para revisão.
 
 ```
-git pull  →  /study  →  /plan  →  /write  →  /publish
+git pull  →  /study  →  /cosmovisão  →  /plan  →  /write  →  /publish
 ```
 
 ## Fase 0: Atualização do repositório
@@ -42,23 +42,31 @@ Prossiga imediatamente para a Fase 3 ao concluir. **Não faça perguntas.**
 
 ---
 
-## Fase 3: Plano
+## Fase 3: Cosmovisão
 
-Execute integralmente o comando `/plan`.
+Execute integralmente o comando `/cosmovisão` (leitura Criação-Queda-Redenção + estrutura×direção + vias cristológicas possíveis).
 
 Prossiga imediatamente para a Fase 4 ao concluir. **Não faça perguntas.**
 
 ---
 
-## Fase 4: Escrita
+## Fase 4: Plano
 
-Execute integralmente o comando `/write`.
+Execute integralmente o comando `/plan`.
 
 Prossiga imediatamente para a Fase 5 ao concluir. **Não faça perguntas.**
 
 ---
 
-## Fase 5: Publicação
+## Fase 5: Escrita
+
+Execute integralmente o comando `/write`.
+
+Prossiga imediatamente para a Fase 6 ao concluir. **Não faça perguntas.**
+
+---
+
+## Fase 6: Publicação
 
 Execute integralmente o comando `/publish`.
 
