@@ -246,3 +246,19 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural de P7:** **(temas-criticos.md, tema 6 — tecnologia e atenção)** o celular em todo intervalo — elevador, fila, sinal fechado; silêncio como incômodo a preencher; "quatrocentas coisas por dia e nenhuma por mais de oito segundos" vs. a formosura contemplada todos os dias
 - **Ídolo (implícito):** atenção fatiada / adoração desviada pra tela — incapacidade de desejo central (distinto de positividade 06-11, satisfação 06-10, valor 06-09)
 - **Fechamento P8:** eco da pergunta de P1 respondida — "a pergunta do começo agora tem resposta — e ela cabe numa palavra: Ele. Pede isso. O resto encontra o lugar"
+
+---
+
+## 2026-06-13 — Salmos 30-34
+
+> Primeiro devocional no fluxo novo (forma livre + Zabatiero + cosmovisão).
+
+- **Voz/tom:** confessional com corte; pastoral com um momento profético
+- **Tipo de gancho:** cena/padrão cultural reconhecível
+- **Gancho:** a gaveta que ninguém abre — a coisa escondida que apodrece por dentro enquanto a vida segue postada e resolvida
+- **Imagem-âncora:** cobrir/descobrir (Sl 32:1,5) — o que você cobre apodrece; o que você descobre, Deus cobre
+- **Via cristológica:** Referências do NT (Sl 32:1-2 → Rm 4:6-8, justiça imputada; pecado imputado a Cristo na cruz)
+- **Abordagem da exegese cultural:** campo-de-observação que vira corte incisivo
+- **Matéria cultural / ângulo crítico:** a vida-vitrine / feed editado — "ninguém posta a terça-feira chorando na garagem"; aceitação por parecer inteiro (leve toque de temas-criticos tema 4, triunfo do self)
+- **Ídolo (implícito):** imagem gerenciada / performance de inteireza — parecer perdoado em vez de ser perdoado (distinto de atenção fatiada 06-12, positividade 06-11, satisfação 06-10)
+- **Fecho:** oração — eco da gaveta aberta; "do outro lado do esconderijo não tem um juiz de cara fechada... Pode abrir. Pode descansar"
