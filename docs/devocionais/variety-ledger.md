@@ -276,3 +276,17 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural / ângulo crítico:** a economia da indignação — feed como esteira de injustiças, raiva que engaja e lucra com o estômago azedo; indignação vendida como prova de decência; "o malandro sempre se dá bem" / honesto = otário
 - **Ídolo (implícito):** a indignação como virtude / o tribunal próprio — manter o fogo aceso como dever moral (distinto de imagem 06-13, atenção 06-12, positividade 06-11)
 - **Fecho:** eco-de-imagem (alternância; sem oração) — volta ao acostamento e ao fogo; "o capim de hoje você não rega nem arranca; deixa com o Dono do campo... A terra, no fim, é dos mansos"
+
+---
+
+## 2026-06-15 — Salmos 38-42
+
+- **Voz/tom:** contemplativo-pastoral, voz baixa e próxima, com um corte profético pontual (a régua emocional); pastoral
+- **Tipo de gancho:** cena/padrão cultural reconhecível
+- **Gancho:** a manhã em que você faz tudo certo — lê, ora, fica quieto — e não sente nada; e a voz baixinha "então não adiantou, Ele não tá aqui"; medir Deus pelo termômetro
+- **Imagem-âncora:** a corça que arqueja pela água (Sl 42:1) — sede ≠ vazio; "ela não duvida que a água existe, só ainda não chegou no rio" (abertura, centro, fecho)
+- **Via cristológica:** Temas Longitudinais (a sede/presença do jardim ao Apocalipse → Cristo a Fonte que veio ao deserto, Jo 7:37; Referências do NT e Tipologia preteridas por saturação no ledger — 4 dos últimos 6 / 06-12 e 06-14)
+- **Abordagem da exegese cultural:** campo-de-observação com corte profético pontual
+- **Matéria cultural / ângulo crítico:** **(temas-criticos.md, tema 5 — cultura terapêutica)** a fé medida pelo arrepio — "Deus me deu paz sobre isso", culto avaliado pela emoção, "senti logo é verdade"; o termômetro mede seu corpo, não a presença de Deus
+- **Ídolo (implícito):** o sentir como veredito da presença — fazer da emoção o termômetro que decide se Deus está, e tratar o vazio como defeito a anestesiar em vez de sede a seguir (distinto de satisfação/copo 06-10, indignação 06-14, imagem 06-13, atenção 06-12)
+- **Fecho:** oração (alternância) — eco da manhã sem arrepio e da corça; "para de medir a presença de Deus pelo arrepio... a corça ainda tá com sede, mas agora ela sabe o nome da água"
