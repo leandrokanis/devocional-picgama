@@ -290,3 +290,17 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural / ângulo crítico:** **(temas-criticos.md, tema 5 — cultura terapêutica)** a fé medida pelo arrepio — "Deus me deu paz sobre isso", culto avaliado pela emoção, "senti logo é verdade"; o termômetro mede seu corpo, não a presença de Deus
 - **Ídolo (implícito):** o sentir como veredito da presença — fazer da emoção o termômetro que decide se Deus está, e tratar o vazio como defeito a anestesiar em vez de sede a seguir (distinto de satisfação/copo 06-10, indignação 06-14, imagem 06-13, atenção 06-12)
 - **Fecho:** oração (alternância) — eco da manhã sem arrepio e da corça; "para de medir a presença de Deus pelo arrepio... a corça ainda tá com sede, mas agora ela sabe o nome da água"
+
+---
+
+## 2026-06-16 — Salmos 43-47
+
+- **Voz/tom:** pastoral firme e assentada (voz que acalma sem minimizar o caos), com nota profética/declarativa no fim; pastoral
+- **Tipo de gancho:** cena/padrão cultural reconhecível
+- **Gancho:** acordar e pegar o celular antes de pôr o pé no chão — o mundo já pegando fogo (guerra, tragédia, crise); o aperto de "se eu não segurar, ninguém segura"; o dia virando correr atrás de escorar tudo
+- **Imagem-âncora:** a terra que se abala e os montes que caem no mar (Sl 46:2-3) vs. a fortaleza que não treme + "aquietai-vos e sabei que eu sou Deus" (46:10); fecho "a terra treme; o trono, não" (abertura, centro, fecho)
+- **Via cristológica:** Contraste (o "desperta, por que dormes?" de 44:23 → Cristo dormindo na tempestade que é o Senhor do mar, "cala-te, aquieta-te", Mc 4:38-39 ecoando o "aquietai-vos" de 46:10; Referências do NT/Tipologia/Temas Longitudinais preteridas por saturação — todas nos últimos 6)
+- **Abordagem da exegese cultural:** campo-de-observação que vira inversão-do-gancho
+- **Matéria cultural / ângulo crítico:** o mundo sem ninguém no leme — acordar varrendo o feed atrás da próxima catástrofe, a hipervigilância e o reflexo de blindar tudo no controle (brisa leve de temas-criticos tema 6 — incapacidade de silêncio, pelo ângulo do controle, distinto da atenção fatiada 06-12)
+- **Ídolo (implícito):** o controle como fortaleza — "se eu não vigiar e segurar tudo, desaba"; segurança terceirizada pro que eu construo em vez da presença de quem já reina (distinto de sentir-veredito 06-15, indignação 06-14, imagem 06-13, atenção 06-12)
+- **Fecho:** declaração (alternância) — eco da manhã do caos e da fortaleza; "a terra pode tremer, o trono não treme junto... você pode tirar a mão do leme, porque o capitão nunca dormiu de verdade. A terra treme. O trono, não."
