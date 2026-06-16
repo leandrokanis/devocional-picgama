@@ -304,3 +304,17 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural / ângulo crítico:** o mundo sem ninguém no leme — acordar varrendo o feed atrás da próxima catástrofe, a hipervigilância e o reflexo de blindar tudo no controle (brisa leve de temas-criticos tema 6 — incapacidade de silêncio, pelo ângulo do controle, distinto da atenção fatiada 06-12)
 - **Ídolo (implícito):** o controle como fortaleza — "se eu não vigiar e segurar tudo, desaba"; segurança terceirizada pro que eu construo em vez da presença de quem já reina (distinto de sentir-veredito 06-15, indignação 06-14, imagem 06-13, atenção 06-12)
 - **Fecho:** declaração (alternância) — eco da manhã do caos e da fortaleza; "a terra pode tremer, o trono não treme junto... você pode tirar a mão do leme, porque o capitão nunca dormiu de verdade. A terra treme. O trono, não."
+
+---
+
+## 2026-06-17 — Salmos 48-53
+
+- **Voz/tom:** pastoral calorosa com peso de finitude que vira alívio (encara a morte sem rodeio, depois afrouxa pra graça); narrativa-reflexiva; pastoral
+- **Tipo de gancho:** imagem concreta (provérbio popular seguro)
+- **Gancho:** ninguém viu caminhão de mudança atrás de carro funerário — a vida enchendo casa/conta/estante e indo embora de mãos vazias; "a última roupa não tem bolso"
+- **Imagem-âncora:** o resgate que ninguém consegue pagar — "caro é o resgate da alma" (Sl 49:7-8) + "nada levará, sua glória não desce com ele" (49:17); a conta que não fecha (abertura, centro, fecho)
+- **Via cristológica:** Referências do NT (o resgate impagável do Sl 49 → Cristo "dar a vida em resgate por muitos", Mc 10:45, e "resgatados pelo precioso sangue de Cristo, não com prata/ouro", 1Pe 1:18-19; Sl 53 → Rm 3; via bem espaçada — última vez 06-13, vs Tipologia/Temas Long/Contraste nos 3 últimos)
+- **Abordagem da exegese cultural:** campo-de-observação que vira inversão-do-gancho
+- **Matéria cultural / ângulo crítico:** comprar segurança até pro que dinheiro não alcança — guardar, investir, "deixar um legado" pra não sumir — + a versão religiosa, a fé como aplicação financeira (**temas-criticos.md, tema 1 — evangelho de prosperidade**: dízimo como barganha, Deus como gerente de resultados; "eu faço minha parte, Deus me deve")
+- **Ídolo (implícito):** a alma comprável — garantir a si mesmo (vida, futuro, eternidade) juntando o suficiente ou mantendo a fachada certa, em vez de receber de graça (distinto de controle/fortaleza 06-16, sentir-veredito 06-15, indignação 06-14, imagem 06-13)
+- **Fecho:** oração (alternância) — eco do carro funerário sem caminhão atrás + coração quebrantado; "largue a fachada e chegue de mãos vazias... descanse no resgate já pago, não em prata, em sangue. A sua alma já tem dono."
