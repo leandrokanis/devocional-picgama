@@ -1,6 +1,5 @@
 ---
 description: Executa o fluxo completo de criação do devocional: estudo → cosmovisão → plano → escrita → publicação. Roda até o final sem pausas. Se nenhuma data for passada, usa o dia seguinte ao último devocional registrado no variety-ledger.
-model: claude-fable-5
 ---
 
 # Devocional

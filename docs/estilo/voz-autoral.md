@@ -58,6 +58,7 @@ O texto **leva a algum lugar**. Tem uma ideia central que costura tudo e cresce 
 - Conclusão-slogan de post motivacional.
 - Paralelismo bonito e vazio, simetria decorativa.
 - Generalidade ("muitas pessoas hoje em dia...") onde cabia o concreto brasileiro.
+- **Abertura existencial vaga** ("Tem manhã que...", "Tem um tipo de [X] que...", "Há uma coisa que...") — apresenta uma ideia sem dono e sem cena. Tique de IA: comece pela cena concreta ou pela pessoa, nunca por esse "Tem [X] que…".
 
 ## O que este guia **não** revoga
 

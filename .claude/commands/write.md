@@ -44,7 +44,7 @@ Se o plano indicar matéria cultural de `docs/estilo/temas-criticos.md`, leia ta
 
 - **Gancho de abertura** (do plano) prendendo logo no começo. Se for `causo-do-mundo`, só fato seguro, sem número arriscado, e **curto**.
 - **O texto bíblico entra cedo** — primeiras linhas / primeiro terço. Nada de digressão longa antes da Escritura.
-- **A cena/fatia bíblica** contada (o foco narrativo do plano), com o ângulo indicado.
+- **A cena/fatia bíblica** contada (o foco narrativo do plano), com o ângulo indicado. **Toda citação do texto vem com atribuição falada** ("o salmista diz", "no texto fala assim", "Deus responde") — isso vira áudio, o ouvinte não vê aspas.
 - **O arco Criação-Queda-Redenção tecido no pensamento** — a quebra do mundo e a graça de Deus aparecem, mas **as palavras "criação/queda/redenção" não precisam ser ditas**. Sem rótulo didático.
 - **Cristo no centro**, pela via escolhida no plano, amarrado à tensão da abertura. Este é o coração — nunca enfeite no fim.
 - **Exegese cultural** (a matéria e o ídolo do plano), com a voz e a incisividade que o plano pediu. Sem lista de padrões, sem personagem inventado.
@@ -75,6 +75,9 @@ Leia em voz alta. Onde travar, soar recitado ou de máquina — reescreva. Cace 
 8. **Burocratês:** "faz-se necessário", "por conseguinte", "dessa maneira". Vira fala.
 9. **Adjetivo genérico:** "desafiador", "impressionante", "poderoso". Se não acrescenta informação, corte.
 10. **Generalidade onde cabe o Brasil concreto:** "muitas pessoas hoje em dia" → a cena brasileira apontável.
+11. **Abertura/apresentação existencial vaga ("Tem [X] que…"):** a família `Tem manhã que…`, `Tem um tipo de [X] que…`, `Tem uma coisa que…`, `Há um(a) [X] que…`, `Existe um(a) [X] que…` usada pra apresentar uma ideia vaga. **Tique de IA — banido em qualquer posição, e proibido como primeira frase do texto.** Comece pela cena concreta ou pela pessoa. Em vez de "Tem manhã que você faz tudo certo e não sente nada" → "Você faz tudo certo de manhã — lê, ora, fica quieto — e não sente nada." Em vez de "Tem um fogo que sobe na hora" → "O fogo sobe na hora: o carro fura a fila e você já ferve."
+12. **Citação bíblica sem atribuição falada:** o roteiro vira **áudio** — quem ouve não vê aspas nem itálico. Toda vez que trouxer uma frase do texto bíblico, **diga antes que é citação**: "o salmista diz", "lá no texto fala assim", "Davi escreve", "Deus responde", "o versículo fala". Vale também pra **fala de Deus** citada. Sem a atribuição, a citação se confunde com a sua voz.
+13. **Maiúscula reverente como único sinal ("mas Alguém está no trono", "Aquele que…"):** não se ouve em áudio e foge à norma culta. **Proibido usar a maiúscula pra indicar que é Deus.** Quando precisar deixar claro de quem se fala, **nomeie**: "Deus", "o Senhor", "Jesus". Pronome em minúscula ("ele", "aquele que", "alguém") segue valendo quando a frase ao redor já deixa claro que é Deus.
 
 ### Passo de oralidade (depois dos cortes acima)
 
@@ -102,6 +105,8 @@ Confira silenciosamente (integre o que faltar sem quebrar o fluxo):
 - [ ] Bordas: título no formato, descrição Spotify, intro "Bom dia...".
 - [ ] Voz com dono — não soa IA/genérico. Concreto brasileiro, sem número inventado. 1ª pessoa só universal.
 - [ ] Oralidade ok; nenhum bloco soa recitado em voz alta.
+- [ ] Nenhuma abertura ou apresentação tipo "Tem [X] que…" (nem as variantes `Há um(a)…`, `Existe um(a)…`, `Tem um tipo de…`), em posição alguma.
+- [ ] Toda citação bíblica (e fala de Deus) tem atribuição falada antes; nenhuma maiúscula reverente ("Alguém", "Aquele") usada como único sinal de que é Deus.
 - [ ] **700-900 palavras** no roteiro (sem contar título, descrição e intro).
 
 ## Fase 6: Saída

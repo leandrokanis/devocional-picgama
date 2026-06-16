@@ -60,6 +60,23 @@ A fala aponta para coisas usando demonstrativos e advérbios de lugar/tempo, com
 
 ---
 
+## 3.5 Citar e referir Deus em áudio
+
+O roteiro vira **áudio**. Quem ouve não vê aspas, itálico nem maiúscula. Duas marcas escritas que **não funcionam falando** e precisam ser ditas com palavras:
+
+### Citação do texto bíblico — sempre atribuída
+Trazer um trecho da Escritura no meio da fala sem avisar faz a citação se confundir com a sua voz. **Diga antes que é citação**, com um verbo de dizer:
+- **Usar:** "o salmista diz...", "lá no texto fala assim...", "Davi escreve...", "o versículo fala...", "Deus responde...", "Jesus fala...".
+- **Exemplo:** ❌ "E aí vem a ordem: aquietai-vos e sabei que eu sou Deus." → ✅ "E aí vem a ordem, no salmo 46: o texto fala assim — 'aquietai-vos, e sabei que eu sou Deus.'"
+- Vale igual para **fala de Deus** citada: atribua ("Deus diz", "o Senhor responde") antes de pôr a frase na boca dele.
+
+### Referência a Deus — nomear, não capitalizar
+Capitalizar uma palavra comum para indicar que é Deus ("mas **Alguém** está no trono", "**Aquele** que te formou") **só funciona no papel** e, falado, foge à norma culta. Quando precisar deixar claro de quem se fala, **nomeie**: "Deus", "o Senhor", "Jesus".
+- Pronome em **minúscula** ("ele", "aquele que", "alguém") continua valendo quando a frase ao redor já deixa óbvio que é Deus.
+- **Exemplo:** ❌ "Mas tem Alguém sentado no trono." → ✅ "Mas tem Deus sentado no trono." (ou, se o contexto já nomeou Deus na frase anterior: "...e ele está sentado no trono.")
+
+---
+
 ## 4. O que EVITAR (a oralidade que estraga texto lido)
 
 - **Hesitação de gravador:** `é...`, `hã...`, `então assim...`, `tipo...` como muleta. Em texto lido vira ruído. O roteiro é fala **planejada** — não simula gagueira.
@@ -67,6 +84,8 @@ A fala aponta para coisas usando demonstrativos e advérbios de lugar/tempo, com
 - **Vício de preenchimento:** `literalmente`, `simplesmente` (quando não acrescenta), `basicamente`, `meio que» em toda frase. Atenuador também cansa se vira tique.
 - **Excesso de `né?` / `sabe?`:** no máximo um a cada parágrafo ou dois. Em excesso vira cacoete e soa inseguro.
 - **Sobreposição/interrupção:** marca de diálogo a dois. O roteiro é monólogo — não se aplica.
+- **Abertura existencial "Tem [X] que…":** `Tem manhã que...`, `Tem um tipo de [X] que...`, `Há uma coisa que...`, `Existe um(a) [X] que...`. Apresenta a ideia sem dono e soa a IA. Banido em qualquer posição, sobretudo na primeira frase — comece pela cena ou pela pessoa.
+- **Maiúscula reverente como único sinal:** "Alguém", "Aquele" capitalizados pra dizer que é Deus. Não se ouve em áudio; nomeie ("Deus", "o Senhor") — ver 3.5.
 
 ---
 
