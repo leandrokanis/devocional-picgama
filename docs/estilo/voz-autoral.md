@@ -19,7 +19,8 @@ O texto tem **alguém atrás dele** — alguém que pensa, tem opinião e espinh
 O "eu" entra **com parcimônia** e só na experiência **humana compartilhada e verificável**: "eu também pego o celular no elevador", "todo mundo já travou na frente daquela mensagem".
 
 - **Nunca** invente biografia: nada de fato datado, lugar, número ou episódio específico da vida de quem grava. O modelo não tem essa vida — inventá-la é mentira.
-- **Nunca** invente terceiros fictícios (regra Keller mantida). Sem personagem-modelo, sem vinheta com nome.
+- **Nunca** invente terceiros fictícios (regra Keller mantida). Sem personagem-modelo com nome, biografia ou arco de história — nada de "a Joana, que todo dia...".
+- **Mas micro-cena cotidiana em 2ª pessoa é permitida e desejável.** Uma figura anônima e genérica de uma cena brasileira reconhecível — o porteiro que pergunta "bom dia, doutor, tudo bem?", o caixa do mercado, o motorista do busão — não é personagem inventado: é o concreto do dia a dia (ver seção 3). A linha: figura sem nome, sem biografia, dentro de uma cena que **qualquer ouvinte já viveu** = ok; pessoa com nome e história fabricada = proibido.
 - O foco fica no texto e no ouvinte; o "eu" só aparece quando **ilumina**, não para falar de si.
 
 ## 3. Especificidade concreta — ancorada no Brasil
@@ -29,6 +30,7 @@ Abstração é onde o texto morre. Troque por **coisa**: objeto, gesto, lugar.
 - Aterrisse no **cotidiano brasileiro reconhecível** — a fila do mercado, o busão lotado, o grupo da família no zap, o vento do corredor do prédio. Nada de referência genérica ou importada quando uma brasileira serve.
 - **Sem número/estatística inventada.** Concreto **sensorial**, não numérico. Se não pode garantir o dado, não crava o dado.
 - Regra prática: ao reler, todo conceito solto ("as pessoas buscam validação") vira cena apontável.
+- **Abertura: prefira a micro-cena à afirmação genérica.** Em vez de "alguém pergunta como você tá e você responde 'tudo ótimo'", ponha a cena específica: "você sai cedo pro trabalho, o porteiro pergunta 'bom dia, doutor, tudo bem?', e você já solta 'tudo ótimo' — só que não tá nada ótimo." Mesma ideia, mas com lugar, gesto e fala — o ouvinte entra pela cena, não pelo conceito. Use 2ª pessoa e uma figura anônima reconhecível (ver seção 2), nunca um personagem com nome inventado.
 
 ## 4. Gancho-curiosidade (causo do mundo)
 
@@ -58,6 +60,7 @@ O texto **leva a algum lugar**. Tem uma ideia central que costura tudo e cresce 
 - Conclusão-slogan de post motivacional.
 - Paralelismo bonito e vazio, simetria decorativa.
 - Generalidade ("muitas pessoas hoje em dia...") onde cabia o concreto brasileiro.
+- **Abertura genérica ("alguém pergunta...", "todo mundo já...")** onde cabia uma micro-cena específica com lugar, fala e gesto. Entrar pela cena, não pela afirmação (ver seção 3).
 - **Abertura existencial vaga** ("Tem manhã que...", "Tem um tipo de [X] que...", "Há uma coisa que...") — apresenta uma ideia sem dono e sem cena. Tique de IA: comece pela cena concreta ou pela pessoa, nunca por esse "Tem [X] que…".
 
 ## O que este guia **não** revoga

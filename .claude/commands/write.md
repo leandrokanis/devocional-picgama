@@ -42,7 +42,7 @@ Se o plano indicar matéria cultural de `docs/estilo/temas-criticos.md`, leia ta
 
 ### O que o roteiro precisa conter (não importa em que ordem ou tamanho)
 
-- **Gancho de abertura** (do plano) prendendo logo no começo. Se for `causo-do-mundo`, só fato seguro, sem número arriscado, e **curto**.
+- **Gancho de abertura** (do plano) prendendo logo no começo. Se for `causo-do-mundo`, só fato seguro, sem número arriscado, e **curto**. **Abra pela micro-cena concreta, não pela afirmação genérica:** em vez de "alguém pergunta como você tá", ponha a cena com lugar/fala/gesto ("você sai cedo, o porteiro pergunta 'bom dia, doutor, tudo bem?', e você já solta 'tudo ótimo'"). Figura anônima reconhecível em 2ª pessoa é concretude permitida — **não** é personagem inventado (sem nome, sem biografia; ver `voz-autoral.md` seções 2-3).
 - **O texto bíblico entra cedo** — primeiras linhas / primeiro terço. Nada de digressão longa antes da Escritura.
 - **A cena/fatia bíblica** contada (o foco narrativo do plano), com o ângulo indicado. **Toda citação do texto vem com atribuição falada** ("o salmista diz", "no texto fala assim", "Deus responde") — isso vira áudio, o ouvinte não vê aspas.
 - **O arco Criação-Queda-Redenção tecido no pensamento** — a quebra do mundo e a graça de Deus aparecem, mas **as palavras "criação/queda/redenção" não precisam ser ditas**. Sem rótulo didático.
@@ -94,7 +94,7 @@ Teste final: leia em voz alta. Se a língua tropeça ou soa "lido", está formal
 
 Confira silenciosamente (integre o que faltar sem quebrar o fluxo):
 
-- [ ] Gancho do plano presente, logo no começo.
+- [ ] Gancho do plano presente, logo no começo — **abertura por micro-cena concreta** (lugar/fala/gesto, figura anônima reconhecível em 2ª pessoa), não por afirmação genérica tipo "alguém pergunta...".
 - [ ] Texto bíblico entra cedo; cena e ângulo do plano presentes.
 - [ ] Arco CQR tecido no pensamento (sem precisar das palavras).
 - [ ] Cristo no centro pela via do plano, amarrado à abertura.
