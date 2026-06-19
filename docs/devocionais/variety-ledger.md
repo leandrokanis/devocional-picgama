@@ -318,3 +318,17 @@ Registro acumulativo de padrões usados em cada devocional. Lido por `/plan` (pa
 - **Matéria cultural / ângulo crítico:** comprar segurança até pro que dinheiro não alcança — guardar, investir, "deixar um legado" pra não sumir — + a versão religiosa, a fé como aplicação financeira (**temas-criticos.md, tema 1 — evangelho de prosperidade**: dízimo como barganha, Deus como gerente de resultados; "eu faço minha parte, Deus me deve")
 - **Ídolo (implícito):** a alma comprável — garantir a si mesmo (vida, futuro, eternidade) juntando o suficiente ou mantendo a fachada certa, em vez de receber de graça (distinto de controle/fortaleza 06-16, sentir-veredito 06-15, indignação 06-14, imagem 06-13)
 - **Fecho:** oração (alternância) — eco do carro funerário sem caminhão atrás + coração quebrantado; "largue a fachada e chegue de mãos vazias... descanse no resgate já pago, não em prata, em sangue. A sua alma já tem dono."
+
+---
+
+## 2026-06-18 — Salmos 54-59
+
+- **Voz/tom:** pastoral acolhedora e próxima, voz baixa que dá permissão (abaixa a guarda em vez de cobrar), com auto-ironia leve no "tudo ótimo" automático; pastoral
+- **Tipo de gancho:** cena/padrão cultural reconhecível
+- **Gancho:** alguém pergunta como você tá e a boca responde "tudo ótimo" antes de a cabeça pensar, mesmo num dia em que tá tudo menos ótimo; engolir o choro no banheiro, lavar o rosto e voltar pra mesa de cara montada; mostrar que não tá bem virou falta de educação — ou, na igreja, falta de fé
+- **Imagem-âncora:** o odre das lágrimas — "põe as minhas lágrimas no teu odre; não estão elas no teu livro?" (Sl 56:8); Deus que recolhe o choro gota por gota num frasco e anota no livro (abertura evoca, centro aprofunda, fecho retoma)
+- **Via cristológica:** Tipologia (Davi, ungido caçado e traído na mesa que chora sem fingir e não revida → Cristo, Filho de Davi maior, ungido/caçado/traído na ceia, que chorou de verdade — Jo 11:35 "Jesus chorou" — suou sangue no Getsêmani e atravessou a morte saindo vivo; lágrima não desperdiçada, devolvida em ressurreição. Ref NT preterida por saturação — 06-13 e 06-17; Tipologia última vez 06-14)
+- **Abordagem da exegese cultural:** campo-de-observação que vira inversão-do-gancho
+- **Matéria cultural / ângulo crítico:** a positividade obrigatória — "boa vibe", "supera", "foco no positivo", o feed onde todo mundo tá ótimo; emoção negativa (choro, medo) proibida e tratada como defeito a esconder/editar; na fé, mostrar dor lido como pouca fé (brisa de temas-criticos tema 5 — cultura terapêutica pelo ângulo INVERSO ao 06-15: não "senti logo é verdade", mas a emoção negativa interditada; raiz no self expressivo / performance, tema 4)
+- **Ídolo (implícito):** a fachada — a imagem de quem tá sempre bem/forte/resolvido; garantir aceitação escondendo a lágrima em vez de ser visto por Deus no choro (distinto de controle/fortaleza 06-16, alma comprável 06-17, sentir-veredito 06-15, imagem-de-si/vaidade 06-13)
+- **Fecho:** eco-de-imagem (alternância — oração 06-15, declaração 06-16, oração 06-17) — retoma o rosto lavado às pressas e o odre; "nem todo mundo precisa da sua verdade, mas com Deus é diferente... ele pega a lágrima que você escondeu do mundo e guarda no frasco, com o seu nome no livro. O cerco talvez não acabe hoje, mas você não precisa atravessar de cara seca e sozinho."
