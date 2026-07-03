@@ -49,6 +49,8 @@ O alvo: **Deus como terapeuta** — oração como sessão, Deus existindo para v
 
 **Atenção como adoração**: onde a atenção mora, o coração adora — o feed ocupou o lugar da meditação e da oração; o celular como primeiro gesto da manhã é liturgia. E **incapacidade de silêncio**: ninguém aguenta cinco minutos sem tela; silêncio virou ameaça — e Deus costuma falar no silêncio.
 
+> **Saturado — use com parcimônia.** Redes sociais / telas / feed viraram muleta e soam de IA (ver guardrails do `/plan`). Este tema NÃO é matéria cultural padrão: só entra quando o texto pede muito, e mesmo assim sem ser o centro. Na dúvida, escolha outro campo do cotidiano.
+
 ---
 
 ## O que defender (contraponto positivo)

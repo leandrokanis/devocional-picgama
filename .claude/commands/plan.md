@@ -34,13 +34,19 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 > **A escrita downstream é em forma livre** (sem molde de 8 parágrafos). Por isso, as decisões abaixo são escolhas de **conteúdo e voz**, não de posição em parágrafo. Onde o plano menciona "P1", "P7" etc., leia como *momento/função* (abertura, exegese cultural), não como parágrafo numerado fixo.
 
+> **Guardrails de saturação — leia antes de decidir.** Dois padrões viraram muleta e já soam de IA. Fuja deles por padrão:
+> - **Não faça de redes sociais / telas / feed / celular a matéria cultural.** Vira automático e artificial. Só use se o texto *pedir muito* — e, mesmo assim, com moderação. Busque outros campos concretos do cotidiano: dinheiro e dívida, trabalho braçal, família e mesa, vizinhança, corpo e saúde, fila e trânsito, comida, medo do futuro, luto, ciúme, orgulho, língua/fofoca, promessa quebrada. O mundo é maior que a tela.
+> - **Não deixe a aplicação cair sempre em "descanso / desarmar / parar de performar / você pode descansar".** Boa, mas quase todo texto foi parar aí — soa robótico. O movimento do evangelho tem muitas saídas: coragem, envio e missão, arrependimento, obediência custosa, esperança, alegria, generosidade, perdão ao outro, temor de Deus, verdade que liberta, consolo no luto, justiça. Escolha a que **este** texto realmente entrega, não a de sempre.
+>
+> Isso vale sobretudo para a **Ideia central (seção 1)**, o **Ídolo (seção 7)** e a **Matéria cultural (seção 7)**. Se a sua primeira ideia for tela+descanso, pare e ache outra.
+
 ---
 
 ### 1. Ideia central
 
 > A única coisa que o ouvinte deve levar desta pregação, dita em uma frase simples.
 
-- **Frase:** [Uma sentença curta e memorável. Não um tema abstrato, mas uma afirmação sobre Deus ou sobre a vida à luz deste texto.]
+- **Frase:** [Uma sentença curta e memorável. Não um tema abstrato, mas uma afirmação sobre Deus ou sobre a vida à luz deste texto. **Não caia no reflexo "descanso / desarmar / parar de performar"** (ver guardrails) — pergunte que saída *este* texto entrega.]
 - **Por que esta e não outra:** [1-2 frases justificando a escolha frente às alternativas do texto.]
 - **Aterrissa em:** [Em qual parágrafo esta ideia deve aparecer com mais força? P5 (redenção), P6 (cristologia) ou P8 (oração)? Indique um. Ela deve ecoar nos demais, mas ter um centro de gravidade.]
 
@@ -114,7 +120,7 @@ Produza o plano tomando cada decisão com clareza e justificativa breve. Escreva
 
 **Campos:**
 - **Abordagem:** [modo do menu, mistura, ou descrição própria]
-- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão. Uma frase concreta — sem lista. Indique se veio de `temas-criticos.md` e qual tema, e/ou do Ciclo 5 do estudo.]
+- **Matéria cultural:** [O padrão, objeto, comportamento ou tensão. Uma frase concreta — sem lista. **Não use redes sociais/telas por padrão** (ver guardrails): prefira outro campo do cotidiano. Indique se veio de `temas-criticos.md` e qual tema, e/ou do Ciclo 5 do estudo.]
 - **Ídolo nomeado:** [A estrutura boa torta (da seção 6) dita como ídolo concreto.]
 - **Conexão com a abertura:** [Como a exegese cultural ecoa o gancho. Uma frase.]
 - **Evitar:** [Ângulos, ídolos, objetos culturais já usados no ledger recente.]
