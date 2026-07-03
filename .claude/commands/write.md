@@ -38,12 +38,24 @@ Se o plano indicar matéria cultural de `docs/estilo/temas-criticos.md`, leia ta
 - Referência falada: `salmos 24 a 29` (intervalo) ou `salmos 24` (único). Sempre minúsculo.
 - Parte "Quando ...": copie do título o trecho após `DD/MM: ` até antes de ` (`.
 
-**4. Roteiro** — texto corrido, forma livre.
+**4. Roteiro** — texto corrido, forma livre, com **uma marca fixa no começo**: o primeiro parágrafo é a **abertura (cold open)** e logo depois vem a linha isolada `[VINHETA]`. O corpo do devocional começa no parágrafo seguinte.
+
+#### A abertura (cold open — antes da vinheta)
+
+No programa, uma **vinheta de áudio toca logo depois do primeiro parágrafo**. Por isso ele é uma peça sozinha: a isca que prende o ouvinte e gera curiosidade antes de o devocional começar de fato. Não é o primeiro bloco do sermão — é o trailer.
+
+- **Entre convidando, não descrevendo do nada.** Abra com um gancho de entrada que chama o ouvinte pra dentro — `Sabe quando…`, `Imagina…`, `Repara…`, `Presta atenção nessa cena:` — e emende na micro-cena concreta (lugar, gesto, fala). Soltar a cena crua soa vindo do nada: "Você chega em casa, tá tudo quieto" ❌ → "Sabe quando você chega em casa, tá tudo quieto, e a sua mão já corre pro controle da TV?" ✅. O frame convidativo vem **sempre com** a cena concreta atrás; sem a cena, vira afirmação genérica — proibida (ver anti-IA #11).
+- **Auto-suficiente e curioso.** Fecha o parágrafo numa provocação ou pergunta que deixa o ouvinte querendo o resto. Arma a tensão, não resolve.
+- **Já apresenta o texto do dia.** A passagem aparece aqui: nomeie a referência e a deixa do que ela trata, amarrando a cena à Escritura antes da vinheta ("…e é mais ou menos isso que o salmo 139 põe na mesa"). O desenvolvimento (contar a fatia, exegese) fica pro corpo.
+- **Curto:** 3 a 6 frases. É trailer, não capítulo.
+- Valem as regras da micro-cena: figura anônima em 2ª pessoa, sem personagem inventado, 1ª pessoa só universal (nada de "outro dia eu…" com episódio fabricado de quem grava).
+
+**Escreva a linha isolada `[VINHETA]` logo após o cold open.** A fatia bíblica contada, a exegese, Cristo e o fecho vêm todos **depois** dela.
 
 ### O que o roteiro precisa conter (não importa em que ordem ou tamanho)
 
-- **Gancho de abertura** (do plano) prendendo logo no começo. Se for `causo-do-mundo`, só fato seguro, sem número arriscado, e **curto**. **Abra pela micro-cena concreta, não pela afirmação genérica:** em vez de "alguém pergunta como você tá", ponha a cena com lugar/fala/gesto ("você sai cedo, o porteiro pergunta 'bom dia, doutor, tudo bem?', e você já solta 'tudo ótimo'"). Figura anônima reconhecível em 2ª pessoa é concretude permitida — **não** é personagem inventado (sem nome, sem biografia; ver `voz-autoral.md` seções 2-3).
-- **O texto bíblico entra cedo** — primeiras linhas / primeiro terço. Nada de digressão longa antes da Escritura.
+- **Gancho de abertura** (do plano) no **cold open** descrito acima: entra convidando + micro-cena concreta (lugar/fala/gesto), apresenta a passagem e fecha em curiosidade, seguido da linha `[VINHETA]`. Se for `causo-do-mundo`, só fato seguro, sem número arriscado, e **curto**. Figura anônima reconhecível em 2ª pessoa é concretude permitida — **não** é personagem inventado (sem nome, sem biografia; ver `voz-autoral.md` seções 2-3).
+- **O texto bíblico é apresentado já no cold open** (a referência e a deixa do tema) e **contado logo após a vinheta** — nada de digressão longa antes da Escritura.
 - **A cena/fatia bíblica** contada (o foco narrativo do plano), com o ângulo indicado. **Toda citação do texto vem com atribuição falada** ("o salmista diz", "no texto fala assim", "Deus responde") — isso vira áudio, o ouvinte não vê aspas.
 - **O arco Criação-Queda-Redenção tecido no pensamento** — a quebra do mundo e a graça de Deus aparecem, mas **as palavras "criação/queda/redenção" não precisam ser ditas**. Sem rótulo didático.
 - **Cristo no centro**, pela via escolhida no plano, amarrado à tensão da abertura. Este é o coração — nunca enfeite no fim.
@@ -94,8 +106,9 @@ Teste final: leia em voz alta. Se a língua tropeça ou soa "lido", está formal
 
 Confira silenciosamente (integre o que faltar sem quebrar o fluxo):
 
-- [ ] Gancho do plano presente, logo no começo — **abertura por micro-cena concreta** (lugar/fala/gesto, figura anônima reconhecível em 2ª pessoa), não por afirmação genérica tipo "alguém pergunta...".
-- [ ] Texto bíblico entra cedo; cena e ângulo do plano presentes.
+- [ ] **Cold open**: 1º parágrafo abre convidando (`Sabe quando…`/`Imagina…`/`Repara…`) + micro-cena concreta (lugar/fala/gesto, figura anônima em 2ª pessoa), é auto-suficiente, fecha em curiosidade e já apresenta a passagem do dia. Nunca cena crua solta ("Você chega em casa…" do nada) nem afirmação genérica ("alguém pergunta...").
+- [ ] Linha isolada `[VINHETA]` logo após o cold open; o corpo (fatia bíblica, exegese, Cristo, fecho) começa depois dela.
+- [ ] Texto bíblico apresentado no cold open e contado logo após a vinheta; cena e ângulo do plano presentes.
 - [ ] Arco CQR tecido no pensamento (sem precisar das palavras).
 - [ ] Cristo no centro pela via do plano, amarrado à abertura.
 - [ ] Exegese cultural com a matéria e o ídolo do plano; sem lista, sem personagem inventado.

@@ -31,6 +31,7 @@ Abstração é onde o texto morre. Troque por **coisa**: objeto, gesto, lugar.
 - **Sem número/estatística inventada.** Concreto **sensorial**, não numérico. Se não pode garantir o dado, não crava o dado.
 - Regra prática: ao reler, todo conceito solto ("as pessoas buscam validação") vira cena apontável.
 - **Abertura: prefira a micro-cena à afirmação genérica.** Em vez de "alguém pergunta como você tá e você responde 'tudo ótimo'", ponha a cena específica: "você sai cedo pro trabalho, o porteiro pergunta 'bom dia, doutor, tudo bem?', e você já solta 'tudo ótimo' — só que não tá nada ótimo." Mesma ideia, mas com lugar, gesto e fala — o ouvinte entra pela cena, não pelo conceito. Use 2ª pessoa e uma figura anônima reconhecível (ver seção 2), nunca um personagem com nome inventado.
+- **Entre convidando (frame + cena).** O melhor cold open não solta a cena crua — chama o ouvinte pra dentro com um `Sabe quando…`, `Imagina…`, `Repara…` **e emenda na micro-cena concreta**. "Sabe quando você chega em casa e a mão já corre pro controle da TV?" convida; "Você chega em casa, tá tudo quieto" soa vindo do nada. O frame convidativo é bom-vindo **desde que venha com a cena concreta atrás** — sozinho ("todo mundo já...", "sabe como é...") vira a afirmação genérica que a gente evita.
 
 ## 4. Gancho-curiosidade (causo do mundo)
 
