@@ -53,10 +53,11 @@ Depois do rascunho, faça uma passagem **só de estilo** (não mude teologia nem
 
 Coloque **logo abaixo do título** (`# ...`), **antes** da introdução de gravação.
 
-- Uma **única frase factual** com **até 3 afirmações objetivas**.
+- É uma **sinopse do texto bíblico** — descreve **o que acontece na passagem**, nunca o episódio, o tema do devocional ou a aplicação.
+- Uma **única frase factual** com **até 3 afirmações objetivas** (quem faz o quê).
 - Foque em começo, virada e desfecho da leitura; não descreva todos os beats.
 - Pode encadear as 3 afirmações com vírgulas.
-- Evite: voz impessoal ("descreve-se"), verbos vagos ("aborda", "trata de"), detalhamento excessivo.
+- Evite: voz impessoal ("descreve-se"), verbos vagos ("aborda", "trata de", "reflete sobre"), detalhamento excessivo, qualquer menção ao devocional/episódio ("neste episódio…").
 - Exemplo de formato: *Davi envelhece e Adonias tenta o trono, Bate-Seba e Natã intervêm, e Salomão é ungido rei.*
 
 ## Saída 2: Introdução de gravação (obrigatória)

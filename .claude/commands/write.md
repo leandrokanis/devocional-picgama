@@ -31,7 +31,7 @@ Se o plano indicar matéria cultural de `docs/estilo/temas-criticos.md`, leia ta
 
 **1. Título** — `DD/MM: Quando [criativo] ([Referência Bíblica])`. Use o do plano ou uma alternativa.
 
-**2. Descrição Spotify** — uma frase factual, até 3 afirmações objetivas encadeadas. Sem voz impessoal, sem verbo vago.
+**2. Descrição Spotify** — **sinopse do texto bíblico**, não do episódio. Uma frase factual sobre **o que acontece na passagem** (quem faz o quê: começo, virada, desfecho da leitura), até 3 afirmações objetivas encadeadas por vírgulas. Sem voz impessoal, sem verbo vago ("aborda", "trata de", "reflete sobre"), sem mencionar o devocional, o tema ou a aplicação. Exemplo: *Noemi volta de Moabe sem rumo, Rute permanece com ela em fidelidade, e Boaz promove o resgate da família.*
 
 **3. Introdução de gravação** — um parágrafo corrido, sem rótulo:
 `Bom dia, hoje é dia {N} de {mês por extenso} e vamos refletir sobre o texto de {referência em minúsculas}: {parte "Quando ..." do título}.`
