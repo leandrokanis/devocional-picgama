@@ -12,13 +12,42 @@ export interface Recipient {
 export interface DevotionalAudio {
   originalName: string;
   sizeBytes: number;
+  durationSeconds: number | null;
   updatedAt: string;
+}
+
+export type ReadingStatus = 'pending' | 'published';
+
+export interface ReadingPublication {
+  chatId: string;
+  groupName: string;
+  publishedAt: string;
 }
 
 export interface DevotionalReading {
   date: string;
-  reading: string;
+  passage: string;
+  title: string;
+  description: string;
+  link: string;
   audio: DevotionalAudio | null;
+  status: ReadingStatus;
+  publishedAt: string | null;
+  updatedAt: string;
+  publications?: ReadingPublication[];
+}
+
+export interface ReadingInput {
+  date: string;
+  passage: string;
+  title?: string;
+  description?: string;
+  link?: string;
+}
+
+export interface ImportResult {
+  imported: number;
+  skipped: number;
 }
 
 export interface HealthResponse {

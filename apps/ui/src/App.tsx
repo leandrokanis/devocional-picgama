@@ -3,6 +3,7 @@ import { AuthGuard } from './components/auth-guard';
 import { AppShellLayout } from './layouts/app-shell-layout';
 import { DashboardPage } from './pages/dashboard-page';
 import { LoginPage } from './pages/login-page';
+import { ReadingDetailPage } from './pages/reading-detail-page';
 import { ReadingsPage } from './pages/readings-page';
 import { RecipientsPage } from './pages/recipients-page';
 import { SchedulerPage } from './pages/scheduler-page';
@@ -32,6 +33,8 @@ export function App() {
         <Route path="/whatsapp" element={<WhatsAppPage />} />
         <Route path="/recipients" element={<RecipientsPage />} />
         <Route path="/readings" element={<ReadingsPage />} />
+        <Route path="/readings/new" element={<ReadingDetailPage />} />
+        <Route path="/readings/:date" element={<ReadingDetailPage />} />
         <Route path="/scheduler" element={<SchedulerPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>

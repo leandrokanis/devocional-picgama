@@ -3,7 +3,7 @@ import { mkdir, readFile, rename, rm, writeFile } from 'fs/promises';
 import path from 'path';
 import type { PrismaClient } from '@prisma/client';
 import { logger } from '../utils/logger.js';
-import type { AudioConverter } from './audio-converter.js';
+import type { AudioConverter, VoiceNoteResult } from './audio-converter.js';
 
 export type AudioUpload = {
   originalName: string;
@@ -14,6 +14,7 @@ export type AudioUpload = {
 export type AudioMetadata = {
   originalName: string;
   sizeBytes: number;
+  durationSeconds: number | null;
   updatedAt: Date;
 };
 
@@ -23,6 +24,13 @@ export class AudioUploadError extends Error {
   constructor(public readonly reason: AudioUploadErrorReason, message: string) {
     super(message);
     this.name = 'AudioUploadError';
+  }
+}
+
+export class AudioConflictError extends Error {
+  constructor(public readonly date: string) {
+    super(`Audio already exists for ${date}`);
+    this.name = 'AudioConflictError';
   }
 }
 
@@ -62,11 +70,11 @@ export class AudioService {
     const filePath = this.filePathFor(date);
     try {
       await writeFile(tempInput, upload.data);
-      await this.convert(tempInput, tempOutput);
+      const { durationSeconds } = await this.convert(tempInput, tempOutput);
       const hadPrevious = await moveIfExists(filePath, backupPath);
       await rename(tempOutput, filePath);
       try {
-        const data = { filePath, originalName: upload.originalName, sizeBytes: upload.data.length };
+        const data = { filePath, originalName: upload.originalName, sizeBytes: upload.data.length, durationSeconds };
         const record = await this.prisma.devotionalAudio.upsert({
           where: { date },
           create: { date, ...data },
@@ -101,6 +109,21 @@ export class AudioService {
     return true;
   }
 
+  public async move(from: string, to: string): Promise<boolean> {
+    const record = await this.findRecord(from);
+    if (!record) return false;
+    if (await this.findRecord(to)) throw new AudioConflictError(to);
+    const filePath = this.filePathFor(to);
+    await rename(record.filePath, filePath);
+    try {
+      await this.prisma.devotionalAudio.update({ where: { date: from }, data: { date: to, filePath } });
+    } catch (error) {
+      await rename(filePath, record.filePath);
+      throw error;
+    }
+    return true;
+  }
+
   public async readFile(date: string): Promise<Buffer | null> {
     const record = await this.findRecord(date);
     if (!record) return null;
@@ -117,9 +140,9 @@ export class AudioService {
     return this.prisma.devotionalAudio.findUnique({ where: { date } });
   }
 
-  private async convert(inputPath: string, outputPath: string): Promise<void> {
+  private async convert(inputPath: string, outputPath: string): Promise<VoiceNoteResult> {
     try {
-      await this.converter.toVoiceNote(inputPath, outputPath);
+      return await this.converter.toVoiceNote(inputPath, outputPath);
     } catch (error) {
       const detail = error instanceof Error ? error.message : String(error);
       throw new AudioUploadError('conversion_failed', `Could not convert the mp3 file: ${detail}`);
@@ -131,6 +154,11 @@ export class AudioService {
   }
 
   private toMetadata(record: AudioMetadata): AudioMetadata {
-    return { originalName: record.originalName, sizeBytes: record.sizeBytes, updatedAt: record.updatedAt };
+    return {
+      originalName: record.originalName,
+      sizeBytes: record.sizeBytes,
+      durationSeconds: record.durationSeconds,
+      updatedAt: record.updatedAt
+    };
   }
 }

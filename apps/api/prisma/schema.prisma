@@ -35,12 +35,36 @@ model WhatsAppKey {
 }
 
 model DevotionalAudio {
-  date         String   @id
-  filePath     String   @map("file_path")
-  originalName String   @map("original_name")
-  sizeBytes    Int      @map("size_bytes")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  date            String   @id
+  filePath        String   @map("file_path")
+  originalName    String   @map("original_name")
+  sizeBytes       Int      @map("size_bytes")
+  durationSeconds Int?     @map("duration_seconds")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@map("devotional_audios")
+}
+
+model ScheduledReading {
+  date        String   @id
+  title       String
+  description String   @default("")
+  passage     String
+  link        String   @default("")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("scheduled_readings")
+}
+
+model ReadingPublication {
+  id          Int      @id @default(autoincrement())
+  readingDate String   @map("reading_date")
+  chatId      String   @map("chat_id")
+  groupName   String   @map("group_name")
+  publishedAt DateTime @default(now()) @map("published_at")
+
+  @@index([readingDate])
+  @@map("reading_publications")
 }

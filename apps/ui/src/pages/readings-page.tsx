@@ -1,177 +1,272 @@
-import { Alert, Button, FileButton, Group, Modal, Stack, Table, Text, TextInput, Title } from '@mantine/core';
-import { IconPlayerPlay, IconReplace, IconTrash, IconUpload } from '@tabler/icons-react';
+import { Alert, Badge, Button, FileButton, Group, Stack, Table, Text, TextInput, Title } from '@mantine/core';
+import { IconFileImport, IconPlus } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
-import { useState } from 'react';
-import type { DevotionalReading } from '@devocional/shared';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import type { ImportResult } from '@devocional/shared';
 import { useApi } from '../services/api-provider';
-import type { ReadingsResponse } from '../types/api';
+import type { ImportReadingsResponse, ReadingsResponse } from '../types/api';
+import { formatDuration } from '../utils/audio-format';
+import { isCompleteDate } from '../utils/date-input';
+import { readListSearch, saveListSearch } from '../utils/readings-list-search';
+import type { ReadingDetailState } from './reading-detail-page';
 
-type AudioUpload = { date: string; file: File };
-
-const MP3_ACCEPT = 'audio/mpeg,.mp3';
+const JSON_ACCEPT = 'application/json,.json';
 const ICON_SIZE = 14;
 
-const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+type ReadingRange = { from: string; to: string };
+
+const localToday = () => {
+  const now = new Date();
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+};
+
+// Without "from" in the URL the list starts today; "Todas" writes an explicit empty "from=" to opt out.
+const rangeFromParams = (params: URLSearchParams): ReadingRange => ({
+  from: params.has('from') ? params.get('from') ?? '' : localToday(),
+  to: params.get('to') ?? ''
+});
+
+const rangeQuery = ({ from, to }: ReadingRange) => {
+  const params = new URLSearchParams();
+  if (from) params.set('from', from);
+  if (to) params.set('to', to);
+  const query = params.toString();
+  return query ? `?${query}` : '';
+};
+
+
+type DateFilterInputProps = {
+  label: string;
+  value: string;
+  min?: string;
+  max?: string;
+  onCommit: (value: string) => void;
+};
+
+function DateFilterInput({ label, value, min, max, onCommit }: DateFilterInputProps) {
+  const [draft, setDraft] = useState(value);
+
+  useEffect(() => setDraft(value), [value]);
+
+  const settle = () => {
+    if (draft === '') {
+      if (value !== '') onCommit('');
+    } else if (!isCompleteDate(draft)) {
+      setDraft(value);
+    }
+  };
+
+  return (
+    <TextInput
+      type="date"
+      label={label}
+      value={draft}
+      min={min}
+      max={max}
+      onChange={(event) => {
+        const next = event.currentTarget.value;
+        setDraft(next);
+        if (isCompleteDate(next) && next !== value) onCommit(next);
+      }}
+      onBlur={settle}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') settle();
+      }}
+    />
+  );
+}
 
 const errorMessage = (error: unknown, fallback: string) => {
-  if (isAxiosError<{ error?: string }>(error)) {
-    if (error.response?.status === 413) return error.response.data?.error || 'Arquivo acima do limite permitido.';
-    return error.response?.data?.error || fallback;
-  }
+  if (isAxiosError<{ error?: string }>(error)) return error.response?.data?.error || fallback;
   return fallback;
 };
 
 export function ReadingsPage() {
-  const { api, token } = useApi();
+  const { api } = useApi();
   const queryClient = useQueryClient();
-  const [date, setDate] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  // Opening the list with no filter in the URL (menu, Voltar) brings back the last filter used in this tab.
+  const storedSearch = location.search ? '' : readListSearch();
+  const range = rangeFromParams(storedSearch ? new URLSearchParams(storedSearch) : searchParams);
+
+  // A custom De/Até range selects neither preset.
+  const showsUpcoming = range.from === localToday() && !range.to;
+  const showsAll = !range.from && !range.to;
+
+  useEffect(() => {
+    if (storedSearch) setSearchParams(new URLSearchParams(storedSearch), { replace: true });
+    else if (location.search) saveListSearch(location.search);
+  }, [location.search, storedSearch, setSearchParams]);
   const [error, setError] = useState<string | null>(null);
-  const [playing, setPlaying] = useState<DevotionalReading | null>(null);
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
 
   const readings = useQuery({
-    queryKey: ['readings', date],
-    queryFn: async () => {
-      const suffix = date ? `?date=${date}` : '';
-      return (await api.get<ReadingsResponse>(`/readings${suffix}`)).data;
-    }
+    queryKey: ['readings', range.from, range.to],
+    queryFn: async () => (await api.get<ReadingsResponse>(`/readings${rangeQuery(range)}`)).data
   });
 
-  const refreshReadings = () => queryClient.invalidateQueries({ queryKey: ['readings'] });
+  const setRange = (next: ReadingRange) => {
+    const params = new URLSearchParams();
+    params.set('from', next.from);
+    if (next.to) params.set('to', next.to);
+    setSearchParams(params, { replace: true });
+  };
 
-  const uploadAudio = useMutation({
-    mutationFn: async ({ date: readingDate, file }: AudioUpload) => {
-      const form = new FormData();
-      form.append('file', file);
-      // Override the client's default JSON Content-Type so the browser sends multipart with its boundary.
-      return api.put(`/readings/${readingDate}/audio`, form, { headers: { 'Content-Type': 'multipart/form-data' } });
+  const importReadings = useMutation({
+    mutationFn: async (file: File) => {
+      let items: unknown;
+      try {
+        items = JSON.parse(await file.text());
+      } catch {
+        throw new Error('O arquivo não é um JSON válido.');
+      }
+      return (await api.post<ImportReadingsResponse>('/readings/import', items)).data;
     },
-    onMutate: () => setError(null),
-    onError: (mutationError) => setError(errorMessage(mutationError, 'Não foi possível enviar o áudio.')),
-    onSettled: refreshReadings
+    onMutate: () => {
+      setError(null);
+      setImportResult(null);
+    },
+    onSuccess: ({ imported, skipped }) => setImportResult({ imported, skipped }),
+    onError: (mutationError) =>
+      setError(
+        mutationError instanceof Error && !isAxiosError(mutationError)
+          ? mutationError.message
+          : errorMessage(mutationError, 'Não foi possível importar o arquivo.')
+      ),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['readings'] })
   });
 
-  const removeAudio = useMutation({
-    mutationFn: async (readingDate: string) => api.delete(`/readings/${readingDate}/audio`),
-    onMutate: () => setError(null),
-    onError: (mutationError) => setError(errorMessage(mutationError, 'Não foi possível remover o áudio.')),
-    onSettled: refreshReadings
-  });
-
-  const isUploading = (readingDate: string) => uploadAudio.isPending && uploadAudio.variables?.date === readingDate;
-  const isRemoving = (readingDate: string) => removeAudio.isPending && removeAudio.variables === readingDate;
-
-  const onFileSelected = (readingDate: string) => (file: File | null) => {
-    if (file) uploadAudio.mutate({ date: readingDate, file });
+  const onImportSelected = (file: File | null) => {
+    if (file) importReadings.mutate(file);
   };
 
-  const confirmRemove = (reading: DevotionalReading) => {
-    if (window.confirm(`Remover o áudio de ${reading.date}?`)) removeAudio.mutate(reading.date);
-  };
-
-  const audioSrc = (reading: DevotionalReading) =>
-    `/api/readings/${reading.date}/audio?token=${encodeURIComponent(token)}&v=${encodeURIComponent(reading.audio?.updatedAt ?? '')}`;
+  const detailState: ReadingDetailState = { listSearch: location.search };
+  const openReading = (date: string) => navigate(`/readings/${date}`, { state: detailState });
 
   return (
     <Stack>
-      <Title order={2}>Leituras</Title>
-      <Group>
-        <TextInput
-          placeholder="YYYY-MM-DD"
-          value={date}
-          onChange={(event) => {
-            const value = event.currentTarget.value;
-            setDate(value);
-          }}
+      <Group justify="space-between">
+        <Title order={2}>Leituras</Title>
+        <Group>
+          <FileButton onChange={onImportSelected} accept={JSON_ACCEPT}>
+            {(props) => (
+              <Button
+                {...props}
+                variant="light"
+                leftSection={<IconFileImport size={ICON_SIZE} />}
+                loading={importReadings.isPending}
+              >
+                Importar JSON
+              </Button>
+            )}
+          </FileButton>
+          <Button
+            leftSection={<IconPlus size={ICON_SIZE} />}
+            onClick={() => navigate('/readings/new', { state: detailState })}
+          >
+            Nova leitura
+          </Button>
+        </Group>
+      </Group>
+      <Group align="flex-end">
+        <DateFilterInput
+          label="De"
+          value={range.from}
+          max={range.to || undefined}
+          onCommit={(from) => setRange({ ...range, from })}
         />
-        <Button onClick={() => readings.refetch()}>Filtrar</Button>
+        <DateFilterInput
+          label="Até"
+          value={range.to}
+          min={range.from || undefined}
+          onCommit={(to) => setRange({ ...range, to })}
+        />
+        <Button.Group>
+          <Button
+            variant={showsUpcoming ? 'filled' : 'default'}
+            aria-pressed={showsUpcoming}
+            onClick={() => setRange({ from: localToday(), to: '' })}
+          >
+            Próximas
+          </Button>
+          <Button
+            variant={showsAll ? 'filled' : 'default'}
+            aria-pressed={showsAll}
+            onClick={() => setRange({ from: '', to: '' })}
+          >
+            Todas
+          </Button>
+        </Button.Group>
       </Group>
       {error && (
-        <Alert color="red" title="Erro no áudio" withCloseButton onClose={() => setError(null)}>
+        <Alert color="red" title="Erro" withCloseButton onClose={() => setError(null)}>
           {error}
         </Alert>
       )}
-      <Table withTableBorder striped>
+      {importResult && (
+        <Alert color="green" title="Import concluído" withCloseButton onClose={() => setImportResult(null)}>
+          {importResult.imported} importadas, {importResult.skipped} ignoradas
+        </Alert>
+      )}
+      <Table withTableBorder striped highlightOnHover>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Data</Table.Th>
-            <Table.Th>Leitura</Table.Th>
-            <Table.Th>Áudio</Table.Th>
-            <Table.Th ta="right">Ações</Table.Th>
+            <Table.Th>Passagem</Table.Th>
+            <Table.Th>Título</Table.Th>
+            <Table.Th>Status</Table.Th>
+            <Table.Th>Duração</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
           {(readings.data?.data || []).map((reading) => (
-            <Table.Tr key={`${reading.date}-${reading.reading}`}>
+            <Table.Tr
+              key={reading.date}
+              onClick={() => openReading(reading.date)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') openReading(reading.date);
+              }}
+              tabIndex={0}
+              style={{ cursor: 'pointer' }}
+            >
               <Table.Td>{reading.date}</Table.Td>
-              <Table.Td>{reading.reading}</Table.Td>
+              <Table.Td>{reading.passage}</Table.Td>
               <Table.Td>
-                {reading.audio ? (
-                  <Text size="sm" truncate maw={260} title={reading.audio.originalName}>
-                    {reading.audio.originalName} · {formatSize(reading.audio.sizeBytes)}
+                {reading.title ? (
+                  <Text size="sm" truncate maw={320} title={reading.title}>
+                    {reading.title}
                   </Text>
                 ) : (
-                  <FileButton onChange={onFileSelected(reading.date)} accept={MP3_ACCEPT}>
-                    {(props) => (
-                      <Button
-                        {...props}
-                        size="xs"
-                        variant="light"
-                        leftSection={<IconUpload size={ICON_SIZE} />}
-                        loading={isUploading(reading.date)}
-                      >
-                        Anexar mp3
-                      </Button>
-                    )}
-                  </FileButton>
+                  <Text size="sm" c="dimmed">
+                    —
+                  </Text>
                 )}
               </Table.Td>
               <Table.Td>
-                <Group gap="xs" wrap="nowrap" justify="flex-end">
-                  {reading.audio && (
-                    <>
-                      <Button
-                        size="xs"
-                        variant="light"
-                        leftSection={<IconPlayerPlay size={ICON_SIZE} />}
-                        onClick={() => setPlaying(reading)}
-                      >
-                        Ouvir
-                      </Button>
-                      <FileButton onChange={onFileSelected(reading.date)} accept={MP3_ACCEPT}>
-                        {(props) => (
-                          <Button
-                            {...props}
-                            size="xs"
-                            variant="light"
-                            leftSection={<IconReplace size={ICON_SIZE} />}
-                            loading={isUploading(reading.date)}
-                          >
-                            Substituir
-                          </Button>
-                        )}
-                      </FileButton>
-                      <Button
-                        size="xs"
-                        color="red"
-                        variant="subtle"
-                        leftSection={<IconTrash size={ICON_SIZE} />}
-                        loading={isRemoving(reading.date)}
-                        onClick={() => confirmRemove(reading)}
-                      >
-                        Remover
-                      </Button>
-                    </>
-                  )}
-                </Group>
+                {reading.status === 'published' ? (
+                  <Badge color="green" variant="light">
+                    Publicado
+                  </Badge>
+                ) : (
+                  <Badge color="gray" variant="light">
+                    Pendente
+                  </Badge>
+                )}
+              </Table.Td>
+              <Table.Td>
+                <Text size="sm" c={reading.audio?.durationSeconds == null ? 'dimmed' : undefined}>
+                  {formatDuration(reading.audio?.durationSeconds)}
+                </Text>
               </Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>
       </Table>
-      <Modal opened={playing !== null} onClose={() => setPlaying(null)} title={playing ? `Áudio de ${playing.date}` : ''}>
-        {playing && <audio controls autoPlay style={{ width: '100%' }} src={audioSrc(playing)} />}
-      </Modal>
     </Stack>
   );
 }

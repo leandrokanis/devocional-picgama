@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { readdirSync, readFileSync, unlinkSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
-import type { AudioConverter } from './audio-converter.js';
+import type { AudioConverter, VoiceNoteResult } from './audio-converter.js';
 import { AudioService, type AudioUpload } from './audio.js';
 import { createTestDatabase, type TestDatabase } from './test-db.js';
 import { logger } from '../utils/logger.js';
@@ -12,11 +12,13 @@ const MAX_BYTES = 1024;
 
 class FakeConverter implements AudioConverter {
   public failWith: Error | null = null;
+  public durationSeconds: number | null = null;
 
-  async toVoiceNote(inputPath: string, outputPath: string): Promise<void> {
+  async toVoiceNote(inputPath: string, outputPath: string): Promise<VoiceNoteResult> {
     if (this.failWith) throw this.failWith;
     const input = await readFile(inputPath);
     await writeFile(outputPath, Buffer.concat([Buffer.from('ogg:'), input]));
+    return { durationSeconds: this.durationSeconds };
   }
 }
 
@@ -133,6 +135,14 @@ describe('AudioService.save', () => {
   });
 });
 
+describe('AudioService duration', () => {
+  test('save records the duration the converter measured, and get returns it', async () => {
+    converter.durationSeconds = 206;
+    await service.save(DATE, mp3('first'));
+    expect((await service.get(DATE))?.durationSeconds).toBe(206);
+  });
+});
+
 describe('AudioService.get', () => {
   test('returns null for a date without audio', async () => {
     expect(await service.get(DATE)).toBeNull();
@@ -141,12 +151,14 @@ describe('AudioService.get', () => {
 
 describe('AudioService.list', () => {
   test('maps each date with audio to its metadata', async () => {
+    converter.durationSeconds = 65;
     await service.save(DATE, mp3('first'));
+    converter.durationSeconds = null;
     await service.save('2026-01-03', mp3('other', 'tres.mp3'));
     const list = await service.list();
     expect(list).toEqual({
-      [DATE]: { originalName: 'devocional.mp3', sizeBytes: 5, updatedAt: expect.any(Date) },
-      '2026-01-03': { originalName: 'tres.mp3', sizeBytes: 5, updatedAt: expect.any(Date) }
+      [DATE]: { originalName: 'devocional.mp3', sizeBytes: 5, durationSeconds: 65, updatedAt: expect.any(Date) },
+      '2026-01-03': { originalName: 'tres.mp3', sizeBytes: 5, durationSeconds: null, updatedAt: expect.any(Date) }
     });
   });
 });
@@ -193,5 +205,60 @@ describe('AudioService.readFile', () => {
       result: null,
       warned: true
     });
+  });
+});
+
+describe('AudioService.move', () => {
+  const TO = '2026-01-05';
+
+  test('moves the voice note to the new date: file renamed, record re-dated, nothing left on the old date', async () => {
+    converter.durationSeconds = 206;
+    await service.save(DATE, mp3('first'));
+    await service.move(DATE, TO);
+    expect({
+      dir: readdirSync(audioDir),
+      old: await service.get(DATE),
+      moved: await service.get(TO),
+      bytes: (await service.readFile(TO))?.toString()
+    }).toEqual({
+      dir: [`${TO}.ogg`],
+      old: null,
+      moved: { originalName: 'devocional.mp3', sizeBytes: 5, durationSeconds: 206, updatedAt: expect.any(Date) },
+      bytes: 'ogg:first'
+    });
+  });
+
+  test('refuses to move onto a date that already has audio, leaving both voice notes untouched', async () => {
+    await service.save(DATE, mp3('first'));
+    await service.save(TO, mp3('orphan', 'orfao.mp3'));
+    await expect(service.move(DATE, TO)).rejects.toMatchObject({ name: 'AudioConflictError' });
+    expect({
+      dir: readdirSync(audioDir).sort(),
+      from: (await service.readFile(DATE))?.toString(),
+      to: (await service.readFile(TO))?.toString(),
+      toMeta: await service.get(TO)
+    }).toMatchObject({
+      dir: [`${DATE}.ogg`, `${TO}.ogg`],
+      from: 'ogg:first',
+      to: 'ogg:orphan',
+      toMeta: { originalName: 'orfao.mp3' }
+    });
+  });
+
+  test('when the database write fails, the file goes back to the old date and the record stays there', async () => {
+    await service.save(DATE, mp3('first'));
+    await db.prisma.$executeRawUnsafe(
+      "CREATE TRIGGER fail_move BEFORE UPDATE ON devotional_audios BEGIN SELECT RAISE(ABORT, 'db down'); END;"
+    );
+    await expect(service.move(DATE, TO)).rejects.toThrow();
+    expect({
+      dir: readdirSync(audioDir),
+      bytes: (await service.readFile(DATE))?.toString(),
+      moved: await service.get(TO)
+    }).toEqual({ dir: [`${DATE}.ogg`], bytes: 'ogg:first', moved: null });
+  });
+
+  test('returns false and does nothing when the old date has no audio', async () => {
+    expect(await service.move(DATE, TO)).toBe(false);
   });
 });
