@@ -10,8 +10,7 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:4000',
         changeOrigin: true,
-        rewrite: (p) =>
-          p.startsWith('/api/recipients') ? p : p.replace(/^\/api/, '')
+        rewrite: (p) => p.replace(/^\/api/, '')
       }
     }
   }
