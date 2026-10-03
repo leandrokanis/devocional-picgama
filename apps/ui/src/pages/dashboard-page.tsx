@@ -15,7 +15,7 @@ export function DashboardPage() {
 
   const recipients = useQuery({
     queryKey: ['recipients-count'],
-    queryFn: async () => (await api.get<{ data: Array<unknown> }>('/api/recipients')).data.data.length
+    queryFn: async () => (await api.get<{ data: Array<unknown> }>('/recipients')).data.data.length
   });
 
   const today = useQuery({

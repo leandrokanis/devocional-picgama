@@ -349,7 +349,7 @@ async function main() {
       });
     }
 
-    if (url.pathname === '/api/recipients' && req.method === 'GET') {
+    if (url.pathname === '/recipients' && req.method === 'GET') {
       const authError = checkAuth(req);
       if (authError) return authError;
       const data = await bot.recipientsService.getAll();
@@ -359,7 +359,7 @@ async function main() {
       });
     }
 
-    if (url.pathname === '/api/recipients' && req.method === 'POST') {
+    if (url.pathname === '/recipients' && req.method === 'POST') {
       const authError = checkAuth(req);
       if (authError) return authError;
       const payload = await parseJsonBody<RecipientPayload>(req);
@@ -388,7 +388,7 @@ async function main() {
       }
     }
 
-    const recipientSendMatch = url.pathname.match(/^\/(?:api\/)?recipients\/(\d+)\/send$/);
+    const recipientSendMatch = url.pathname.match(/^\/recipients\/(\d+)\/send$/);
     if (recipientSendMatch && req.method === 'POST') {
       const authError = checkAuth(req);
       if (authError) return authError;
@@ -402,7 +402,7 @@ async function main() {
       });
     }
 
-    const recipientMatch = url.pathname.match(/^\/api\/recipients\/(\d+)$/);
+    const recipientMatch = url.pathname.match(/^\/recipients\/(\d+)$/);
     if (recipientMatch) {
       const authError = checkAuth(req);
       if (authError) return authError;

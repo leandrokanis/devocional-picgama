@@ -25,11 +25,11 @@ export function RecipientsPage() {
 
   const recipients = useQuery({
     queryKey: ['recipients'],
-    queryFn: async () => (await api.get<{ data: Recipient[] }>('/api/recipients')).data.data
+    queryFn: async () => (await api.get<{ data: Recipient[] }>('/recipients')).data.data
   });
 
   const createRecipient = useMutation({
-    mutationFn: async (payload: FormState) => api.post('/api/recipients', payload),
+    mutationFn: async (payload: FormState) => api.post('/recipients', payload),
     onSuccess: () => {
       recipients.refetch();
       setForm(defaultForm);
@@ -38,7 +38,7 @@ export function RecipientsPage() {
   });
 
   const updateRecipient = useMutation({
-    mutationFn: async (payload: FormState) => api.put(`/api/recipients/${payload.id}`, payload),
+    mutationFn: async (payload: FormState) => api.put(`/recipients/${payload.id}`, payload),
     onSuccess: () => {
       recipients.refetch();
       setForm(defaultForm);
@@ -47,14 +47,14 @@ export function RecipientsPage() {
   });
 
   const deleteRecipient = useMutation({
-    mutationFn: async (id: number) => api.delete(`/api/recipients/${id}`),
+    mutationFn: async (id: number) => api.delete(`/recipients/${id}`),
     onSuccess: () => recipients.refetch()
   });
 
   const [sendingId, setSendingId] = useState<number | null>(null);
 
   const sendToRecipient = useMutation({
-    mutationFn: async (id: number) => api.post(`/api/recipients/${id}/send`),
+    mutationFn: async (id: number) => api.post(`/recipients/${id}/send`),
     onMutate: (id) => setSendingId(id),
     onSettled: () => setSendingId(null),
     onSuccess: () => recipients.refetch()

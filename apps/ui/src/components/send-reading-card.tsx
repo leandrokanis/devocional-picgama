@@ -42,7 +42,7 @@ export function SendReadingCard({ date, hasPendingEdit }: SendReadingCardProps) 
 
   const recipients = useQuery({
     queryKey: ['recipients'],
-    queryFn: async () => (await api.get<RecipientsResponse>('/api/recipients')).data.data
+    queryFn: async () => (await api.get<RecipientsResponse>('/recipients')).data.data
   });
 
   const sendReading = useMutation({
