@@ -1,114 +1,63 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { formatDate, getDateString } from '../utils/date.js';
-import { logger } from '../utils/logger.js';
-import { UrlShortenerService } from './url-shortener.js';
-
-export interface DevotionalReading {
-  date: string;
-  reading: string;
-}
+import type { ReadingsService } from './readings.js';
+import type { UrlShortenerService } from './url-shortener.js';
 
 export interface DevotionalMessage {
   date: string;
   formattedDate: string;
-  reading: string;
+  passage: string;
+  title: string;
+  description: string;
+  link: string;
 }
 
-export interface FormatMessageOptions {
-  hasAudio?: boolean;
-}
+export type ReadingSource = Pick<ReadingsService, 'get'>;
+export type UrlShortener = Pick<UrlShortenerService, 'shorten'>;
 
-const AUDIO_LINK = 'https://is.gd/rjLzat';
+const formatPassageForUrl = (passage: string): string =>
+  passage
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '%20');
+
+const bibleGatewayLink = (passage: string): string =>
+  `https://www.biblegateway.com/passage/?search=${formatPassageForUrl(passage)}&version=NVI-PT&interface=print`;
 
 export class DevotionalService {
-  private readings: DevotionalReading[] = [];
-  private dataPath: string;
-  private urlShortener: UrlShortenerService | null;
+  constructor(
+    private readonly readings: ReadingSource,
+    private readonly urlShortener: UrlShortener | null = null
+  ) {}
 
-  constructor(dataPath?: string, urlShortener?: UrlShortenerService) {
-    this.dataPath = dataPath || join(process.cwd(), 'data', 'readings-2026.json');
-    this.urlShortener = urlShortener || null;
-    this.loadReadings();
-  }
-
-  private normalizeReading(input: unknown): DevotionalReading | null {
-    if (!input || typeof input !== 'object') return null;
-    const candidate = input as Record<string, unknown>;
-    const date = candidate.date;
-    const reading = candidate.reading;
-    if (typeof date !== 'string' || date.trim() === '') return null;
-    if (typeof reading !== 'string' || reading.trim() === '') return null;
-    return { date, reading };
-  }
-
-  private loadReadings(): void {
-    try {
-      const fileContent = readFileSync(this.dataPath, 'utf-8');
-      const parsed = JSON.parse(fileContent) as unknown;
-      if (!Array.isArray(parsed)) throw new Error('Readings data is not an array');
-      this.readings = parsed.map((item) => {
-        const normalized = this.normalizeReading(item);
-        if (!normalized) throw new Error('Invalid reading format');
-        return normalized;
-      });
-      logger.info(`Loaded ${this.readings.length} devotional readings`);
-    } catch (error) {
-      logger.error('Error loading devotional readings', error);
-      throw new Error('Failed to load devotional readings from JSON file');
-    }
-  }
-
-  public getTodaysReading(): DevotionalMessage | null {
+  public async getTodaysReading(): Promise<DevotionalMessage | null> {
     return this.getReadingForDate(new Date());
   }
 
-  public getTodaysReadingBasic(): DevotionalReading | null {
-    const dateString = getDateString(new Date());
-    return this.readings.find((r) => r.date === dateString) || null;
-  }
-
-  public getReadingForDate(date: Date): DevotionalMessage | null {
-    const dateString = getDateString(date);
-    const reading = this.readings.find((r) => r.date === dateString);
+  public async getReadingForDate(date: Date): Promise<DevotionalMessage | null> {
+    const reading = await this.readings.get(getDateString(date));
     if (!reading) return null;
     return {
       date: reading.date,
       formattedDate: formatDate(date),
-      reading: reading.reading
+      passage: reading.passage,
+      title: reading.title,
+      description: reading.description,
+      link: reading.link
     };
   }
 
-  public getAllReadings(dateFilter?: string): DevotionalReading[] {
-    if (!dateFilter) return [...this.readings];
-    return this.readings.filter((reading) => reading.date === dateFilter);
-  }
-
-  public getReadingsCount(): number {
-    return this.readings.length;
-  }
-
-  public validateReadings(): boolean {
-    return Array.isArray(this.readings) && this.readings.every((r) => Boolean(r.date && r.reading));
-  }
-
-  private formatReadingForUrl(reading: string): string {
-    return reading
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/\s+/g, '%20');
-  }
-
-  private generateBibleGatewayLink(reading: string): string {
-    return `https://www.biblegateway.com/passage/?search=${this.formatReadingForUrl(reading)}&version=NVI-PT&interface=print`;
-  }
-
-  public async formatMessage(devotional: DevotionalMessage, options: FormatMessageOptions = {}): Promise<string> {
-    const originalLink = this.generateBibleGatewayLink(devotional.reading);
+  public async formatReadingMessage(devotional: DevotionalMessage): Promise<string> {
+    const originalLink = bibleGatewayLink(devotional.passage);
     const link = this.urlShortener ? await this.urlShortener.shorten(originalLink) : originalLink;
-    const text = `📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.reading}\n\n🔗 Leia: ${link}`;
-    if (options.hasAudio) return text;
-    return `${text}\n\n🎧 Devocional em áudio: ${AUDIO_LINK}`;
+    return `Vamos ler a Bíblia hoje?\n\n📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.passage}\n\n🔗 Leia: ${link}`;
+  }
+
+  public formatDevotionalMessage(devotional: DevotionalMessage): string | null {
+    if (devotional.title.trim() === '') return null;
+    const lines = [`🎧 *${devotional.title}*`];
+    if (devotional.description.trim() !== '') lines.push(devotional.description);
+    if (devotional.link.trim() !== '') lines.push(`▶️ Ouça no Spotify: ${devotional.link}`);
+    return lines.join('\n\n');
   }
 }

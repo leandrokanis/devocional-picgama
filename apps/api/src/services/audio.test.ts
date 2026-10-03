@@ -195,3 +195,57 @@ describe('AudioService.readFile', () => {
     });
   });
 });
+
+describe('AudioService.move', () => {
+  const TO = '2026-01-05';
+
+  test('moves the voice note to the new date: file renamed, record re-dated, nothing left on the old date', async () => {
+    await service.save(DATE, mp3('first'));
+    await service.move(DATE, TO);
+    expect({
+      dir: readdirSync(audioDir),
+      old: await service.get(DATE),
+      moved: await service.get(TO),
+      bytes: (await service.readFile(TO))?.toString()
+    }).toEqual({
+      dir: [`${TO}.ogg`],
+      old: null,
+      moved: { originalName: 'devocional.mp3', sizeBytes: 5, updatedAt: expect.any(Date) },
+      bytes: 'ogg:first'
+    });
+  });
+
+  test('refuses to move onto a date that already has audio, leaving both voice notes untouched', async () => {
+    await service.save(DATE, mp3('first'));
+    await service.save(TO, mp3('orphan', 'orfao.mp3'));
+    await expect(service.move(DATE, TO)).rejects.toMatchObject({ name: 'AudioConflictError' });
+    expect({
+      dir: readdirSync(audioDir).sort(),
+      from: (await service.readFile(DATE))?.toString(),
+      to: (await service.readFile(TO))?.toString(),
+      toMeta: await service.get(TO)
+    }).toMatchObject({
+      dir: [`${DATE}.ogg`, `${TO}.ogg`],
+      from: 'ogg:first',
+      to: 'ogg:orphan',
+      toMeta: { originalName: 'orfao.mp3' }
+    });
+  });
+
+  test('when the database write fails, the file goes back to the old date and the record stays there', async () => {
+    await service.save(DATE, mp3('first'));
+    await db.prisma.$executeRawUnsafe(
+      "CREATE TRIGGER fail_move BEFORE UPDATE ON devotional_audios BEGIN SELECT RAISE(ABORT, 'db down'); END;"
+    );
+    await expect(service.move(DATE, TO)).rejects.toThrow();
+    expect({
+      dir: readdirSync(audioDir),
+      bytes: (await service.readFile(DATE))?.toString(),
+      moved: await service.get(TO)
+    }).toEqual({ dir: [`${DATE}.ogg`], bytes: 'ogg:first', moved: null });
+  });
+
+  test('returns false and does nothing when the old date has no audio', async () => {
+    expect(await service.move(DATE, TO)).toBe(false);
+  });
+});

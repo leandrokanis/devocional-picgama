@@ -26,6 +26,13 @@ export class AudioUploadError extends Error {
   }
 }
 
+export class AudioConflictError extends Error {
+  constructor(public readonly date: string) {
+    super(`Audio already exists for ${date}`);
+    this.name = 'AudioConflictError';
+  }
+}
+
 const isMissingFile = (error: unknown) => (error as NodeJS.ErrnoException)?.code === 'ENOENT';
 
 const moveIfExists = async (from: string, to: string): Promise<boolean> => {
@@ -98,6 +105,21 @@ export class AudioService {
     if (!record) return false;
     await this.prisma.devotionalAudio.delete({ where: { date } });
     await rm(record.filePath, { force: true });
+    return true;
+  }
+
+  public async move(from: string, to: string): Promise<boolean> {
+    const record = await this.findRecord(from);
+    if (!record) return false;
+    if (await this.findRecord(to)) throw new AudioConflictError(to);
+    const filePath = this.filePathFor(to);
+    await rename(record.filePath, filePath);
+    try {
+      await this.prisma.devotionalAudio.update({ where: { date: from }, data: { date: to, filePath } });
+    } catch (error) {
+      await rename(filePath, record.filePath);
+      throw error;
+    }
     return true;
   }
 

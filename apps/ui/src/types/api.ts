@@ -1,4 +1,4 @@
-import type { DevotionalReading, Recipient, SchedulerStatus } from '@devocional/shared';
+import type { DevotionalReading, ImportResult, Recipient, SchedulerStatus } from '@devocional/shared';
 
 export type HealthResponse = {
   status: string;
@@ -17,6 +17,15 @@ export type ReadingsResponse = {
     count: number;
     filteredBy?: string;
   };
+};
+
+export type ReadingResponse = {
+  success: boolean;
+  data: DevotionalReading;
+};
+
+export type ImportReadingsResponse = ImportResult & {
+  success: boolean;
 };
 
 export type QrResponse = {

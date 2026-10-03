@@ -17,8 +17,24 @@ export interface DevotionalAudio {
 
 export interface DevotionalReading {
   date: string;
-  reading: string;
+  passage: string;
+  title: string;
+  description: string;
+  link: string;
   audio: DevotionalAudio | null;
+}
+
+export interface ReadingInput {
+  date: string;
+  passage: string;
+  title?: string;
+  description?: string;
+  link?: string;
+}
+
+export interface ImportResult {
+  imported: number;
+  skipped: number;
 }
 
 export interface HealthResponse {

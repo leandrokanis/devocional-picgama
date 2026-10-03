@@ -1,6 +1,7 @@
 import { Card, Grid, Stack, Text, Title } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../services/api-provider';
+import type { DevotionalReading } from '@devocional/shared';
 import type { HealthResponse } from '../types/api';
 
 export function DashboardPage() {
@@ -19,7 +20,7 @@ export function DashboardPage() {
 
   const today = useQuery({
     queryKey: ['reading-today'],
-    queryFn: async () => (await api.get<{ date: string; reading: string }>('/readings/today')).data
+    queryFn: async () => (await api.get<DevotionalReading>('/readings/today')).data
   });
 
   return (
@@ -48,7 +49,7 @@ export function DashboardPage() {
       <Card withBorder>
         <Text c="dimmed" size="sm">Leitura de hoje</Text>
         <Text fw={700}>{today.data?.date ?? '-'}</Text>
-        <Text>{today.data?.reading ?? 'Sem leitura disponível'}</Text>
+        <Text>{today.data?.passage ?? 'Sem leitura disponível'}</Text>
       </Card>
     </Stack>
   );

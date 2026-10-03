@@ -15,10 +15,18 @@ import { AudioService, AudioUploadError } from './services/audio.js';
 import { FfmpegAudioConverter } from './services/audio-converter.js';
 import { DevotionalService } from './services/devotional.js';
 import { DevotionalSender } from './services/devotional-sender.js';
+import {
+  ReadingError,
+  ReadingsService,
+  type ReadingErrorReason,
+  type ReadingInput,
+  type ReadingUpdate
+} from './services/readings.js';
 import { RecipientsService } from './services/recipients.js';
 import { SchedulerService } from './services/scheduler.js';
 import { UrlShortenerService } from './services/url-shortener.js';
 import { WhatsAppService } from './services/whatsapp.js';
+import { getDateString } from './utils/date.js';
 import { logger } from './utils/logger.js';
 
 type RecipientPayload = {
@@ -35,6 +43,10 @@ type LoginPayload = {
 const BYTES_PER_MB = 1024 * 1024;
 const MULTIPART_OVERHEAD_BYTES = 1 * BYTES_PER_MB;
 const AUDIO_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})\/audio$/;
+const READINGS_ROUTE = /^\/(?:api\/)?readings$/;
+const READINGS_IMPORT_ROUTE = /^\/(?:api\/)?readings\/import$/;
+const READING_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})$/;
+const READING_ERROR_STATUS: Record<ReadingErrorReason, number> = { invalid: 400, not_found: 404, conflict: 409 };
 
 const resolveAudioConfig = () => {
   const audioDir = process.env.AUDIO_DIR?.trim() || path.resolve(__dirname, '../../../data/audio');
@@ -52,9 +64,9 @@ class DevotionalBot {
   public recipientsService: RecipientsService;
   public currentQRCode: string | null = null;
 
-  constructor(audioService: AudioService) {
+  constructor(audioService: AudioService, readingsService: ReadingsService) {
     const urlShortener = new UrlShortenerService();
-    this.devotionalService = new DevotionalService(process.env.DATA_PATH, urlShortener);
+    this.devotionalService = new DevotionalService(readingsService, urlShortener);
     this.whatsappService = new WhatsAppService({
       sessionName: process.env.WHATSAPP_SESSION_NAME || 'devocional-bot',
       debug: process.env.DEBUG === 'true'
@@ -73,9 +85,6 @@ class DevotionalBot {
 
   public async initialize(): Promise<void> {
     if (this.isInitialized) return;
-    if (!this.devotionalService.validateReadings()) {
-      throw new Error('Invalid devotional readings data');
-    }
     await this.whatsappService.initialize();
     this.isInitialized = true;
   }
@@ -83,7 +92,7 @@ class DevotionalBot {
   public async sendTodaysDevotional(): Promise<boolean> {
     try {
       if (!this.isInitialized) await this.initialize();
-      const todaysReading = this.devotionalService.getTodaysReading();
+      const todaysReading = await this.findTodaysReading();
       if (!todaysReading) return false;
       const recipients = await this.recipientsService.getAll();
       if (!recipients.length) return false;
@@ -99,13 +108,19 @@ class DevotionalBot {
       if (!this.isInitialized) await this.initialize();
       const recipient = await this.recipientsService.getById(recipientId);
       if (!recipient) return false;
-      const todaysReading = this.devotionalService.getTodaysReading();
+      const todaysReading = await this.findTodaysReading();
       if (!todaysReading) return false;
       return await this.devotionalSender.send(todaysReading, [recipient.chatId]);
     } catch (error) {
       logger.error('Error sending devotional to recipient', error);
       return false;
     }
+  }
+
+  private async findTodaysReading() {
+    const todaysReading = await this.devotionalService.getTodaysReading();
+    if (!todaysReading) logger.warn(`No reading scheduled for ${getDateString(new Date())}; nothing was sent`);
+    return todaysReading;
   }
 
   public async close(): Promise<void> {
@@ -142,18 +157,6 @@ class DevotionalBot {
 
   public stopScheduler(): void {
     this.schedulerService.stop();
-  }
-
-  public getTodaysReadingBasic() {
-    return this.devotionalService.getTodaysReadingBasic();
-  }
-
-  public getAllReadings(dateFilter?: string) {
-    return this.devotionalService.getAllReadings(dateFilter);
-  }
-
-  public hasReading(date: string): boolean {
-    return this.devotionalService.getAllReadings(date).length > 0;
   }
 }
 
@@ -216,6 +219,12 @@ const jsonResponse = (status: number, body: unknown) =>
     headers: addCorsHeaders({ 'Content-Type': 'application/json' })
   });
 
+const readingErrorResponse = (error: unknown, action: string) => {
+  if (error instanceof ReadingError) return jsonResponse(READING_ERROR_STATUS[error.reason], { success: false, error: error.message });
+  logger.error(`Failed to ${action}`, error);
+  return jsonResponse(500, { success: false, error: `Failed to ${action}` });
+};
+
 const isTooLargeAudioUpload = (method: string | undefined, pathname: string, contentLength: number, maxRequestBytes: number) =>
   method === 'PUT' && AUDIO_ROUTE.test(pathname) && contentLength > maxRequestBytes;
 
@@ -223,7 +232,8 @@ async function main() {
   const audioConfig = resolveAudioConfig();
   mkdirSync(audioConfig.audioDir, { recursive: true });
   const audioService = new AudioService(prisma, new FfmpegAudioConverter(), audioConfig.audioDir, audioConfig.maxBytes);
-  const bot = new DevotionalBot(audioService);
+  const readingsService = new ReadingsService(prisma, audioService);
+  const bot = new DevotionalBot(audioService, readingsService);
   const command = process.argv[2];
 
   if (command === 'send') {
@@ -472,7 +482,7 @@ async function main() {
       const date = audioMatch[1]!;
 
       if (req.method === 'PUT') {
-        if (!bot.hasReading(date)) return jsonResponse(404, { success: false, error: 'No reading found for this date' });
+        if (!(await readingsService.get(date))) return jsonResponse(404, { success: false, error: 'No reading found for this date' });
         let file: unknown;
         try {
           file = (await req.formData()).get('file');
@@ -516,33 +526,64 @@ async function main() {
     }
 
     if (url.pathname === '/readings/today' && req.method === 'GET') {
-      const reading = bot.getTodaysReadingBasic();
-      if (!reading) {
-        return new Response(JSON.stringify({ error: 'No devotional reading found for today' }), {
-          status: 404,
-          headers: addCorsHeaders({ 'Content-Type': 'application/json' })
-        });
-      }
-      return new Response(JSON.stringify(reading), {
-        status: 200,
-        headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+      const reading = await readingsService.get(getDateString(new Date()));
+      if (!reading) return jsonResponse(404, { error: 'No devotional reading found for today' });
+      return jsonResponse(200, reading);
+    }
+
+    if (READINGS_ROUTE.test(url.pathname) && req.method === 'GET') {
+      const dateFilter = url.searchParams.get('date');
+      const readings = await readingsService.list(dateFilter || undefined);
+      return jsonResponse(200, {
+        data: readings,
+        metadata: { count: readings.length, ...(dateFilter ? { filteredBy: dateFilter } : {}) }
       });
     }
 
-    if (url.pathname === '/readings' && req.method === 'GET') {
-      const dateFilter = url.searchParams.get('date');
-      const audios = await audioService.list();
-      const readings = bot.getAllReadings(dateFilter || undefined).map((reading) => ({
-        ...reading,
-        audio: audios[reading.date] ?? null
-      }));
-      return new Response(JSON.stringify({
-        data: readings,
-        metadata: { count: readings.length, ...(dateFilter ? { filteredBy: dateFilter } : {}) }
-      }), {
-        status: 200,
-        headers: addCorsHeaders({ 'Content-Type': 'application/json' })
-      });
+    if (READINGS_ROUTE.test(url.pathname) && req.method === 'POST') {
+      const authError = checkAuth(req);
+      if (authError) return authError;
+      const payload = await parseJsonBody<unknown>(req);
+      if (!payload) return jsonResponse(400, { success: false, error: 'Invalid JSON body' });
+      try {
+        return jsonResponse(201, { success: true, data: await readingsService.create(payload as ReadingInput) });
+      } catch (error) {
+        return readingErrorResponse(error, 'create reading');
+      }
+    }
+
+    if (READINGS_IMPORT_ROUTE.test(url.pathname) && req.method === 'POST') {
+      const authError = checkAuth(req);
+      if (authError) return authError;
+      const payload = await parseJsonBody<unknown>(req);
+      try {
+        const result = await readingsService.import(payload);
+        return jsonResponse(200, { success: true, ...result });
+      } catch (error) {
+        return readingErrorResponse(error, 'import readings');
+      }
+    }
+
+    const readingMatch = url.pathname.match(READING_ROUTE);
+    if (readingMatch && ['PUT', 'DELETE'].includes(req.method)) {
+      const authError = checkAuth(req);
+      if (authError) return authError;
+      const date = readingMatch[1]!;
+      if (req.method === 'DELETE') {
+        try {
+          await readingsService.remove(date);
+          return new Response(null, { status: 204, headers: addCorsHeaders() });
+        } catch (error) {
+          return readingErrorResponse(error, 'delete reading');
+        }
+      }
+      const payload = await parseJsonBody<unknown>(req);
+      if (!payload || typeof payload !== 'object') return jsonResponse(400, { success: false, error: 'Invalid JSON body' });
+      try {
+        return jsonResponse(200, { success: true, data: await readingsService.update(date, payload as ReadingUpdate) });
+      } catch (error) {
+        return readingErrorResponse(error, 'update reading');
+      }
     }
 
     if (url.pathname === '/scheduler/status' && req.method === 'GET') {
