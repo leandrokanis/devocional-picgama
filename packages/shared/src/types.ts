@@ -70,3 +70,17 @@ export interface ApiResponse<T = unknown> {
   error?: string;
   message?: string;
 }
+
+export interface ManualSendRequest {
+  recipientIds: number[];
+}
+
+export type ManualSendStatus = 'sent' | 'sent_with_warnings' | 'failed';
+
+export interface ManualSendResult {
+  recipientId: number;
+  name: string;
+  status: ManualSendStatus;
+  warnings: string[];
+  error?: string;
+}

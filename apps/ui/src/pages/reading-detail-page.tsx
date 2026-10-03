@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { DevotionalReading, ReadingInput } from '@devocional/shared';
 import { AudioDropzone } from '../components/audio-dropzone';
+import { SendReadingCard } from '../components/send-reading-card';
 import { useApi } from '../services/api-provider';
 import { readListSearch } from '../utils/readings-list-search';
 import type { ReadingResponse } from '../types/api';
@@ -389,6 +390,7 @@ export function ReadingDetailPage() {
                 />
               </Stack>
             </Card>
+            {!isNew && routeDate && <SendReadingCard date={routeDate} hasPendingEdit={dirty || saveReading.isPending} />}
           </Stack>
         </Grid.Col>
       </Grid>

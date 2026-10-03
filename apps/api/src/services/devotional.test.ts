@@ -58,6 +58,31 @@ describe('DevotionalService.getReadingForDate', () => {
   });
 });
 
+describe('DevotionalService.getReading', () => {
+  const originalTz = process.env.TZ;
+
+  afterEach(() => {
+    process.env.TZ = originalTz;
+  });
+
+  test('builds the message of the reading of that date, with the date taken from the string even in a negative time zone', async () => {
+    process.env.TZ = 'America/Sao_Paulo';
+    await readings.create({ date: '2026-01-01', passage: 'Gênesis 1-3', title: TITLE, description: 'd', link: 'l' });
+    expect(await service.getReading('2026-01-01')).toEqual<DevotionalMessage>({
+      date: '2026-01-01',
+      formattedDate: '01/01/2026',
+      passage: 'Gênesis 1-3',
+      title: TITLE,
+      description: 'd',
+      link: 'l'
+    });
+  });
+
+  test('returns null for a date without a reading', async () => {
+    expect(await service.getReading('2026-01-01')).toBeNull();
+  });
+});
+
 const SHORT = 'https://is.gd/short';
 
 class FakeShortener {

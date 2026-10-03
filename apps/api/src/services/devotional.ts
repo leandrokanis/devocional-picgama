@@ -1,4 +1,4 @@
-import { formatDate, getDateString } from '../utils/date.js';
+import { getDateString } from '../utils/date.js';
 import type { ReadingsService } from './readings.js';
 import type { UrlShortenerService } from './url-shortener.js';
 
@@ -13,6 +13,11 @@ export interface DevotionalMessage {
 
 export type ReadingSource = Pick<ReadingsService, 'get'>;
 export type UrlShortener = Pick<UrlShortenerService, 'shorten'>;
+
+const formatDateString = (date: string): string => {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+};
 
 const formatPassageForUrl = (passage: string): string =>
   passage
@@ -35,11 +40,15 @@ export class DevotionalService {
   }
 
   public async getReadingForDate(date: Date): Promise<DevotionalMessage | null> {
-    const reading = await this.readings.get(getDateString(date));
+    return this.getReading(getDateString(date));
+  }
+
+  public async getReading(date: string): Promise<DevotionalMessage | null> {
+    const reading = await this.readings.get(date);
     if (!reading) return null;
     return {
       date: reading.date,
-      formattedDate: formatDate(date),
+      formattedDate: formatDateString(reading.date),
       passage: reading.passage,
       title: reading.title,
       description: reading.description,
