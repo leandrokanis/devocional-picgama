@@ -207,3 +207,45 @@ describe('DevotionalSender.send recording publications', () => {
     });
   });
 });
+
+describe('DevotionalSender.sendEach', () => {
+  const summary = (results: Awaited<ReturnType<DevotionalSender['sendEach']>>) =>
+    results.map(({ target, delivered, warnings }) => ({ chatId: target.chatId, delivered, warned: warnings.length > 0 }));
+
+  test('returns one result per target, in order: delivered without warnings when everything goes', async () => {
+    const results = await senderWith(Buffer.from('ogg')).sendEach(devotional(), [group('a'), person('b')]);
+    expect(summary(results)).toEqual([
+      { chatId: 'a', delivered: true, warned: false },
+      { chatId: 'b', delivered: true, warned: false }
+    ]);
+  });
+
+  test('a failed voice note keeps the target delivered, with a warning', async () => {
+    vi.spyOn(logger, 'warn').mockImplementation(() => {});
+    messenger.failing.push({ chatId: 'a', kind: 'voice' });
+    const results = await senderWith(Buffer.from('ogg')).sendEach(devotional(), groups('a', 'b'));
+    expect(summary(results)).toEqual([
+      { chatId: 'a', delivered: true, warned: true },
+      { chatId: 'b', delivered: true, warned: false }
+    ]);
+  });
+
+  test('a failed devotional message keeps the target delivered, with a warning', async () => {
+    vi.spyOn(logger, 'warn').mockImplementation(() => {});
+    messenger.failing.push({ chatId: 'b', kind: 'devotional' });
+    const results = await senderWith(null).sendEach(devotional(), groups('a', 'b'));
+    expect(summary(results)).toEqual([
+      { chatId: 'a', delivered: true, warned: false },
+      { chatId: 'b', delivered: true, warned: true }
+    ]);
+  });
+
+  test('a target whose reading message fails is not delivered, and the next one still is', async () => {
+    messenger.failing.push({ chatId: 'a', kind: 'reading' });
+    const results = await senderWith(null).sendEach(devotional(), groups('a', 'b'));
+    expect(summary(results)).toEqual([
+      { chatId: 'a', delivered: false, warned: false },
+      { chatId: 'b', delivered: true, warned: false }
+    ]);
+  });
+});

@@ -16,6 +16,13 @@ export interface PublicationRecorder {
 
 export type SendTarget = { chatId: string; name: string; type: 'group' | 'person' };
 
+export type SendResult = { target: SendTarget; delivered: boolean; warnings: string[] };
+
+type SendContent = { date: string; reading: string; devotional: string | null; audio: Buffer | null };
+
+const DEVOTIONAL_FAILED_WARNING = 'A mensagem do devocional não foi entregue; a leitura foi enviada.';
+const VOICE_FAILED_WARNING = 'O áudio não foi entregue; a leitura foi enviada.';
+
 export class DevotionalSender {
   constructor(
     private readonly devotionalService: DevotionalService,
@@ -25,25 +32,37 @@ export class DevotionalSender {
   ) {}
 
   public async send(devotional: DevotionalMessage, targets: SendTarget[]): Promise<boolean> {
-    const audio = await this.audioSource.readFile(devotional.date);
-    const readingMessage = await this.devotionalService.formatReadingMessage(devotional);
-    const devotionalMessage = this.devotionalService.formatDevotionalMessage(devotional);
-    let delivered = 0;
-    for (const target of targets) {
-      const { chatId } = target;
-      const readingSent = await this.messenger.sendDevotionalMessage(readingMessage, chatId);
-      if (!readingSent) continue;
-      delivered += 1;
-      if (target.type === 'group') await this.recordPublication(devotional.date, target);
-      if (devotionalMessage) {
-        const devotionalSent = await this.messenger.sendDevotionalMessage(devotionalMessage, chatId);
-        if (!devotionalSent) logger.warn(`Devotional message for ${devotional.date} failed for ${chatId}; reading was delivered`);
-      }
-      if (!audio) continue;
-      const voiceSent = await this.messenger.sendVoiceMessage(audio, chatId);
-      if (!voiceSent) logger.warn(`Voice note for ${devotional.date} failed for ${chatId}; reading was delivered`);
+    const results = await this.sendEach(devotional, targets);
+    return results.some((result) => result.delivered);
+  }
+
+  public async sendEach(devotional: DevotionalMessage, targets: SendTarget[]): Promise<SendResult[]> {
+    const content: SendContent = {
+      date: devotional.date,
+      reading: await this.devotionalService.formatReadingMessage(devotional),
+      devotional: this.devotionalService.formatDevotionalMessage(devotional),
+      audio: await this.audioSource.readFile(devotional.date)
+    };
+    const results: SendResult[] = [];
+    for (const target of targets) results.push(await this.sendTo(target, content));
+    return results;
+  }
+
+  private async sendTo(target: SendTarget, content: SendContent): Promise<SendResult> {
+    const { chatId } = target;
+    const readingSent = await this.messenger.sendDevotionalMessage(content.reading, chatId);
+    if (!readingSent) return { target, delivered: false, warnings: [] };
+    if (target.type === 'group') await this.recordPublication(content.date, target);
+    const warnings: string[] = [];
+    if (content.devotional && !(await this.messenger.sendDevotionalMessage(content.devotional, chatId))) {
+      logger.warn(`Devotional message for ${content.date} failed for ${chatId}; reading was delivered`);
+      warnings.push(DEVOTIONAL_FAILED_WARNING);
     }
-    return delivered > 0;
+    if (content.audio && !(await this.messenger.sendVoiceMessage(content.audio, chatId))) {
+      logger.warn(`Voice note for ${content.date} failed for ${chatId}; reading was delivered`);
+      warnings.push(VOICE_FAILED_WARNING);
+    }
+    return { target, delivered: true, warnings };
   }
 
   private async recordPublication(date: string, target: SendTarget): Promise<void> {

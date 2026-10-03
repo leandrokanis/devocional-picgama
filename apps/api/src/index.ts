@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import type { ManualSendResult } from '@devocional/shared';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { randomBytes, timingSafeEqual } from 'crypto';
@@ -15,6 +16,12 @@ import { AudioService, AudioUploadError } from './services/audio.js';
 import { FfmpegAudioConverter } from './services/audio-converter.js';
 import { DevotionalService } from './services/devotional.js';
 import { DevotionalSender, type SendTarget } from './services/devotional-sender.js';
+import {
+  ManualSendService,
+  NoRecipientsSelectedError,
+  ReadingNotFoundError,
+  WhatsAppDisconnectedError
+} from './services/manual-send.js';
 import { PublicationsService } from './services/publications.js';
 import {
   ReadingError,
@@ -47,6 +54,7 @@ const AUDIO_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})\/audio$/;
 const READINGS_ROUTE = /^\/(?:api\/)?readings$/;
 const READINGS_IMPORT_ROUTE = /^\/(?:api\/)?readings\/import$/;
 const READING_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})$/;
+const READING_SEND_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})\/send$/;
 const READING_ERROR_STATUS: Record<ReadingErrorReason, number> = { invalid: 400, not_found: 404, conflict: 409 };
 
 const toSendTarget = ({ chatId, name, type }: Recipient): SendTarget => ({ chatId, name, type });
@@ -63,6 +71,7 @@ class DevotionalBot {
   private whatsappService: WhatsAppService;
   private devotionalSender: DevotionalSender;
   private schedulerService: SchedulerService;
+  private manualSendService: ManualSendService;
   private isInitialized = false;
   public recipientsService: RecipientsService;
   public currentQRCode: string | null = null;
@@ -76,6 +85,7 @@ class DevotionalBot {
     });
     this.recipientsService = new RecipientsService();
     this.devotionalSender = new DevotionalSender(this.devotionalService, audioService, this.whatsappService, publicationsService);
+    this.manualSendService = new ManualSendService(this, this.devotionalService, this.recipientsService, this.devotionalSender);
     this.whatsappService.onQRCodeGenerated = (base64: string) => {
       this.currentQRCode = base64;
     };
@@ -118,6 +128,17 @@ class DevotionalBot {
       logger.error('Error sending devotional to recipient', error);
       return false;
     }
+  }
+
+  public async sendReadingToRecipients(date: string, recipientIds: number[]): Promise<ManualSendResult[]> {
+    if (!this.isInitialized) {
+      try {
+        await this.initialize();
+      } catch (error) {
+        logger.warn('WhatsApp initialization failed before a manual send', error);
+      }
+    }
+    return this.manualSendService.send(date, recipientIds);
   }
 
   private async findTodaysReading() {
@@ -226,6 +247,22 @@ const readingErrorResponse = (error: unknown, action: string) => {
   if (error instanceof ReadingError) return jsonResponse(READING_ERROR_STATUS[error.reason], { success: false, error: error.message });
   logger.error(`Failed to ${action}`, error);
   return jsonResponse(500, { success: false, error: `Failed to ${action}` });
+};
+
+const parseRecipientIds = (payload: unknown): number[] | null => {
+  if (!payload || typeof payload !== 'object') return null;
+  const ids = (payload as { recipientIds?: unknown }).recipientIds;
+  if (!Array.isArray(ids) || ids.length === 0) return null;
+  if (!ids.every((id): id is number => Number.isInteger(id) && id > 0)) return null;
+  return ids;
+};
+
+const manualSendErrorResponse = (error: unknown) => {
+  if (error instanceof NoRecipientsSelectedError) return jsonResponse(400, { success: false, error: error.message });
+  if (error instanceof ReadingNotFoundError) return jsonResponse(404, { success: false, error: error.message });
+  if (error instanceof WhatsAppDisconnectedError) return jsonResponse(503, { success: false, error: error.message });
+  logger.error('Failed to send the reading to the selected recipients', error);
+  return jsonResponse(500, { success: false, error: 'Falha ao enviar a leitura.' });
 };
 
 const isTooLargeAudioUpload = (method: string | undefined, pathname: string, contentLength: number, maxRequestBytes: number) =>
@@ -527,6 +564,21 @@ async function main() {
           'Cache-Control': 'no-store'
         })
       });
+    }
+
+    const readingSendMatch = url.pathname.match(READING_SEND_ROUTE);
+    if (readingSendMatch && req.method === 'POST') {
+      const authError = checkAuth(req);
+      if (authError) return authError;
+      const recipientIds = parseRecipientIds(await parseJsonBody<unknown>(req));
+      if (!recipientIds) {
+        return jsonResponse(400, { success: false, error: 'Informe "recipientIds" com ao menos um ID numérico de destinatário.' });
+      }
+      try {
+        return jsonResponse(200, { success: true, data: await bot.sendReadingToRecipients(readingSendMatch[1]!, recipientIds) });
+      } catch (error) {
+        return manualSendErrorResponse(error);
+      }
     }
 
     if (url.pathname === '/readings/today' && req.method === 'GET') {

@@ -1,4 +1,4 @@
-import type { DevotionalReading, ImportResult, Recipient, SchedulerStatus } from '@devocional/shared';
+import type { DevotionalReading, ImportResult, ManualSendResult, Recipient, SchedulerStatus } from '@devocional/shared';
 
 export type HealthResponse = {
   status: string;
@@ -33,4 +33,9 @@ export type QrResponse = {
   connected: boolean;
   qr: string | null;
   message: string;
+};
+
+export type ManualSendResponse = {
+  success: boolean;
+  data: ManualSendResult[];
 };
