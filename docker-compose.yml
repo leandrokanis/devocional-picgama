@@ -20,6 +20,8 @@ services:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
       - DEBUG=${DEBUG:-false}
       - DATABASE_URL=file:/app/data/devocional.db
+      - AUDIO_DIR=/app/data/audio
+      - AUDIO_MAX_UPLOAD_MB=${AUDIO_MAX_UPLOAD_MB:-15}
     ports:
       - "${API_PORT:-4000}:4000"
     volumes:
@@ -55,11 +57,19 @@ services:
           description:
             en_US: Timezone.
             pt_BR: Fuso horario.
+        - container: AUDIO_MAX_UPLOAD_MB
+          description:
+            en_US: Maximum size (MB) of the devotional mp3 upload. Default 15.
+            pt_BR: Tamanho maximo (MB) do mp3 do devocional enviado pelo painel. Padrao 15.
+        - container: AUDIO_DIR
+          description:
+            en_US: Folder for the devotional voice notes (inside the /app/data volume).
+            pt_BR: Pasta dos audios do devocional (dentro do volume /app/data).
       volumes:
         - container: /app/data
           description:
-            en_US: Database and WhatsApp session data.
-            pt_BR: Dados do banco e sessao WhatsApp.
+            en_US: Database, WhatsApp session data and devotional audio files.
+            pt_BR: Dados do banco, sessao WhatsApp e audios do devocional.
 
   ui:
     image: devocional-picgama/ui:2.0.0

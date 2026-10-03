@@ -15,6 +15,12 @@ export interface DevotionalMessage {
   reading: string;
 }
 
+export interface FormatMessageOptions {
+  hasAudio?: boolean;
+}
+
+const AUDIO_LINK = 'https://is.gd/rjLzat';
+
 export class DevotionalService {
   private readings: DevotionalReading[] = [];
   private dataPath: string;
@@ -98,10 +104,11 @@ export class DevotionalService {
     return `https://www.biblegateway.com/passage/?search=${this.formatReadingForUrl(reading)}&version=NVI-PT&interface=print`;
   }
 
-  public async formatMessage(devotional: DevotionalMessage): Promise<string> {
+  public async formatMessage(devotional: DevotionalMessage, options: FormatMessageOptions = {}): Promise<string> {
     const originalLink = this.generateBibleGatewayLink(devotional.reading);
     const link = this.urlShortener ? await this.urlShortener.shorten(originalLink) : originalLink;
-    const audioLink = 'https://is.gd/rjLzat';
-    return `📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.reading}\n\n🔗 Leia: ${link}\n\n🎧 Devocional em áudio: ${audioLink}`;
+    const text = `📖 Leitura de hoje - ${devotional.formattedDate}\n\n${devotional.reading}\n\n🔗 Leia: ${link}`;
+    if (options.hasAudio) return text;
+    return `${text}\n\n🎧 Devocional em áudio: ${AUDIO_LINK}`;
   }
 }
