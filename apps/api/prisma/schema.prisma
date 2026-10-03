@@ -35,12 +35,13 @@ model WhatsAppKey {
 }
 
 model DevotionalAudio {
-  date         String   @id
-  filePath     String   @map("file_path")
-  originalName String   @map("original_name")
-  sizeBytes    Int      @map("size_bytes")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  date            String   @id
+  filePath        String   @map("file_path")
+  originalName    String   @map("original_name")
+  sizeBytes       Int      @map("size_bytes")
+  durationSeconds Int?     @map("duration_seconds")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@map("devotional_audios")
 }

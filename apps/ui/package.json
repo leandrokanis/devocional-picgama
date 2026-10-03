@@ -12,6 +12,7 @@
   "dependencies": {
     "@devocional/shared": "1.0.0",
     "@mantine/core": "^7.17.1",
+    "@mantine/dropzone": "^7.17.1",
     "@mantine/hooks": "^7.17.1",
     "@tabler/icons-react": "^3.48.0",
     "@tanstack/react-query": "^5.66.0",

@@ -532,11 +532,15 @@ async function main() {
     }
 
     if (READINGS_ROUTE.test(url.pathname) && req.method === 'GET') {
-      const dateFilter = url.searchParams.get('date');
-      const readings = await readingsService.list(dateFilter || undefined);
+      const date = url.searchParams.get('date') || undefined;
+      const range = {
+        from: url.searchParams.get('from') || date,
+        to: url.searchParams.get('to') || date
+      };
+      const readings = await readingsService.list(range);
       return jsonResponse(200, {
         data: readings,
-        metadata: { count: readings.length, ...(dateFilter ? { filteredBy: dateFilter } : {}) }
+        metadata: { count: readings.length, ...(range.from || range.to ? { range } : {}) }
       });
     }
 
@@ -565,6 +569,12 @@ async function main() {
     }
 
     const readingMatch = url.pathname.match(READING_ROUTE);
+    if (readingMatch && req.method === 'GET') {
+      const reading = await readingsService.get(readingMatch[1]!);
+      if (!reading) return jsonResponse(404, { success: false, error: 'No reading found for this date' });
+      return jsonResponse(200, { success: true, data: reading });
+    }
+
     if (readingMatch && ['PUT', 'DELETE'].includes(req.method)) {
       const authError = checkAuth(req);
       if (authError) return authError;

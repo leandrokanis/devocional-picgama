@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { readdirSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
-import type { AudioConverter } from './audio-converter.js';
+import type { AudioConverter, VoiceNoteResult } from './audio-converter.js';
 import { AudioService } from './audio.js';
 import { ReadingsService } from './readings.js';
 import { createTestDatabase, type TestDatabase } from './test-db.js';
@@ -16,9 +16,10 @@ const mp3 = (content: string, originalName = 'devocional.mp3') => ({
 const TITLE = '04/10: Quando uma criança fica no meio da roda (Mateus 16-18)';
 
 class FakeConverter implements AudioConverter {
-  async toVoiceNote(inputPath: string, outputPath: string): Promise<void> {
+  async toVoiceNote(inputPath: string, outputPath: string): Promise<VoiceNoteResult> {
     const input = await readFile(inputPath);
     await writeFile(outputPath, Buffer.concat([Buffer.from('ogg:'), input]));
+    return { durationSeconds: null };
   }
 }
 
@@ -61,7 +62,8 @@ describe('ReadingsService.create', () => {
       title: TITLE,
       description: 'Uma descrição',
       link: 'https://open.spotify.com/episode/x',
-      audio: null
+      audio: null,
+      status: 'pending'
     });
   });
 
@@ -103,10 +105,29 @@ describe('ReadingsService.list', () => {
   });
 });
 
-describe('ReadingsService.list with a date filter', () => {
-  test('returns only the reading of that date', async () => {
-    for (const date of ['2026-10-04', '2026-10-05']) await service.create({ date, passage: `P ${date}` });
-    expect((await service.list('2026-10-05')).map((reading) => reading.date)).toEqual(['2026-10-05']);
+describe('ReadingsService.list with a date range', () => {
+  const dates = ['2026-10-03', '2026-10-04', '2026-10-05', '2026-10-06'];
+  const listDates = async (range: { from?: string; to?: string }) =>
+    (await service.list(range)).map((reading) => reading.date);
+
+  beforeEach(async () => {
+    for (const date of dates) await service.create({ date, passage: `P ${date}` });
+  });
+
+  test('from keeps that date and the ones after it', async () => {
+    expect(await listDates({ from: '2026-10-04' })).toEqual(['2026-10-04', '2026-10-05', '2026-10-06']);
+  });
+
+  test('to keeps that date and the ones before it', async () => {
+    expect(await listDates({ to: '2026-10-04' })).toEqual(['2026-10-03', '2026-10-04']);
+  });
+
+  test('from and to together keep only the dates in between, inclusive', async () => {
+    expect(await listDates({ from: '2026-10-04', to: '2026-10-05' })).toEqual(['2026-10-04', '2026-10-05']);
+  });
+
+  test('the same from and to return only the reading of that date', async () => {
+    expect(await listDates({ from: '2026-10-05', to: '2026-10-05' })).toEqual(['2026-10-05']);
   });
 });
 
@@ -116,8 +137,33 @@ describe('ReadingsService audio attachment', () => {
     await audioService.save('2026-10-05', mp3('first'));
     expect((await service.list()).map(({ date, audio }) => ({ date, audio }))).toEqual([
       { date: '2026-10-04', audio: null },
-      { date: '2026-10-05', audio: { originalName: 'devocional.mp3', sizeBytes: 5, updatedAt: expect.any(Date) } }
+      { date: '2026-10-05', audio: { originalName: 'devocional.mp3', sizeBytes: 5, durationSeconds: null, updatedAt: expect.any(Date) } }
     ]);
+  });
+});
+
+describe('ReadingsService status', () => {
+  const cases = [
+    { label: 'title and audio', title: TITLE, withAudio: true, status: 'ready' },
+    { label: 'title without audio', title: TITLE, withAudio: false, status: 'pending' },
+    { label: 'audio without title', title: '', withAudio: true, status: 'pending' },
+    { label: 'neither title nor audio', title: '', withAudio: false, status: 'pending' },
+    { label: 'audio and a title of only spaces', title: '   ', withAudio: true, status: 'pending' }
+  ];
+
+  const prepare = async ({ title, withAudio }: { title: string; withAudio: boolean }) => {
+    await service.create({ date: '2026-10-04', passage: 'Mateus 16-18', title });
+    if (withAudio) await audioService.save('2026-10-04', mp3('first'));
+  };
+
+  test.each(cases)('get: a reading with $label is $status', async (scenario) => {
+    await prepare(scenario);
+    expect((await service.get('2026-10-04'))?.status).toBe(scenario.status);
+  });
+
+  test.each(cases)('list: a reading with $label is $status', async (scenario) => {
+    await prepare(scenario);
+    expect((await service.list()).map((reading) => reading.status)).toEqual([scenario.status]);
   });
 });
 
@@ -192,7 +238,7 @@ describe('ReadingsService.update changing the date of a reading with audio', () 
       oldAudio: await audioService.get('2026-10-04'),
       dir: readdirSync(audioDir)
     }).toEqual({
-      moved: { originalName: 'devocional.mp3', sizeBytes: 5, updatedAt: expect.any(Date) },
+      moved: { originalName: 'devocional.mp3', sizeBytes: 5, durationSeconds: null, updatedAt: expect.any(Date) },
       oldAudio: null,
       dir: ['2026-10-07.ogg']
     });
@@ -277,8 +323,8 @@ describe('ReadingsService.import', () => {
     expect({ result, readings: await service.list() }).toEqual({
       result: { imported: 2, skipped: 0 },
       readings: [
-        { date: '2026-10-04', passage: 'Mateus 16-18', title: '', description: '', link: '', audio: null },
-        { date: '2026-10-05', passage: 'Mateus 19-20', title: '', description: '', link: '', audio: null }
+        { date: '2026-10-04', passage: 'Mateus 16-18', title: '', description: '', link: '', audio: null, status: 'pending' },
+        { date: '2026-10-05', passage: 'Mateus 19-20', title: '', description: '', link: '', audio: null, status: 'pending' }
       ]
     });
   });

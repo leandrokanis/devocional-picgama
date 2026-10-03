@@ -15,7 +15,7 @@ export type ReadingsResponse = {
   data: DevotionalReading[];
   metadata: {
     count: number;
-    filteredBy?: string;
+    range?: { from?: string; to?: string };
   };
 };
 

@@ -12,8 +12,11 @@ export interface Recipient {
 export interface DevotionalAudio {
   originalName: string;
   sizeBytes: number;
+  durationSeconds: number | null;
   updatedAt: string;
 }
+
+export type ReadingStatus = 'ready' | 'pending';
 
 export interface DevotionalReading {
   date: string;
@@ -22,6 +25,7 @@ export interface DevotionalReading {
   description: string;
   link: string;
   audio: DevotionalAudio | null;
+  status: ReadingStatus;
 }
 
 export interface ReadingInput {

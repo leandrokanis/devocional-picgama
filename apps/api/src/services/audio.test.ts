@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { readdirSync, readFileSync, unlinkSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
-import type { AudioConverter } from './audio-converter.js';
+import type { AudioConverter, VoiceNoteResult } from './audio-converter.js';
 import { AudioService, type AudioUpload } from './audio.js';
 import { createTestDatabase, type TestDatabase } from './test-db.js';
 import { logger } from '../utils/logger.js';
@@ -12,11 +12,13 @@ const MAX_BYTES = 1024;
 
 class FakeConverter implements AudioConverter {
   public failWith: Error | null = null;
+  public durationSeconds: number | null = null;
 
-  async toVoiceNote(inputPath: string, outputPath: string): Promise<void> {
+  async toVoiceNote(inputPath: string, outputPath: string): Promise<VoiceNoteResult> {
     if (this.failWith) throw this.failWith;
     const input = await readFile(inputPath);
     await writeFile(outputPath, Buffer.concat([Buffer.from('ogg:'), input]));
+    return { durationSeconds: this.durationSeconds };
   }
 }
 
@@ -133,6 +135,14 @@ describe('AudioService.save', () => {
   });
 });
 
+describe('AudioService duration', () => {
+  test('save records the duration the converter measured, and get returns it', async () => {
+    converter.durationSeconds = 206;
+    await service.save(DATE, mp3('first'));
+    expect((await service.get(DATE))?.durationSeconds).toBe(206);
+  });
+});
+
 describe('AudioService.get', () => {
   test('returns null for a date without audio', async () => {
     expect(await service.get(DATE)).toBeNull();
@@ -141,12 +151,14 @@ describe('AudioService.get', () => {
 
 describe('AudioService.list', () => {
   test('maps each date with audio to its metadata', async () => {
+    converter.durationSeconds = 65;
     await service.save(DATE, mp3('first'));
+    converter.durationSeconds = null;
     await service.save('2026-01-03', mp3('other', 'tres.mp3'));
     const list = await service.list();
     expect(list).toEqual({
-      [DATE]: { originalName: 'devocional.mp3', sizeBytes: 5, updatedAt: expect.any(Date) },
-      '2026-01-03': { originalName: 'tres.mp3', sizeBytes: 5, updatedAt: expect.any(Date) }
+      [DATE]: { originalName: 'devocional.mp3', sizeBytes: 5, durationSeconds: 65, updatedAt: expect.any(Date) },
+      '2026-01-03': { originalName: 'tres.mp3', sizeBytes: 5, durationSeconds: null, updatedAt: expect.any(Date) }
     });
   });
 });
@@ -200,6 +212,7 @@ describe('AudioService.move', () => {
   const TO = '2026-01-05';
 
   test('moves the voice note to the new date: file renamed, record re-dated, nothing left on the old date', async () => {
+    converter.durationSeconds = 206;
     await service.save(DATE, mp3('first'));
     await service.move(DATE, TO);
     expect({
@@ -210,7 +223,7 @@ describe('AudioService.move', () => {
     }).toEqual({
       dir: [`${TO}.ogg`],
       old: null,
-      moved: { originalName: 'devocional.mp3', sizeBytes: 5, updatedAt: expect.any(Date) },
+      moved: { originalName: 'devocional.mp3', sizeBytes: 5, durationSeconds: 206, updatedAt: expect.any(Date) },
       bytes: 'ogg:first'
     });
   });

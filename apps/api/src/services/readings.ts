@@ -13,6 +13,8 @@ export type ReadingUpdate = Omit<ReadingInput, 'date'> & { date?: string };
 
 export type ImportResult = { imported: number; skipped: number };
 
+export type ReadingStatus = 'ready' | 'pending';
+
 export type Reading = {
   date: string;
   passage: string;
@@ -20,6 +22,7 @@ export type Reading = {
   description: string;
   link: string;
   audio: AudioMetadata | null;
+  status: ReadingStatus;
 };
 
 export type ReadingErrorReason = 'invalid' | 'not_found' | 'conflict';
@@ -31,7 +34,10 @@ export class ReadingError extends Error {
   }
 }
 
-type ReadingFields = Omit<Reading, 'audio'>;
+type ReadingFields = Omit<Reading, 'audio' | 'status'>;
+
+const statusOf = (title: string, audio: AudioMetadata | null): ReadingStatus =>
+  title.trim() !== '' && audio ? 'ready' : 'pending';
 
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -82,6 +88,8 @@ const tryValidate = (input: unknown): ReadingFields | null => {
     throw error;
   }
 };
+
+export type ReadingRange = { from?: string; to?: string };
 
 export class ReadingsService {
   constructor(
@@ -141,9 +149,9 @@ export class ReadingsService {
     });
   }
 
-  public async list(dateFilter?: string): Promise<Reading[]> {
+  public async list(range: ReadingRange = {}): Promise<Reading[]> {
     const records = await this.prisma.scheduledReading.findMany({
-      where: dateFilter ? { date: dateFilter } : undefined,
+      where: { date: { gte: range.from, lte: range.to } },
       orderBy: { date: 'asc' }
     });
     const audios = await this.audioService.list();
@@ -174,7 +182,8 @@ export class ReadingsService {
       title: record.title,
       description: record.description,
       link: record.link,
-      audio
+      audio,
+      status: statusOf(record.title, audio)
     };
   }
 }
