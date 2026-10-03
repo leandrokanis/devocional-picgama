@@ -2,12 +2,14 @@ import { Alert, Badge, Button, FileButton, Group, Stack, Table, Text, TextInput,
 import { IconFileImport, IconPlus } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import type { ImportResult } from '@devocional/shared';
 import { useApi } from '../services/api-provider';
 import type { ImportReadingsResponse, ReadingsResponse } from '../types/api';
 import { formatDuration } from '../utils/audio-format';
+import { isCompleteDate } from '../utils/date-input';
+import { readListSearch, saveListSearch } from '../utils/readings-list-search';
 import type { ReadingDetailState } from './reading-detail-page';
 
 const JSON_ACCEPT = 'application/json,.json';
@@ -35,6 +37,48 @@ const rangeQuery = ({ from, to }: ReadingRange) => {
   return query ? `?${query}` : '';
 };
 
+
+type DateFilterInputProps = {
+  label: string;
+  value: string;
+  min?: string;
+  max?: string;
+  onCommit: (value: string) => void;
+};
+
+function DateFilterInput({ label, value, min, max, onCommit }: DateFilterInputProps) {
+  const [draft, setDraft] = useState(value);
+
+  useEffect(() => setDraft(value), [value]);
+
+  const settle = () => {
+    if (draft === '') {
+      if (value !== '') onCommit('');
+    } else if (!isCompleteDate(draft)) {
+      setDraft(value);
+    }
+  };
+
+  return (
+    <TextInput
+      type="date"
+      label={label}
+      value={draft}
+      min={min}
+      max={max}
+      onChange={(event) => {
+        const next = event.currentTarget.value;
+        setDraft(next);
+        if (isCompleteDate(next) && next !== value) onCommit(next);
+      }}
+      onBlur={settle}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') settle();
+      }}
+    />
+  );
+}
+
 const errorMessage = (error: unknown, fallback: string) => {
   if (isAxiosError<{ error?: string }>(error)) return error.response?.data?.error || fallback;
   return fallback;
@@ -46,7 +90,18 @@ export function ReadingsPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const range = rangeFromParams(searchParams);
+  // Opening the list with no filter in the URL (menu, Voltar) brings back the last filter used in this tab.
+  const storedSearch = location.search ? '' : readListSearch();
+  const range = rangeFromParams(storedSearch ? new URLSearchParams(storedSearch) : searchParams);
+
+  // A custom De/Até range selects neither preset.
+  const showsUpcoming = range.from === localToday() && !range.to;
+  const showsAll = !range.from && !range.to;
+
+  useEffect(() => {
+    if (storedSearch) setSearchParams(new URLSearchParams(storedSearch), { replace: true });
+    else if (location.search) saveListSearch(location.search);
+  }, [location.search, storedSearch, setSearchParams]);
   const [error, setError] = useState<string | null>(null);
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
 
@@ -119,26 +174,34 @@ export function ReadingsPage() {
         </Group>
       </Group>
       <Group align="flex-end">
-        <TextInput
-          type="date"
+        <DateFilterInput
           label="De"
           value={range.from}
           max={range.to || undefined}
-          onChange={(event) => setRange({ ...range, from: event.currentTarget.value })}
+          onCommit={(from) => setRange({ ...range, from })}
         />
-        <TextInput
-          type="date"
+        <DateFilterInput
           label="Até"
           value={range.to}
           min={range.from || undefined}
-          onChange={(event) => setRange({ ...range, to: event.currentTarget.value })}
+          onCommit={(to) => setRange({ ...range, to })}
         />
-        <Button variant="light" onClick={() => setRange({ from: localToday(), to: '' })}>
-          Próximas
-        </Button>
-        <Button variant="subtle" onClick={() => setRange({ from: '', to: '' })}>
-          Todas
-        </Button>
+        <Button.Group>
+          <Button
+            variant={showsUpcoming ? 'filled' : 'default'}
+            aria-pressed={showsUpcoming}
+            onClick={() => setRange({ from: localToday(), to: '' })}
+          >
+            Próximas
+          </Button>
+          <Button
+            variant={showsAll ? 'filled' : 'default'}
+            aria-pressed={showsAll}
+            onClick={() => setRange({ from: '', to: '' })}
+          >
+            Todas
+          </Button>
+        </Button.Group>
       </Group>
       {error && (
         <Alert color="red" title="Erro" withCloseButton onClose={() => setError(null)}>

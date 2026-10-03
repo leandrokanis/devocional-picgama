@@ -23,6 +23,7 @@ export type Reading = {
   link: string;
   audio: AudioMetadata | null;
   status: ReadingStatus;
+  updatedAt: Date;
 };
 
 export type ReadingErrorReason = 'invalid' | 'not_found' | 'conflict';
@@ -34,7 +35,7 @@ export class ReadingError extends Error {
   }
 }
 
-type ReadingFields = Omit<Reading, 'audio' | 'status'>;
+type ReadingFields = Omit<Reading, 'audio' | 'status' | 'updatedAt'>;
 
 const statusOf = (title: string, audio: AudioMetadata | null): ReadingStatus =>
   title.trim() !== '' && audio ? 'ready' : 'pending';
@@ -183,7 +184,8 @@ export class ReadingsService {
       description: record.description,
       link: record.link,
       audio,
-      status: statusOf(record.title, audio)
+      status: statusOf(record.title, audio),
+      updatedAt: record.updatedAt
     };
   }
 }

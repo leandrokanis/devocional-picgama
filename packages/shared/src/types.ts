@@ -26,6 +26,7 @@ export interface DevotionalReading {
   link: string;
   audio: DevotionalAudio | null;
   status: ReadingStatus;
+  updatedAt: string;
 }
 
 export interface ReadingInput {

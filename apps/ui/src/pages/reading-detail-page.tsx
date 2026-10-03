@@ -2,13 +2,15 @@ import { Alert, Anchor, Button, Card, Group, Loader, Stack, Text, TextInput, Tex
 import { IconArrowLeft, IconTrash } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { DevotionalReading, ReadingInput } from '@devocional/shared';
 import { AudioDropzone } from '../components/audio-dropzone';
 import { useApi } from '../services/api-provider';
+import { readListSearch } from '../utils/readings-list-search';
 import type { ReadingResponse } from '../types/api';
 import { formatDuration, formatSize } from '../utils/audio-format';
+import { isCompleteDate } from '../utils/date-input';
 
 type ReadingForm = Required<ReadingInput>;
 
@@ -23,6 +25,25 @@ const toForm = (reading: DevotionalReading): ReadingForm => ({
 });
 
 const ICON_SIZE = 14;
+const AUTOSAVE_DELAY_MS = 800;
+const CLOCK_TICK_MS = 30_000;
+
+const sameForm = (left: ReadingForm, right: ReadingForm) =>
+  (Object.keys(left) as (keyof ReadingForm)[]).every((field) => left[field] === right[field]);
+
+const canSave = (form: ReadingForm) => isCompleteDate(form.date) && form.passage.trim() !== '';
+
+const relativeTime = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+
+const savedAgo = (savedAt: Date, now: number) => {
+  if (Number.isNaN(savedAt.getTime())) return 'Salvo';
+  const minutes = Math.max(0, Math.floor((now - savedAt.getTime()) / 60_000));
+  if (minutes < 1) return 'Salvo agora mesmo';
+  if (minutes < 60) return `Salvo ${relativeTime.format(-minutes, 'minute')}`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `Salvo ${relativeTime.format(-hours, 'hour')}`;
+  return `Salvo ${relativeTime.format(-Math.floor(hours / 24), 'day')}`;
+};
 
 export type ReadingDetailState = { listSearch?: string };
 
@@ -43,7 +64,7 @@ export function ReadingDetailPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const location = useLocation();
-  const listSearch = (location.state as ReadingDetailState | null)?.listSearch ?? '';
+  const listSearch = (location.state as ReadingDetailState | null)?.listSearch ?? readListSearch();
   const listPath = `/readings${listSearch}`;
 
   const [form, setForm] = useState<ReadingForm>(emptyForm);
@@ -59,15 +80,29 @@ export function ReadingDetailPage() {
 
   // Fill the form once per opened reading, so refetches after an audio change keep unsaved edits.
   const [formFor, setFormFor] = useState<string | null>(null);
+  // What the server holds for this page; the form autosaves whenever it drifts from it.
+  const [savedForm, setSavedForm] = useState<ReadingForm>(emptyForm);
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
+  const [failedForm, setFailedForm] = useState<ReadingForm | null>(null);
   useEffect(() => {
     if (isNew) {
       setForm(emptyForm);
+      setSavedForm(emptyForm);
+      setSavedAt(null);
       setFormFor(null);
     } else if (reading.data && reading.data.date !== formFor) {
       setForm(toForm(reading.data));
+      setSavedForm(toForm(reading.data));
+      setSavedAt(new Date(reading.data.updatedAt));
       setFormFor(reading.data.date);
     }
   }, [isNew, reading.data, formFor]);
+
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), CLOCK_TICK_MS);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const refresh = async (date?: string) => {
     await queryClient.invalidateQueries({ queryKey: ['readings'] });
@@ -81,15 +116,62 @@ export function ReadingDetailPage() {
         : await api.put<ReadingResponse>(`/readings/${routeDate}`, payload)
       ).data.data,
     onMutate: () => setFormError(null),
-    onSuccess: async (saved) => {
+    onSuccess: async (saved, sent) => {
+      setSavedForm(sent);
+      setSavedAt(new Date(saved.updatedAt));
+      setFailedForm(null);
+      setNow(Date.now());
+      if (saved.date !== routeDate) setFormFor(saved.date);
       queryClient.setQueryData(['reading', saved.date], saved);
       await refresh();
       if (saved.date !== routeDate) {
         navigate(`/readings/${saved.date}`, { replace: true, state: location.state });
       }
     },
-    onError: (error) => setFormError(errorMessage(error, 'Não foi possível salvar a leitura.'))
+    onError: (error, sent) => {
+      setFailedForm(sent);
+      setFormError(errorMessage(error, 'Não foi possível salvar a leitura.'));
+    }
   });
+
+  const dirty = !sameForm(form, savedForm);
+  const blocked = failedForm !== null && sameForm(form, failedForm);
+  const savable = dirty && canSave(form) && !blocked;
+
+  // Autosave: wait for a pause in typing, one request at a time; the next edit retries after a failure.
+  useEffect(() => {
+    if (!savable || saveReading.isPending) return;
+    const timer = window.setTimeout(() => saveReading.mutate(form), AUTOSAVE_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [form, savable, saveReading.isPending]);
+
+  // Leaving with a pending edit (Voltar, menu) still saves it, and closing the tab asks first.
+  const pendingRef = useRef<{ form: ReadingForm; savable: boolean; isNew: boolean; routeDate?: string } | null>(null);
+  pendingRef.current = { form, savable, isNew, routeDate };
+  useEffect(() => {
+    const warn = (event: BeforeUnloadEvent) => {
+      if (pendingRef.current?.savable) event.preventDefault();
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => {
+      window.removeEventListener('beforeunload', warn);
+      const pending = pendingRef.current;
+      if (pending?.savable && !pending.isNew) {
+        void api.put(`/readings/${pending.routeDate}`, pending.form).then(() => refresh(), () => undefined);
+      }
+    };
+  }, []);
+
+  const saveStatus = (() => {
+    if (saveReading.isPending) return { text: 'Salvando…', color: 'dimmed' };
+    if (blocked) return { text: 'Não salvo — corrija o erro acima', color: 'red' };
+    if (dirty && !canSave(form)) {
+      return { text: isNew ? 'Preencha data e passagem para criar a leitura' : 'Preencha data e passagem para salvar', color: 'yellow' };
+    }
+    if (dirty) return { text: 'Alterações pendentes…', color: 'dimmed' };
+    if (savedAt) return { text: savedAgo(savedAt, now), color: 'dimmed' };
+    return null;
+  })();
 
   const deleteReading = useMutation({
     mutationFn: async () => api.delete(`/readings/${routeDate}`),
@@ -179,7 +261,14 @@ export function ReadingDetailPage() {
     <Stack maw={720}>
       {backLink}
       <Group justify="space-between">
-        <Title order={2}>{isNew ? 'Nova leitura' : `Leitura de ${routeDate}`}</Title>
+        <Stack gap={2}>
+          <Title order={2}>{isNew ? 'Nova leitura' : `Leitura de ${routeDate}`}</Title>
+          {saveStatus && (
+            <Text size="sm" c={saveStatus.color} data-testid="save-status" aria-live="polite">
+              {saveStatus.text}
+            </Text>
+          )}
+        </Stack>
         {!isNew && (
           <Button
             color="red"
@@ -209,11 +298,6 @@ export function ReadingDetailPage() {
           />
           <Textarea label="Descrição" autosize minRows={3} value={form.description} onChange={setField('description')} />
           <TextInput label="Link do episódio" placeholder="https://open.spotify.com/..." value={form.link} onChange={setField('link')} />
-          <Group justify="flex-end">
-            <Button loading={saveReading.isPending} onClick={() => saveReading.mutate(form)}>
-              Salvar
-            </Button>
-          </Group>
         </Stack>
       </Card>
       <Card withBorder>

@@ -63,7 +63,8 @@ describe('ReadingsService.create', () => {
       description: 'Uma descrição',
       link: 'https://open.spotify.com/episode/x',
       audio: null,
-      status: 'pending'
+      status: 'pending',
+      updatedAt: expect.any(Date)
     });
   });
 
@@ -164,6 +165,18 @@ describe('ReadingsService status', () => {
   test.each(cases)('list: a reading with $label is $status', async (scenario) => {
     await prepare(scenario);
     expect((await service.list()).map((reading) => reading.status)).toEqual([scenario.status]);
+  });
+});
+
+describe('ReadingsService last change', () => {
+  test('each reading carries when it was last saved, and an edit moves it forward', async () => {
+    const created = await service.create({ date: '2026-10-04', passage: 'Mateus 16-18' });
+    expect(created.updatedAt).toBeInstanceOf(Date);
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    const edited = await service.update('2026-10-04', { passage: 'Mateus 16-18', title: TITLE });
+    expect(edited.updatedAt.getTime()).toBeGreaterThan(created.updatedAt.getTime());
+    expect((await service.get('2026-10-04'))?.updatedAt).toEqual(edited.updatedAt);
+    expect((await service.list())[0]?.updatedAt).toEqual(edited.updatedAt);
   });
 });
 
@@ -320,7 +333,7 @@ describe('ReadingsService.import', () => {
       { date: '2026-10-05', reading: 'Mateus 19-20' },
       { date: '2026-10-04', reading: 'Mateus 16-18' }
     ]);
-    expect({ result, readings: await service.list() }).toEqual({
+    expect({ result, readings: await service.list() }).toMatchObject({
       result: { imported: 2, skipped: 0 },
       readings: [
         { date: '2026-10-04', passage: 'Mateus 16-18', title: '', description: '', link: '', audio: null, status: 'pending' },
