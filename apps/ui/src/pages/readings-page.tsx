@@ -1,4 +1,5 @@
 import { Alert, Button, FileButton, Group, Modal, Stack, Table, Text, TextInput, Title } from '@mantine/core';
+import { IconPlayerPlay, IconReplace, IconTrash, IconUpload } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ import type { ReadingsResponse } from '../types/api';
 type AudioUpload = { date: string; file: File };
 
 const MP3_ACCEPT = 'audio/mpeg,.mp3';
+const ICON_SIZE = 14;
 
 const formatSize = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 
@@ -95,6 +97,7 @@ export function ReadingsPage() {
             <Table.Th>Data</Table.Th>
             <Table.Th>Leitura</Table.Th>
             <Table.Th>Áudio</Table.Th>
+            <Table.Th ta="right">Ações</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -104,39 +107,63 @@ export function ReadingsPage() {
               <Table.Td>{reading.reading}</Table.Td>
               <Table.Td>
                 {reading.audio ? (
-                  <Group gap="xs" wrap="nowrap">
-                    <Text size="sm" truncate maw={220} title={reading.audio.originalName}>
-                      {reading.audio.originalName} · {formatSize(reading.audio.sizeBytes)}
-                    </Text>
-                    <Button size="xs" variant="light" onClick={() => setPlaying(reading)}>
-                      Ouvir
-                    </Button>
-                    <FileButton onChange={onFileSelected(reading.date)} accept={MP3_ACCEPT}>
-                      {(props) => (
-                        <Button {...props} size="xs" variant="light" loading={isUploading(reading.date)}>
-                          Substituir
-                        </Button>
-                      )}
-                    </FileButton>
-                    <Button
-                      size="xs"
-                      color="red"
-                      variant="subtle"
-                      loading={isRemoving(reading.date)}
-                      onClick={() => confirmRemove(reading)}
-                    >
-                      Remover
-                    </Button>
-                  </Group>
+                  <Text size="sm" truncate maw={260} title={reading.audio.originalName}>
+                    {reading.audio.originalName} · {formatSize(reading.audio.sizeBytes)}
+                  </Text>
                 ) : (
                   <FileButton onChange={onFileSelected(reading.date)} accept={MP3_ACCEPT}>
                     {(props) => (
-                      <Button {...props} size="xs" variant="light" loading={isUploading(reading.date)}>
+                      <Button
+                        {...props}
+                        size="xs"
+                        variant="light"
+                        leftSection={<IconUpload size={ICON_SIZE} />}
+                        loading={isUploading(reading.date)}
+                      >
                         Anexar mp3
                       </Button>
                     )}
                   </FileButton>
                 )}
+              </Table.Td>
+              <Table.Td>
+                <Group gap="xs" wrap="nowrap" justify="flex-end">
+                  {reading.audio && (
+                    <>
+                      <Button
+                        size="xs"
+                        variant="light"
+                        leftSection={<IconPlayerPlay size={ICON_SIZE} />}
+                        onClick={() => setPlaying(reading)}
+                      >
+                        Ouvir
+                      </Button>
+                      <FileButton onChange={onFileSelected(reading.date)} accept={MP3_ACCEPT}>
+                        {(props) => (
+                          <Button
+                            {...props}
+                            size="xs"
+                            variant="light"
+                            leftSection={<IconReplace size={ICON_SIZE} />}
+                            loading={isUploading(reading.date)}
+                          >
+                            Substituir
+                          </Button>
+                        )}
+                      </FileButton>
+                      <Button
+                        size="xs"
+                        color="red"
+                        variant="subtle"
+                        leftSection={<IconTrash size={ICON_SIZE} />}
+                        loading={isRemoving(reading.date)}
+                        onClick={() => confirmRemove(reading)}
+                      >
+                        Remover
+                      </Button>
+                    </>
+                  )}
+                </Group>
               </Table.Td>
             </Table.Tr>
           ))}
