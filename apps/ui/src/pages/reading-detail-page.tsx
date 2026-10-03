@@ -1,4 +1,4 @@
-import { Alert, Anchor, Button, Card, Group, Loader, Stack, Text, TextInput, Textarea, Title } from '@mantine/core';
+import { Alert, Anchor, Button, Card, Grid, Group, Loader, Stack, Text, TextInput, Textarea, Title } from '@mantine/core';
 import { IconArrowLeft, IconInfoCircle, IconTrash } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
@@ -270,7 +270,7 @@ export function ReadingDetailPage() {
     : '';
 
   return (
-    <Stack maw={720}>
+    <Stack maw={1100}>
       {backLink}
       <Group justify="space-between">
         <Stack gap={2}>
@@ -304,77 +304,94 @@ export function ReadingDetailPage() {
           recebeu.
         </Alert>
       )}
-      <Card withBorder>
-        <Stack>
-          <TextInput label="Data" type="date" required value={form.date} onChange={setField('date')} />
-          <TextInput label="Passagem" placeholder="Mateus 16-18" required value={form.passage} onChange={setField('passage')} />
-          <TextInput
-            label="Título"
-            description="Sem título, só a mensagem da leitura é enviada."
-            value={form.title}
-            onChange={setField('title')}
-          />
-          <Textarea label="Descrição" autosize minRows={3} value={form.description} onChange={setField('description')} />
-          <TextInput label="Link do episódio" placeholder="https://open.spotify.com/..." value={form.link} onChange={setField('link')} />
-        </Stack>
-      </Card>
-      <Card withBorder>
-        <Stack>
-          <Title order={4}>Áudio</Title>
-          {audioError && (
-            <Alert color="red" title="Erro" withCloseButton onClose={() => setAudioError(null)}>
-              {audioError}
-            </Alert>
-          )}
-          {audio && (
-            <Stack gap="xs" data-testid="audio-player">
-              <audio key={audio.updatedAt} controls style={{ width: '100%' }} src={audioSrc} />
-              <Group justify="space-between">
-                <Text size="sm" truncate maw={420} title={audio.originalName}>
-                  {audio.originalName} · {formatSize(audio.sizeBytes)} · {formatDuration(audio.durationSeconds)}
-                </Text>
-                <Button
-                  size="xs"
-                  color="red"
-                  variant="subtle"
-                  leftSection={<IconTrash size={ICON_SIZE} />}
-                  loading={removeAudio.isPending}
-                  onClick={confirmRemoveAudio}
-                >
-                  Remover
-                </Button>
-              </Group>
-            </Stack>
-          )}
-          <AudioDropzone
-            onDrop={(file) => uploadAudio.mutate(file)}
-            uploading={uploadAudio.isPending}
-            disabled={isNew}
-            hasAudio={audio !== null}
-          />
-        </Stack>
-      </Card>
-      {!isNew && (
-        <Card withBorder>
-          <Stack gap="xs" data-testid="publications">
-            <Title order={4}>Publicações</Title>
-            {publications.length === 0 ? (
-              <Text size="sm" c="dimmed">
-                Ainda não publicada
-              </Text>
-            ) : (
-              publications.map((publication, index) => (
-                <Group key={`${publication.chatId}-${publication.publishedAt}-${index}`} justify="space-between">
-                  <Text size="sm">{publication.groupName}</Text>
-                  <Text size="sm" c="dimmed">
-                    {formatPublishedAt(publication.publishedAt)}
-                  </Text>
-                </Group>
-              ))
+      <Grid gutter="md" align="flex-start">
+        <Grid.Col span={{ base: 12, md: 8 }} order={{ base: 2, md: 1 }}>
+          <Stack>
+            <Card withBorder>
+              <Stack>
+                <TextInput
+                  label="Título"
+                  description="Sem título, só a mensagem da leitura é enviada."
+                  value={form.title}
+                  onChange={setField('title')}
+                />
+                <Textarea label="Descrição" autosize minRows={3} value={form.description} onChange={setField('description')} />
+                <TextInput label="Link do episódio" placeholder="https://open.spotify.com/..." value={form.link} onChange={setField('link')} />
+              </Stack>
+            </Card>
+            {!isNew && (
+              <Card withBorder>
+                <Stack gap="xs" data-testid="publications">
+                  <Title order={4}>Publicações</Title>
+                  {publications.length === 0 ? (
+                    <Text size="sm" c="dimmed">
+                      Ainda não publicada
+                    </Text>
+                  ) : (
+                    publications.map((publication, index) => (
+                      <Group key={`${publication.chatId}-${publication.publishedAt}-${index}`} justify="space-between">
+                        <Text size="sm">{publication.groupName}</Text>
+                        <Text size="sm" c="dimmed">
+                          {formatPublishedAt(publication.publishedAt)}
+                        </Text>
+                      </Group>
+                    ))
+                  )}
+                </Stack>
+              </Card>
             )}
           </Stack>
-        </Card>
-      )}
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 4 }} order={{ base: 1, md: 2 }}>
+          <Stack>
+            <Card withBorder>
+              <Stack>
+                <TextInput label="Data" type="date" required value={form.date} onChange={setField('date')} />
+                <TextInput label="Passagem" placeholder="Mateus 16-18" required value={form.passage} onChange={setField('passage')} />
+              </Stack>
+            </Card>
+            <Card withBorder>
+              <Stack>
+                <Title order={4}>Áudio</Title>
+                {audioError && (
+                  <Alert color="red" title="Erro" withCloseButton onClose={() => setAudioError(null)}>
+                    {audioError}
+                  </Alert>
+                )}
+                {audio && (
+                  <Stack gap="xs" data-testid="audio-player">
+                    <audio key={audio.updatedAt} controls style={{ width: '100%' }} src={audioSrc} />
+                    <Text size="sm" truncate title={audio.originalName}>
+                      {audio.originalName}
+                    </Text>
+                    <Group justify="space-between">
+                      <Text size="sm" c="dimmed">
+                        {formatSize(audio.sizeBytes)} · {formatDuration(audio.durationSeconds)}
+                      </Text>
+                      <Button
+                        size="xs"
+                        color="red"
+                        variant="subtle"
+                        leftSection={<IconTrash size={ICON_SIZE} />}
+                        loading={removeAudio.isPending}
+                        onClick={confirmRemoveAudio}
+                      >
+                        Remover
+                      </Button>
+                    </Group>
+                  </Stack>
+                )}
+                <AudioDropzone
+                  onDrop={(file) => uploadAudio.mutate(file)}
+                  uploading={uploadAudio.isPending}
+                  disabled={isNew}
+                  hasAudio={audio !== null}
+                />
+              </Stack>
+            </Card>
+          </Stack>
+        </Grid.Col>
+      </Grid>
     </Stack>
   );
 }
