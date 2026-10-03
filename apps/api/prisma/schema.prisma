@@ -33,3 +33,14 @@ model WhatsAppKey {
   @@id([sessionId, keyId])
   @@map("whatsapp_keys")
 }
+
+model DevotionalAudio {
+  date         String   @id
+  filePath     String   @map("file_path")
+  originalName String   @map("original_name")
+  sizeBytes    Int      @map("size_bytes")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("devotional_audios")
+}

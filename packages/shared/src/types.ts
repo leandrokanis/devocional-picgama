@@ -9,9 +9,16 @@ export interface Recipient {
   updatedAt: string;
 }
 
+export interface DevotionalAudio {
+  originalName: string;
+  sizeBytes: number;
+  updatedAt: string;
+}
+
 export interface DevotionalReading {
   date: string;
   reading: string;
+  audio: DevotionalAudio | null;
 }
 
 export interface HealthResponse {

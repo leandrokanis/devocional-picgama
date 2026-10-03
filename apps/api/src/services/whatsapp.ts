@@ -2,6 +2,7 @@ import makeWASocket, {
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
+  type AnyMessageContent,
   type WASocket
 } from '@whiskeysockets/baileys';
 import * as QRCode from 'qrcode';
@@ -96,14 +97,22 @@ export class WhatsAppService {
   }
 
   public async sendMessage(message: string, chatId: string): Promise<boolean> {
+    return this.deliver(chatId, { text: message }, 'Error sending message');
+  }
+
+  public async sendVoiceMessage(audio: Buffer, chatId: string): Promise<boolean> {
+    return this.deliver(chatId, { audio, mimetype: 'audio/ogg; codecs=opus', ptt: true }, 'Error sending voice message');
+  }
+
+  private async deliver(chatId: string, content: AnyMessageContent, errorMessage: string): Promise<boolean> {
     if (!this.sock || !this.isConnected) return false;
     const target = chatId.trim();
     if (!target) return false;
     try {
-      await this.sock.sendMessage(target, { text: message });
+      await this.sock.sendMessage(target, content);
       return true;
     } catch (error) {
-      logger.error('Error sending message', error);
+      logger.error(errorMessage, error);
       return false;
     }
   }

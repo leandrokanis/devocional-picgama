@@ -33,3 +33,33 @@ test('loads simple readings format (date + reading)', async () => {
     unlinkSync(filePath);
   }
 });
+
+const readingsFile = () => createTempJsonFile([{ date: '2026-01-02', reading: 'Gênesis 4-6' }]);
+const devotional = { date: '2026-01-02', formattedDate: '02/01/2026', reading: 'Gênesis 4-6' };
+const textWithoutAudioLine =
+  '📖 Leitura de hoje - 02/01/2026\n\nGênesis 4-6\n\n🔗 Leia: https://www.biblegateway.com/passage/?search=genesis%204-6&version=NVI-PT&interface=print';
+
+test.each([
+  { label: 'no options', options: undefined },
+  { label: 'hasAudio false', options: { hasAudio: false } }
+])('formatMessage with $label keeps today\'s exact text, with the 🎧 line', async ({ options }) => {
+  const filePath = readingsFile();
+  try {
+    const service = new DevotionalService(filePath);
+    expect(await service.formatMessage(devotional, options)).toBe(
+      `${textWithoutAudioLine}\n\n🎧 Devocional em áudio: https://is.gd/rjLzat`
+    );
+  } finally {
+    unlinkSync(filePath);
+  }
+});
+
+test('formatMessage with hasAudio omits the 🎧 line', async () => {
+  const filePath = readingsFile();
+  try {
+    const service = new DevotionalService(filePath);
+    expect(await service.formatMessage(devotional, { hasAudio: true })).toBe(textWithoutAudioLine);
+  } finally {
+    unlinkSync(filePath);
+  }
+});

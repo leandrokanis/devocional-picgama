@@ -47,10 +47,12 @@ As variáveis vêm do ambiente (CasaOS UI, shell, etc.). O `.env.example` lista 
 | `WHATSAPP_SESSION_NAME` | Nome da sessão WhatsApp | devocional-bot |
 | `WEBUI_PORT` / `UI_PORT` | Porta da interface web | 31902 |
 | `DEBUG` | Modo debug | false |
+| `AUDIO_MAX_UPLOAD_MB` | Tamanho máximo, em MB, do mp3 do devocional enviado pelo painel. O Nginx da UI aceita corpo de até 20 MB | 15 |
+| `AUDIO_DIR` | Pasta dos áudios do devocional (`<data>.ogg`). Deve ficar dentro do volume `/app/data` para persistir | /app/data/audio |
 
 ## Dados persistentes
 
-Os dados (banco SQLite, sessão WhatsApp) ficam em `./data/` (relativo ao diretório do projeto). Ao clonar em `/DATA/AppData/devocional-picgama/`, o caminho absoluto é:
+Os dados (banco SQLite, sessão WhatsApp e áudios do devocional em `./data/audio/`) ficam em `./data/` (relativo ao diretório do projeto). Ao clonar em `/DATA/AppData/devocional-picgama/`, o caminho absoluto é:
 
 ```
 /DATA/AppData/devocional-picgama/data/

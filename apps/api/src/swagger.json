@@ -18,7 +18,13 @@
     "/docs": { "get": { "summary": "Swagger UI", "responses": { "200": { "description": "Swagger UI HTML" } } } },
     "/send": { "post": { "summary": "Send today's devotional", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Send succeeded" }, "401": { "description": "Unauthorized" }, "500": { "description": "Send failed" } } } },
     "/readings/today": { "get": { "summary": "Get today's reading", "responses": { "200": { "description": "Today's reading" }, "404": { "description": "Reading not found" } } } },
-    "/readings": { "get": { "summary": "List readings", "responses": { "200": { "description": "Readings list" } } } },
+    "/readings": { "get": { "summary": "List readings", "description": "Each item has `audio`: { originalName, sizeBytes, updatedAt } when the date has an attached voice note, or null.", "parameters": [{ "name": "date", "in": "query", "required": false, "schema": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" } }], "responses": { "200": { "description": "Readings list", "content": { "application/json": { "schema": { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/DevotionalReading" } }, "metadata": { "type": "object" } } } } } } } } },
+    "/readings/{date}/audio": {
+      "parameters": [{ "name": "date", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" } }],
+      "put": { "summary": "Attach or replace the devotional audio of a date", "description": "Multipart upload of an mp3 (field `file`, `.mp3` or `audio/mpeg`) up to AUDIO_MAX_UPLOAD_MB (default 15 MB). Converted to ogg/opus and sent as a WhatsApp voice note.", "security": [{ "bearerAuth": [] }], "requestBody": { "required": true, "content": { "multipart/form-data": { "schema": { "type": "object", "required": ["file"], "properties": { "file": { "type": "string", "format": "binary" } } } } } }, "responses": { "200": { "description": "Audio stored", "content": { "application/json": { "schema": { "type": "object", "properties": { "success": { "type": "boolean" }, "data": { "$ref": "#/components/schemas/DevotionalAudio" } } } } } }, "400": { "description": "Not an mp3, missing file or conversion failed" }, "401": { "description": "Unauthorized" }, "404": { "description": "No reading for this date" }, "413": { "description": "File above the size limit" } } },
+      "get": { "summary": "Download the voice note (audio/ogg) of a date", "description": "Accepts the token as Bearer header or `?token=` query parameter (for <audio> players).", "security": [{ "bearerAuth": [] }], "parameters": [{ "name": "token", "in": "query", "required": false, "schema": { "type": "string" } }], "responses": { "200": { "description": "Voice note", "content": { "audio/ogg": { "schema": { "type": "string", "format": "binary" } } } }, "401": { "description": "Unauthorized" }, "404": { "description": "No audio for this date" } } },
+      "delete": { "summary": "Remove the devotional audio of a date", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Audio removed" }, "401": { "description": "Unauthorized" }, "404": { "description": "No audio for this date" } } }
+    },
     "/qr": { "get": { "summary": "Get WhatsApp QR status", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "QR status" }, "401": { "description": "Unauthorized" } } } },
     "/scheduler/status": { "get": { "summary": "Get scheduler status", "responses": { "200": { "description": "Scheduler status" } } } },
     "/scheduler/start": { "post": { "summary": "Start scheduler", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Scheduler started" }, "401": { "description": "Unauthorized" } } } },
@@ -27,11 +33,15 @@
     "/api/recipients/{id}": {
       "get": { "summary": "Get recipient by ID", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient" }, "404": { "description": "Not found" } } },
       "put": { "summary": "Update recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient updated" }, "400": { "description": "Invalid payload" }, "404": { "description": "Not found" } } },
-      "delete": { "summary": "Delete recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient deleted" }, "404": { "description": "Not found" } } },
+      "delete": { "summary": "Delete recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Recipient deleted" }, "404": { "description": "Not found" } } }
     },
     "/api/recipients/{id}/send": { "post": { "summary": "Send today's devotional to recipient", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Devotional sent" }, "401": { "description": "Unauthorized" }, "404": { "description": "Recipient not found" }, "500": { "description": "Send failed" } } } }
   },
   "components": {
+    "schemas": {
+      "DevotionalAudio": { "type": "object", "properties": { "originalName": { "type": "string" }, "sizeBytes": { "type": "integer" }, "updatedAt": { "type": "string", "format": "date-time" } } },
+      "DevotionalReading": { "type": "object", "properties": { "date": { "type": "string" }, "reading": { "type": "string" }, "audio": { "allOf": [{ "$ref": "#/components/schemas/DevotionalAudio" }], "nullable": true } } }
+    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",

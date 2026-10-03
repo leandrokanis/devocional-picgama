@@ -7,11 +7,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 import { createServer } from 'http';
 import type { IncomingMessage, ServerResponse } from 'http';
-import { existsSync } from 'fs';
+import { existsSync, mkdirSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { networkInterfaces } from 'os';
 import { prisma } from './prisma.js';
+import { AudioService, AudioUploadError } from './services/audio.js';
+import { FfmpegAudioConverter } from './services/audio-converter.js';
 import { DevotionalService } from './services/devotional.js';
+import { DevotionalSender } from './services/devotional-sender.js';
 import { RecipientsService } from './services/recipients.js';
 import { SchedulerService } from './services/scheduler.js';
 import { UrlShortenerService } from './services/url-shortener.js';
@@ -29,15 +32,27 @@ type LoginPayload = {
   password?: string;
 };
 
+const BYTES_PER_MB = 1024 * 1024;
+const MULTIPART_OVERHEAD_BYTES = 1 * BYTES_PER_MB;
+const AUDIO_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})\/audio$/;
+
+const resolveAudioConfig = () => {
+  const audioDir = process.env.AUDIO_DIR?.trim() || path.resolve(__dirname, '../../../data/audio');
+  const maxUploadMb = Number.parseFloat(process.env.AUDIO_MAX_UPLOAD_MB || '');
+  const maxBytes = Math.floor((Number.isFinite(maxUploadMb) && maxUploadMb > 0 ? maxUploadMb : 15) * BYTES_PER_MB);
+  return { audioDir, maxBytes, maxRequestBytes: maxBytes + MULTIPART_OVERHEAD_BYTES };
+};
+
 class DevotionalBot {
   private devotionalService: DevotionalService;
   private whatsappService: WhatsAppService;
+  private devotionalSender: DevotionalSender;
   private schedulerService: SchedulerService;
   private isInitialized = false;
   public recipientsService: RecipientsService;
   public currentQRCode: string | null = null;
 
-  constructor() {
+  constructor(audioService: AudioService) {
     const urlShortener = new UrlShortenerService();
     this.devotionalService = new DevotionalService(process.env.DATA_PATH, urlShortener);
     this.whatsappService = new WhatsAppService({
@@ -45,6 +60,7 @@ class DevotionalBot {
       debug: process.env.DEBUG === 'true'
     });
     this.recipientsService = new RecipientsService();
+    this.devotionalSender = new DevotionalSender(this.devotionalService, audioService, this.whatsappService);
     this.whatsappService.onQRCodeGenerated = (base64: string) => {
       this.currentQRCode = base64;
     };
@@ -69,15 +85,9 @@ class DevotionalBot {
       if (!this.isInitialized) await this.initialize();
       const todaysReading = this.devotionalService.getTodaysReading();
       if (!todaysReading) return false;
-      const message = await this.devotionalService.formatMessage(todaysReading);
       const recipients = await this.recipientsService.getAll();
       if (!recipients.length) return false;
-      let success = 0;
-      for (const recipient of recipients) {
-        const sent = await this.whatsappService.sendDevotionalMessage(message, recipient.chatId);
-        if (sent) success += 1;
-      }
-      return success > 0;
+      return await this.devotionalSender.send(todaysReading, recipients.map((recipient) => recipient.chatId));
     } catch (error) {
       logger.error('Error sending devotional', error);
       return false;
@@ -91,8 +101,7 @@ class DevotionalBot {
       if (!recipient) return false;
       const todaysReading = this.devotionalService.getTodaysReading();
       if (!todaysReading) return false;
-      const message = await this.devotionalService.formatMessage(todaysReading);
-      return this.whatsappService.sendDevotionalMessage(message, recipient.chatId);
+      return await this.devotionalSender.send(todaysReading, [recipient.chatId]);
     } catch (error) {
       logger.error('Error sending devotional to recipient', error);
       return false;
@@ -141,6 +150,10 @@ class DevotionalBot {
 
   public getAllReadings(dateFilter?: string) {
     return this.devotionalService.getAllReadings(dateFilter);
+  }
+
+  public hasReading(date: string): boolean {
+    return this.devotionalService.getAllReadings(date).length > 0;
   }
 }
 
@@ -197,8 +210,20 @@ const getLocalIP = () => {
   return null;
 };
 
+const jsonResponse = (status: number, body: unknown) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: addCorsHeaders({ 'Content-Type': 'application/json' })
+  });
+
+const isTooLargeAudioUpload = (method: string | undefined, pathname: string, contentLength: number, maxRequestBytes: number) =>
+  method === 'PUT' && AUDIO_ROUTE.test(pathname) && contentLength > maxRequestBytes;
+
 async function main() {
-  const bot = new DevotionalBot();
+  const audioConfig = resolveAudioConfig();
+  mkdirSync(audioConfig.audioDir, { recursive: true });
+  const audioService = new AudioService(prisma, new FfmpegAudioConverter(), audioConfig.audioDir, audioConfig.maxBytes);
+  const bot = new DevotionalBot(audioService);
   const command = process.argv[2];
 
   if (command === 'send') {
@@ -440,6 +465,56 @@ async function main() {
       });
     }
 
+    const audioMatch = url.pathname.match(AUDIO_ROUTE);
+    if (audioMatch && ['PUT', 'DELETE', 'GET'].includes(req.method)) {
+      const authError = checkAuth(req);
+      if (authError) return authError;
+      const date = audioMatch[1]!;
+
+      if (req.method === 'PUT') {
+        if (!bot.hasReading(date)) return jsonResponse(404, { success: false, error: 'No reading found for this date' });
+        let file: unknown;
+        try {
+          file = (await req.formData()).get('file');
+        } catch {
+          return jsonResponse(400, { success: false, error: 'Expected a multipart/form-data body' });
+        }
+        if (!(file instanceof File)) return jsonResponse(400, { success: false, error: 'Missing "file" field' });
+        try {
+          const audio = await audioService.save(date, {
+            originalName: file.name,
+            mimeType: file.type,
+            data: Buffer.from(await file.arrayBuffer())
+          });
+          return jsonResponse(200, { success: true, data: audio });
+        } catch (error) {
+          if (error instanceof AudioUploadError) {
+            if (error.reason === 'conversion_failed') logger.warn(`Audio conversion failed for ${date}`, error.message);
+            return jsonResponse(error.reason === 'too_large' ? 413 : 400, { success: false, error: error.message });
+          }
+          logger.error('Failed to save audio', error);
+          return jsonResponse(500, { success: false, error: 'Failed to save audio' });
+        }
+      }
+
+      if (req.method === 'DELETE') {
+        const removed = await audioService.remove(date);
+        if (!removed) return jsonResponse(404, { success: false, error: 'No audio for this date' });
+        return jsonResponse(200, { success: true });
+      }
+
+      const audio = await audioService.readFile(date);
+      if (!audio) return jsonResponse(404, { success: false, error: 'No audio for this date' });
+      return new Response(new Uint8Array(audio), {
+        status: 200,
+        headers: addCorsHeaders({
+          'Content-Type': 'audio/ogg',
+          'Content-Length': String(audio.length),
+          'Cache-Control': 'no-store'
+        })
+      });
+    }
+
     if (url.pathname === '/readings/today' && req.method === 'GET') {
       const reading = bot.getTodaysReadingBasic();
       if (!reading) {
@@ -456,7 +531,11 @@ async function main() {
 
     if (url.pathname === '/readings' && req.method === 'GET') {
       const dateFilter = url.searchParams.get('date');
-      const readings = bot.getAllReadings(dateFilter || undefined);
+      const audios = await audioService.list();
+      const readings = bot.getAllReadings(dateFilter || undefined).map((reading) => ({
+        ...reading,
+        audio: audios[reading.date] ?? null
+      }));
       return new Response(JSON.stringify({
         data: readings,
         metadata: { count: readings.length, ...(dateFilter ? { filteredBy: dateFilter } : {}) }
@@ -550,6 +629,17 @@ async function main() {
     try {
       const host = nodeReq.headers.host || `localhost:${port}`;
       const fullUrl = `http://${host}${nodeReq.url || '/'}`;
+      const pathname = new URL(fullUrl).pathname;
+      const contentLength = Number.parseInt(nodeReq.headers['content-length'] || '0', 10) || 0;
+      if (isTooLargeAudioUpload(nodeReq.method, pathname, contentLength, audioConfig.maxRequestBytes)) {
+        nodeRes.statusCode = 413;
+        nodeRes.setHeader('Content-Type', 'application/json');
+        nodeRes.setHeader('Connection', 'close');
+        for (const [key, value] of Object.entries(addCorsHeaders())) nodeRes.setHeader(key, value);
+        nodeRes.end(JSON.stringify({ success: false, error: `Audio file exceeds the ${audioConfig.maxBytes / BYTES_PER_MB} MB limit` }));
+        nodeReq.resume();
+        return;
+      }
       let body: Buffer | undefined;
       if (nodeReq.method !== 'GET' && nodeReq.method !== 'HEAD') {
         body = await new Promise<Buffer>((resolve, reject) => {
