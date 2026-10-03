@@ -1,5 +1,5 @@
 import { Alert, Anchor, Button, Card, Group, Loader, Stack, Text, TextInput, Textarea, Title } from '@mantine/core';
-import { IconArrowLeft, IconTrash } from '@tabler/icons-react';
+import { IconArrowLeft, IconInfoCircle, IconTrash } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { useEffect, useRef, useState } from 'react';
@@ -53,6 +53,13 @@ const errorMessage = (error: unknown, fallback: string) => {
     return error.response?.data?.error || fallback;
   }
   return fallback;
+};
+
+const publishedAtFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+
+const formatPublishedAt = (value: string) => {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : publishedAtFormat.format(date);
 };
 
 const isNotFound = (error: unknown) => isAxiosError(error) && error.response?.status === 404;
@@ -122,7 +129,9 @@ export function ReadingDetailPage() {
       setFailedForm(null);
       setNow(Date.now());
       if (saved.date !== routeDate) setFormFor(saved.date);
-      queryClient.setQueryData(['reading', saved.date], saved);
+      // PUT/POST answer without the publication history; it moves with the date, so keep what the page had.
+      const previous = queryClient.getQueryData<DevotionalReading>(['reading', routeDate]);
+      queryClient.setQueryData(['reading', saved.date], { ...saved, publications: previous?.publications ?? [] });
       await refresh();
       if (saved.date !== routeDate) {
         navigate(`/readings/${saved.date}`, { replace: true, state: location.state });
@@ -209,7 +218,9 @@ export function ReadingDetailPage() {
   };
 
   const confirmDelete = () => {
-    const warning = reading.data?.audio ? ' O áudio anexado também será removido.' : '';
+    const audioWarning = reading.data?.audio ? ' O áudio anexado também será removido.' : '';
+    const publicationsWarning = reading.data?.publications?.length ? ' O histórico de publicação também será removido.' : '';
+    const warning = `${audioWarning}${publicationsWarning}`;
     if (window.confirm(`Excluir a leitura de ${routeDate}?${warning}`)) deleteReading.mutate();
   };
 
@@ -253,6 +264,7 @@ export function ReadingDetailPage() {
   }
 
   const audio = reading.data?.audio ?? null;
+  const publications = reading.data?.publications ?? [];
   const audioSrc = audio
     ? `/api/readings/${routeDate}/audio?token=${encodeURIComponent(token)}&v=${encodeURIComponent(audio.updatedAt)}`
     : '';
@@ -284,6 +296,12 @@ export function ReadingDetailPage() {
       {formError && (
         <Alert color="red" title="Erro" withCloseButton onClose={() => setFormError(null)}>
           {formError}
+        </Alert>
+      )}
+      {publications.length > 0 && (
+        <Alert color="blue" icon={<IconInfoCircle size={ICON_SIZE} />} title="Leitura publicada" data-testid="published-alert">
+          Já publicada em {publications.length} {publications.length === 1 ? 'grupo' : 'grupos'}; edições não chegam a quem já
+          recebeu.
         </Alert>
       )}
       <Card withBorder>
@@ -336,6 +354,27 @@ export function ReadingDetailPage() {
           />
         </Stack>
       </Card>
+      {!isNew && (
+        <Card withBorder>
+          <Stack gap="xs" data-testid="publications">
+            <Title order={4}>Publicações</Title>
+            {publications.length === 0 ? (
+              <Text size="sm" c="dimmed">
+                Ainda não publicada
+              </Text>
+            ) : (
+              publications.map((publication, index) => (
+                <Group key={`${publication.chatId}-${publication.publishedAt}-${index}`} justify="space-between">
+                  <Text size="sm">{publication.groupName}</Text>
+                  <Text size="sm" c="dimmed">
+                    {formatPublishedAt(publication.publishedAt)}
+                  </Text>
+                </Group>
+              ))
+            )}
+          </Stack>
+        </Card>
+      )}
     </Stack>
   );
 }

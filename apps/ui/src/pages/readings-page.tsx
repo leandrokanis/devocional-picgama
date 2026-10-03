@@ -248,9 +248,9 @@ export function ReadingsPage() {
                 )}
               </Table.Td>
               <Table.Td>
-                {reading.status === 'ready' ? (
+                {reading.status === 'published' ? (
                   <Badge color="green" variant="light">
-                    Pronto
+                    Publicado
                   </Badge>
                 ) : (
                   <Badge color="gray" variant="light">

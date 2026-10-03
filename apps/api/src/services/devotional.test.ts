@@ -3,6 +3,7 @@ import path from 'path';
 import type { AudioConverter } from './audio-converter.js';
 import { AudioService } from './audio.js';
 import { DevotionalService, type DevotionalMessage } from './devotional.js';
+import { PublicationsService } from './publications.js';
 import { ReadingsService } from './readings.js';
 import { createTestDatabase, type TestDatabase } from './test-db.js';
 
@@ -20,7 +21,11 @@ let service: DevotionalService;
 
 beforeEach(() => {
   db = createTestDatabase();
-  readings = new ReadingsService(db.prisma, new AudioService(db.prisma, unusedConverter, path.join(db.dir, 'audio'), 1024));
+  readings = new ReadingsService(
+    db.prisma,
+    new AudioService(db.prisma, unusedConverter, path.join(db.dir, 'audio'), 1024),
+    new PublicationsService(db.prisma)
+  );
   service = new DevotionalService(readings);
 });
 

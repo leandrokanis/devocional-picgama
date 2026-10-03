@@ -4,6 +4,7 @@ import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 import type { AudioConverter, VoiceNoteResult } from './audio-converter.js';
 import { AudioService } from './audio.js';
+import { PublicationsService } from './publications.js';
 import { ReadingsService } from './readings.js';
 import { createTestDatabase, type TestDatabase } from './test-db.js';
 
@@ -26,13 +27,15 @@ class FakeConverter implements AudioConverter {
 let db: TestDatabase;
 let audioDir: string;
 let audioService: AudioService;
+let publicationsService: PublicationsService;
 let service: ReadingsService;
 
 beforeEach(() => {
   db = createTestDatabase();
   audioDir = path.join(db.dir, 'audio');
   audioService = new AudioService(db.prisma, new FakeConverter(), audioDir, 1024);
-  service = new ReadingsService(db.prisma, audioService);
+  publicationsService = new PublicationsService(db.prisma);
+  service = new ReadingsService(db.prisma, audioService, publicationsService);
 });
 
 afterEach(async () => {
@@ -64,6 +67,8 @@ describe('ReadingsService.create', () => {
       link: 'https://open.spotify.com/episode/x',
       audio: null,
       status: 'pending',
+      publishedAt: null,
+      publications: [],
       updatedAt: expect.any(Date)
     });
   });
@@ -143,28 +148,59 @@ describe('ReadingsService audio attachment', () => {
   });
 });
 
-describe('ReadingsService status', () => {
-  const cases = [
-    { label: 'title and audio', title: TITLE, withAudio: true, status: 'ready' },
-    { label: 'title without audio', title: TITLE, withAudio: false, status: 'pending' },
-    { label: 'audio without title', title: '', withAudio: true, status: 'pending' },
-    { label: 'neither title nor audio', title: '', withAudio: false, status: 'pending' },
-    { label: 'audio and a title of only spaces', title: '   ', withAudio: true, status: 'pending' }
-  ];
+describe('ReadingsService publication status', () => {
+  const publish = (readingDate: string, chatId: string, publishedAt: string) =>
+    db.prisma.readingPublication.create({
+      data: { readingDate, chatId, groupName: `Grupo ${chatId}`, publishedAt: new Date(publishedAt) }
+    });
 
-  const prepare = async ({ title, withAudio }: { title: string; withAudio: boolean }) => {
-    await service.create({ date: '2026-10-04', passage: 'Mateus 16-18', title });
-    if (withAudio) await audioService.save('2026-10-04', mp3('first'));
-  };
-
-  test.each(cases)('get: a reading with $label is $status', async (scenario) => {
-    await prepare(scenario);
-    expect((await service.get('2026-10-04'))?.status).toBe(scenario.status);
+  test('get: a reading with one publication is published since then, and lists that publication', async () => {
+    await service.create({ date: '2099-01-01', passage: 'Mateus 16-18' });
+    await publish('2099-01-01', 'g1@g.us', '2099-01-01T09:00:00.000Z');
+    expect(await service.get('2099-01-01')).toMatchObject({
+      status: 'published',
+      publishedAt: new Date('2099-01-01T09:00:00.000Z'),
+      publications: [{ chatId: 'g1@g.us', groupName: 'Grupo g1@g.us', publishedAt: new Date('2099-01-01T09:00:00.000Z') }]
+    });
+  });
+  test('get: with two publications, publishedAt stays the first one and publications come most recent first', async () => {
+    await service.create({ date: '2099-01-01', passage: 'Mateus 16-18' });
+    await publish('2099-01-01', 'g2@g.us', '2099-01-01T11:00:00.000Z');
+    await publish('2099-01-01', 'g1@g.us', '2099-01-01T09:00:00.000Z');
+    expect(await service.get('2099-01-01')).toMatchObject({
+      status: 'published',
+      publishedAt: new Date('2099-01-01T09:00:00.000Z'),
+      publications: [
+        { chatId: 'g2@g.us', groupName: 'Grupo g2@g.us', publishedAt: new Date('2099-01-01T11:00:00.000Z') },
+        { chatId: 'g1@g.us', groupName: 'Grupo g1@g.us', publishedAt: new Date('2099-01-01T09:00:00.000Z') }
+      ]
+    });
   });
 
-  test.each(cases)('list: a reading with $label is $status', async (scenario) => {
-    await prepare(scenario);
-    expect((await service.list()).map((reading) => reading.status)).toEqual([scenario.status]);
+  test('list: each reading carries its own status and first publication, without the publication history', async () => {
+    for (const date of ['2099-01-01', '2099-01-02']) await service.create({ date, passage: `P ${date}` });
+    await publish('2099-01-02', 'g1@g.us', '2099-01-02T10:00:00.000Z');
+    await publish('2099-01-02', 'g2@g.us', '2099-01-02T08:00:00.000Z');
+    expect((await service.list()).map(({ date, status, publishedAt, ...rest }) => ({ date, status, publishedAt, history: 'publications' in rest }))).toEqual([
+      { date: '2099-01-01', status: 'pending', publishedAt: null, history: false },
+      { date: '2099-01-02', status: 'published', publishedAt: new Date('2099-01-02T08:00:00.000Z'), history: false }
+    ]);
+  });
+  test('an edit of a published reading answers published, with the first publication', async () => {
+    await service.create({ date: '2099-01-01', passage: 'Mateus 16-18' });
+    await publish('2099-01-01', 'g1@g.us', '2099-01-01T09:00:00.000Z');
+    expect(await service.update('2099-01-01', { passage: 'Mateus 17', title: TITLE })).toMatchObject({
+      status: 'published',
+      publishedAt: new Date('2099-01-01T09:00:00.000Z')
+    });
+  });
+  test('title and audio no longer make a reading anything but pending while it has no publication', async () => {
+    await service.create({ date: '2099-01-01', passage: 'Mateus 16-18', title: TITLE });
+    await audioService.save('2099-01-01', mp3('first'));
+    expect({
+      get: (await service.get('2099-01-01'))?.status,
+      list: (await service.list()).map((reading) => reading.status)
+    }).toEqual({ get: 'pending', list: ['pending'] });
   });
 });
 
@@ -324,6 +360,61 @@ describe('ReadingsService.remove', () => {
     await service.create({ date: '2026-10-05', passage: 'Mateus 19' });
     await service.remove('2026-10-04');
     expect((await service.list()).map((reading) => reading.date)).toEqual(['2026-10-05']);
+  });
+});
+
+describe('ReadingsService publications follow the reading', () => {
+  const publish = (readingDate: string, chatId: string, publishedAt: string) =>
+    db.prisma.readingPublication.create({
+      data: { readingDate, chatId, groupName: `Grupo ${chatId}`, publishedAt: new Date(publishedAt) }
+    });
+  const chatsOn = async (date: string) => (await publicationsService.listFor(date)).map((publication) => publication.chatId);
+
+  beforeEach(async () => {
+    await service.create({ date: '2099-01-01', passage: 'Mateus 16-18', title: TITLE });
+    await publish('2099-01-01', 'g1@g.us', '2099-01-01T09:00:00.000Z');
+    await publish('2099-01-01', 'g2@g.us', '2099-01-01T10:00:00.000Z');
+  });
+
+  test('changing the date of a published reading takes its publications to the new date and leaves none on the old one', async () => {
+    await service.update('2099-01-01', { date: '2099-01-05', passage: 'Mateus 16-18', title: TITLE });
+    expect({ old: await chatsOn('2099-01-01'), moved: await service.get('2099-01-05') }).toMatchObject({
+      old: [],
+      moved: {
+        status: 'published',
+        publishedAt: new Date('2099-01-01T09:00:00.000Z'),
+        publications: [{ chatId: 'g2@g.us' }, { chatId: 'g1@g.us' }]
+      }
+    });
+  });
+  test('when the reading write fails, the publications stay on the old date', async () => {
+    await db.prisma.$executeRawUnsafe(
+      "CREATE TRIGGER fail_reading BEFORE UPDATE ON scheduled_readings BEGIN SELECT RAISE(ABORT, 'db down'); END;"
+    );
+    await expect(service.update('2099-01-01', { date: '2099-01-05', passage: 'Mateus 16-18' })).rejects.toThrow();
+    expect({ old: await chatsOn('2099-01-01'), moved: await chatsOn('2099-01-05') }).toEqual({
+      old: ['g2@g.us', 'g1@g.us'],
+      moved: []
+    });
+  });
+  test('deleting a published reading deletes its publications too', async () => {
+    await service.remove('2099-01-01');
+    expect({ reading: await service.get('2099-01-01'), publications: await chatsOn('2099-01-01') }).toEqual({
+      reading: null,
+      publications: []
+    });
+  });
+  test('when the reading delete fails, the reading and its publications stay', async () => {
+    await db.prisma.$executeRawUnsafe(
+      "CREATE TRIGGER fail_delete BEFORE DELETE ON scheduled_readings BEGIN SELECT RAISE(ABORT, 'db down'); END;"
+    );
+    await expect(service.remove('2099-01-01')).rejects.toThrow();
+    expect(await service.get('2099-01-01')).toMatchObject({ date: '2099-01-01', status: 'published', publications: [{}, {}] });
+  });
+
+  test('an edit that keeps the date leaves the publications where they are', async () => {
+    await service.update('2099-01-01', { passage: 'Mateus 17', title: 'Outro título' });
+    expect(await chatsOn('2099-01-01')).toEqual(['g2@g.us', 'g1@g.us']);
   });
 });
 

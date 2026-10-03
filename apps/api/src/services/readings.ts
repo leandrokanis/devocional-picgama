@@ -1,5 +1,6 @@
 import type { PrismaClient, ScheduledReading } from '@prisma/client';
 import type { AudioMetadata, AudioService } from './audio.js';
+import type { Publication, PublicationsService } from './publications.js';
 
 export type ReadingInput = {
   date: string;
@@ -13,7 +14,7 @@ export type ReadingUpdate = Omit<ReadingInput, 'date'> & { date?: string };
 
 export type ImportResult = { imported: number; skipped: number };
 
-export type ReadingStatus = 'ready' | 'pending';
+export type ReadingStatus = 'pending' | 'published';
 
 export type Reading = {
   date: string;
@@ -23,8 +24,11 @@ export type Reading = {
   link: string;
   audio: AudioMetadata | null;
   status: ReadingStatus;
+  publishedAt: Date | null;
   updatedAt: Date;
 };
+
+export type ReadingWithPublications = Reading & { publications: Publication[] };
 
 export type ReadingErrorReason = 'invalid' | 'not_found' | 'conflict';
 
@@ -35,10 +39,7 @@ export class ReadingError extends Error {
   }
 }
 
-type ReadingFields = Omit<Reading, 'audio' | 'status' | 'updatedAt'>;
-
-const statusOf = (title: string, audio: AudioMetadata | null): ReadingStatus =>
-  title.trim() !== '' && audio ? 'ready' : 'pending';
+type ReadingFields = Omit<Reading, 'audio' | 'status' | 'publishedAt' | 'updatedAt'>;
 
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -95,20 +96,21 @@ export type ReadingRange = { from?: string; to?: string };
 export class ReadingsService {
   constructor(
     private readonly prisma: PrismaClient,
-    private readonly audioService: AudioService
+    private readonly audioService: AudioService,
+    private readonly publications: PublicationsService
   ) {}
 
   public async create(input: ReadingInput): Promise<Reading> {
     const data = validateReadingInput(input);
     await this.ensureFree(data.date);
     const record = await this.prisma.scheduledReading.create({ data });
-    return this.toReading(record, await this.audioService.get(record.date));
+    return this.load(record);
   }
 
-  public async get(date: string): Promise<Reading | null> {
+  public async get(date: string): Promise<ReadingWithPublications | null> {
     const record = await this.prisma.scheduledReading.findUnique({ where: { date } });
     if (!record) return null;
-    return this.toReading(record, await this.audioService.get(date));
+    return { ...(await this.load(record)), publications: await this.publications.listFor(date) };
   }
 
   public async update(date: string, input: ReadingUpdate): Promise<Reading> {
@@ -120,16 +122,24 @@ export class ReadingsService {
       await this.ensureAudioCanFollow(date, data.date);
       audioMoved = await this.audioService.move(date, data.date);
     }
-    const record = await this.prisma.scheduledReading.update({ where: { date }, data }).catch(async (error: unknown) => {
-      if (audioMoved) await this.audioService.move(data.date, date);
-      throw error;
-    });
-    return this.toReading(record, await this.audioService.get(record.date));
+    const record = await this.prisma
+      .$transaction(async (tx) => {
+        if (data.date !== date) await this.publications.moveDate(date, data.date, tx);
+        return tx.scheduledReading.update({ where: { date }, data });
+      })
+      .catch(async (error: unknown) => {
+        if (audioMoved) await this.audioService.move(data.date, date);
+        throw error;
+      });
+    return this.load(record);
   }
 
   public async remove(date: string): Promise<void> {
     await this.ensureExists(date);
-    await this.prisma.scheduledReading.delete({ where: { date } });
+    await this.prisma.$transaction(async (tx) => {
+      await this.publications.removeFor(date, tx);
+      await tx.scheduledReading.delete({ where: { date } });
+    });
     await this.audioService.remove(date);
   }
 
@@ -156,7 +166,8 @@ export class ReadingsService {
       orderBy: { date: 'asc' }
     });
     const audios = await this.audioService.list();
-    return records.map((record) => this.toReading(record, audios[record.date] ?? null));
+    const firstPublications = await this.publications.summaries(records.map((record) => record.date));
+    return records.map((record) => this.toReading(record, audios[record.date] ?? null, firstPublications[record.date] ?? null));
   }
 
   private async ensureExists(date: string): Promise<void> {
@@ -176,7 +187,12 @@ export class ReadingsService {
     }
   }
 
-  private toReading(record: ScheduledReading, audio: AudioMetadata | null): Reading {
+  private async load(record: ScheduledReading): Promise<Reading> {
+    const firstPublications = await this.publications.summaries([record.date]);
+    return this.toReading(record, await this.audioService.get(record.date), firstPublications[record.date] ?? null);
+  }
+
+  private toReading(record: ScheduledReading, audio: AudioMetadata | null, publishedAt: Date | null): Reading {
     return {
       date: record.date,
       passage: record.passage,
@@ -184,7 +200,8 @@ export class ReadingsService {
       description: record.description,
       link: record.link,
       audio,
-      status: statusOf(record.title, audio),
+      status: publishedAt ? 'published' : 'pending',
+      publishedAt,
       updatedAt: record.updatedAt
     };
   }

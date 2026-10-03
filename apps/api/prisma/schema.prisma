@@ -57,3 +57,14 @@ model ScheduledReading {
 
   @@map("scheduled_readings")
 }
+
+model ReadingPublication {
+  id          Int      @id @default(autoincrement())
+  readingDate String   @map("reading_date")
+  chatId      String   @map("chat_id")
+  groupName   String   @map("group_name")
+  publishedAt DateTime @default(now()) @map("published_at")
+
+  @@index([readingDate])
+  @@map("reading_publications")
+}

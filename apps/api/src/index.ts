@@ -14,7 +14,8 @@ import { prisma } from './prisma.js';
 import { AudioService, AudioUploadError } from './services/audio.js';
 import { FfmpegAudioConverter } from './services/audio-converter.js';
 import { DevotionalService } from './services/devotional.js';
-import { DevotionalSender } from './services/devotional-sender.js';
+import { DevotionalSender, type SendTarget } from './services/devotional-sender.js';
+import { PublicationsService } from './services/publications.js';
 import {
   ReadingError,
   ReadingsService,
@@ -22,7 +23,7 @@ import {
   type ReadingInput,
   type ReadingUpdate
 } from './services/readings.js';
-import { RecipientsService } from './services/recipients.js';
+import { RecipientsService, type Recipient } from './services/recipients.js';
 import { SchedulerService } from './services/scheduler.js';
 import { UrlShortenerService } from './services/url-shortener.js';
 import { WhatsAppService } from './services/whatsapp.js';
@@ -48,6 +49,8 @@ const READINGS_IMPORT_ROUTE = /^\/(?:api\/)?readings\/import$/;
 const READING_ROUTE = /^\/(?:api\/)?readings\/(\d{4}-\d{2}-\d{2})$/;
 const READING_ERROR_STATUS: Record<ReadingErrorReason, number> = { invalid: 400, not_found: 404, conflict: 409 };
 
+const toSendTarget = ({ chatId, name, type }: Recipient): SendTarget => ({ chatId, name, type });
+
 const resolveAudioConfig = () => {
   const audioDir = process.env.AUDIO_DIR?.trim() || path.resolve(__dirname, '../../../data/audio');
   const maxUploadMb = Number.parseFloat(process.env.AUDIO_MAX_UPLOAD_MB || '');
@@ -64,7 +67,7 @@ class DevotionalBot {
   public recipientsService: RecipientsService;
   public currentQRCode: string | null = null;
 
-  constructor(audioService: AudioService, readingsService: ReadingsService) {
+  constructor(audioService: AudioService, readingsService: ReadingsService, publicationsService: PublicationsService) {
     const urlShortener = new UrlShortenerService();
     this.devotionalService = new DevotionalService(readingsService, urlShortener);
     this.whatsappService = new WhatsAppService({
@@ -72,7 +75,7 @@ class DevotionalBot {
       debug: process.env.DEBUG === 'true'
     });
     this.recipientsService = new RecipientsService();
-    this.devotionalSender = new DevotionalSender(this.devotionalService, audioService, this.whatsappService);
+    this.devotionalSender = new DevotionalSender(this.devotionalService, audioService, this.whatsappService, publicationsService);
     this.whatsappService.onQRCodeGenerated = (base64: string) => {
       this.currentQRCode = base64;
     };
@@ -96,7 +99,7 @@ class DevotionalBot {
       if (!todaysReading) return false;
       const recipients = await this.recipientsService.getAll();
       if (!recipients.length) return false;
-      return await this.devotionalSender.send(todaysReading, recipients.map((recipient) => recipient.chatId));
+      return await this.devotionalSender.send(todaysReading, recipients.map(toSendTarget));
     } catch (error) {
       logger.error('Error sending devotional', error);
       return false;
@@ -110,7 +113,7 @@ class DevotionalBot {
       if (!recipient) return false;
       const todaysReading = await this.findTodaysReading();
       if (!todaysReading) return false;
-      return await this.devotionalSender.send(todaysReading, [recipient.chatId]);
+      return await this.devotionalSender.send(todaysReading, [toSendTarget(recipient)]);
     } catch (error) {
       logger.error('Error sending devotional to recipient', error);
       return false;
@@ -232,8 +235,9 @@ async function main() {
   const audioConfig = resolveAudioConfig();
   mkdirSync(audioConfig.audioDir, { recursive: true });
   const audioService = new AudioService(prisma, new FfmpegAudioConverter(), audioConfig.audioDir, audioConfig.maxBytes);
-  const readingsService = new ReadingsService(prisma, audioService);
-  const bot = new DevotionalBot(audioService, readingsService);
+  const publicationsService = new PublicationsService(prisma);
+  const readingsService = new ReadingsService(prisma, audioService, publicationsService);
+  const bot = new DevotionalBot(audioService, readingsService, publicationsService);
   const command = process.argv[2];
 
   if (command === 'send') {

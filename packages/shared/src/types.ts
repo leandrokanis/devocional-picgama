@@ -16,7 +16,13 @@ export interface DevotionalAudio {
   updatedAt: string;
 }
 
-export type ReadingStatus = 'ready' | 'pending';
+export type ReadingStatus = 'pending' | 'published';
+
+export interface ReadingPublication {
+  chatId: string;
+  groupName: string;
+  publishedAt: string;
+}
 
 export interface DevotionalReading {
   date: string;
@@ -26,7 +32,9 @@ export interface DevotionalReading {
   link: string;
   audio: DevotionalAudio | null;
   status: ReadingStatus;
+  publishedAt: string | null;
   updatedAt: string;
+  publications?: ReadingPublication[];
 }
 
 export interface ReadingInput {
